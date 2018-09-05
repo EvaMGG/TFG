@@ -38,7 +38,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 		
 		De aquí podemos deducir, teniendo en cuenta que A es ortogonal y por tanto $A^{-1} = A^t$, que $f$ conserva la 1ª forma fundamental:
 		\[
-		<(df)_p(u), (df)_p(v)> = <Au, Av> = u^tA^tAv = <u, v>
+		\langle (df)_p(u), (df)_p(v) \rangle = \langle Au, Av \rangle = u^tA^tAv = \langle u, v \rangle
 		\]
 		
 		\item Sea $N : S \to \mathbb{S}^2$ una aplicación de Gauss para S y $N' : S' \to \mathbb{S}^2$ una aplicación de Gauss de la nueva superficie $S'$ definida por
@@ -50,10 +50,10 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 		Derivando obtenemos que $\forall p \in S$,  $(dN')_{f(p)}\circ A = A \circ (dN)_p$. Esto último nos permite concluir que $f$ conserva la segunda forma fundamental:
 		
 		\[
-		\sigma'_{f(p)}((df)_p(u), (df)_p(v)) = -<(dN')_{f(p)}((df)_p(u)), (df)_p(v)>
+		\sigma'_{f(p)}((df)_p(u), (df)_p(v)) = - \langle (dN')_{f(p)}((df)_p(u)), (df)_p(v) \rangle
 		\]
 		\[
-		= -<A\circ(dN)_p(u), Av> = \sigma_p(u, v).
+		= - \langle A\circ(dN)_p(u), Av \rangle = \sigma_p(u, v).
 		\]
 	\end{enumerate}
 \end{proof}
@@ -113,44 +113,44 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	
 	Para comprobar que es isometría calculamos el producto escalar
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j)> = 
+	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = 
 	\]
 	\[
-	\frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}<df_p(e_i) + tdN'{f(p)}(df_p(e_i)), df_p(e_j) + tdN'{f(p)}(df_p(e_j))> =
+	\frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)} \langle df_p(e_i) + tdN'{f(p)}(df_p(e_i)), df_p(e_j) + tdN'{f(p)}(df_p(e_j)) \rangle =
 	\]
 	\[
-	\frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}(<df_p(e_i), df_p(e_j)> + <df_p(e_i), tdN'_{f(p)}(df_p(e_j))> + 
+	\frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}( \langle df_p(e_i), df_p(e_j) \rangle +  \langle df_p(e_i), tdN'_{f(p)}(df_p(e_j)) \rangle + 
 	\]
 	\[
-	+ <df_p(e_j), tdN'_{f(p)}(df_p(e_j))> + <tdN'_{f(p)}(df_p(e_i)), tdN'{f(p)}(df_p(e_j))>\}.
+	+ \langle df_p(e_j), tdN'_{f(p)}(df_p(e_j)) \rangle + \langle tdN'_{f(p)}(df_p(e_i)), tdN'{f(p)}(df_p(e_j)) \rangle \}.
 	\]
 	
-	Como f es isometría $<df_p(e_i), df_p(e_j)> = <e_i, e_j> = \delta_{ij}$ y
+	Como f es isometría $\langle df_p(e_i), df_p(e_j) \rangle = \langle e_i, e_j \rangle = \delta_{ij}$ y
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j)> = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - t\sigma'_{f(p)}(df_p(e_i), df_p(e_j)) -  
+	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - t\sigma'_{f(p)}(df_p(e_i), df_p(e_j)) -  
 	\]
 	\[
-	t\sigma'_{f(p)}(df_p(e_j), df_p(e_i)) + t^2<dN'_{f(p)}(df_p(e_i)), dN'_{f(p)}(df_p(e_j))>\}.
+	t\sigma'_{f(p)}(df_p(e_j), df_p(e_i)) + t^2 \langle dN'_{f(p)}(df_p(e_i)), dN'_{f(p)}(df_p(e_j)) \rangle \}.
 	\]
 	
 	${ }$\\	
 	
 	Usando que f conserva la segunda forma fundamental llegamos a
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j)> = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - t\sigma_p(e_i, e_j) - 
+	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - t\sigma_p(e_i, e_j) - 
 	\]
 	\[
-	t\sigma_p(e_j, e_i) + t^2<dN_p(e_i), dN_p(e_j)>\} = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - 2t(\lambda_i + \lambda_j)\delta_{ij} + t^2\lambda_i\lambda_j\delta_{ij}\}.
+	t\sigma_p(e_j, e_i) + t^2 \langle dN_p(e_i), dN_p(e_j) \rangle \} = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - 2t(\lambda_i + \lambda_j)\delta_{ij} + t^2\lambda_i\lambda_j\delta_{ij}\}.
 	\]
 	
 	Finalmente, sacando $\delta_{ij}$ como factor común y descomponiendo en producto de polinomios
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j)> = \frac{(1 - t\lambda_i)(1 - t\lambda_j)}{(1 - t\lambda_i)(1 - t\lambda_j)}\delta_{ij} = \delta_{ij} = <e_i, e_j>.
+	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \frac{(1 - t\lambda_i)(1 - t\lambda_j)}{(1 - t\lambda_i)(1 - t\lambda_j)}\delta_{ij} = \delta_{ij} = \langle e_i, e_j \rangle.
 	\]
 	
 	Resumiendo, acabamos de ver que
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j)> = <e_i, e_j>.
+	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \langle e_i, e_j\rangle.
 	\]
 	
 	Tomamos ahora la curva $\alpha(s) = p + (t + s)N(p)$, con ella tenemos que
@@ -159,7 +159,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\]
 	y ya podemos determinar que
 	\[
-	<d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(N(p))> = <d\Phi_{p + tN(p)}(e_i), N'(f(p))> = 0 = <e_i, N(p)>.
+	 \langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(N(p)) \rangle = \langle d\Phi_{p + tN(p)}(e_i), N'(f(p)) \rangle = 0 = \langle e_i, N(p) \rangle.
 	\]
 	
 	Por tanto, $\Phi$ es isometría de $N_\varepsilon(S)$ sobre $N_\varepsilon(S')$ y para ver que esto se traduce en un movimiento rígido haremos uso del siguiente resultado.
@@ -171,19 +171,19 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\begin{proof}
 		Tenemos que
 		\[
-		<dF_x(u), dF_x(v)> = <u, v>, x \in O, u,v \in \mathbb{R}^3
+		\langle dF_x(u), dF_x(v) \rangle = \langle u, v \rangle , x \in O, u,v \in \mathbb{R}^3
 		\]
 		por ser $F$ isometría de un abierto de $\mathbb{R}^3$ en otro abierto de $\mathbb{R}^3$, y tomando que u,v son vectores de la base canónica de $\mathbb{R}^3$ se obtiene la siguiente igualdad
 		\[
-		<\frac{\partial F}{\partial x_i}, \frac{\partial F}{\partial x_j}> = \delta_{ij} \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3
+		\langle \frac{\partial F}{\partial x_i}, \frac{\partial F}{\partial x_j} \rangle = \delta_{ij} \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3
 		\]
-		donde $x_1, x_2, x_3$ son las coordenadas de $\mathbb{R}^3$. Si derivamos con respecto a $x_k$ siendo k = 1, 2, 3, se obtenemos
+ 		donde $x_1, x_2, x_3$ son las coordenadas de $\mathbb{R}^3$. Si derivamos con respecto a $x_k$ siendo k = 1, 2, 3, se obtenemos
 		\[
-		<\frac{\partial^2 F}{\partial x_i \partial x_k}, \frac{\partial F}{\partial x_j}> + <\frac{\partial^2 F}{\partial x_j \partial x_k}, \frac{\partial F}{\partial x_i}> = 0 \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3.
+		\langle\frac{\partial^2 F}{\partial x_i \partial x_k}, \frac{\partial F}{\partial x_j} \rangle + \langle \frac{\partial^2 F}{\partial x_j \partial x_k}, \frac{\partial F}{\partial x_i} \rangle = 0 \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3.
 		\]
 		Defiendo $G_{ijk}$ como
 		\[
-		G_{ijk} = <\frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k}>
+		G_{ijk} = \langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle
 		\]
 		este es simétrico en los i, j por el lema de Schwarz y antisimétrico tanto en los i, k como en los j, k por la igualdad que le precede. Ahora podemos operar como sigue
 		\[
@@ -191,7 +191,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 		\]
 		para determinar que en $O$
 		\[
-		<\frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k}> \equiv 0
+		\langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle \equiv 0
 		\]
 		para cada i, j, k = 1, 2, 3. Pero, como se vió al principio, las derivadas parciales $\partial F / \partial x_1$, $\partial F / \partial x_2$ y $\partial F / \partial x_3$ forman una base ortonormal de $\mathbb{R}^3$ en cada punto de $O$, por consiguiente
 		\[
@@ -223,11 +223,11 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 \end{ejemplo}
 
 \begin{ejemplo}
-	Sean S y S' dos esferas con el mismo radio y sea $f : S \to S'$ una isometría. La segunda forma fundamental, en cada punto, de ambas superficies está expresada como $-\frac{1}{r}<v,w>$ para cada v, w de sus respectivos tangentes, por tanto $f$ conserva la segunda forma fundamental y se puede extender a un movimiento rígido.
+	Sean S y S' dos esferas con el mismo radio y sea $f : S \to S'$ una isometría. La segunda forma fundamental, en cada punto, de ambas superficies está expresada como $-\frac{1}{r} \langle v,w \rangle$ para cada v, w de sus respectivos tangentes, por tanto $f$ conserva la segunda forma fundamental y se puede extender a un movimiento rígido.
 \end{ejemplo}
 
 \begin{teorema}
-	$\textbf{(Teorema Egregium)}$ Sean $f : S \to S'$ una isometría local entre dos superficies y K y K' sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
+	$\textbf{(Teorema Egregium)}$ Sean $f : S \to S'$ una isometría local entre dos superficies y $K$ y $K'$ sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
 \end{teorema}
 
 \begin{proof}
@@ -238,47 +238,47 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\begin{lema}
 		Sean un abierto de $U$ de $\mathbb{R}^3$ y una aplicación $X : U \to S$ diferenciable como lo son las parametrizaciones de una superficie. Si llamamos $K$ a la curvatura de Gauss de $S$ se cumple la siguiente igualdad en los puntos de $U$,
 		\[
-			<({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u> = (K \circ F)(|X_u|^2|X_v|^2 - <X_u, X_v>^2),
+			\langle ({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u \rangle = (K \circ F)(|X_u|^2|X_v|^2 - \langle X_u, X_v \rangle ^2),
 		\]
 		donde el superíndice T indica que te toma la parte del vector que está en el plano tangente a la superficie.
 	\end{lema}
 	\begin{proof}
 		\[
-			X_{uv} = {X^T}_{uv} + <X_{uv}, N^X>N^X = {X^T}_{uv} + (<X_u,N^X>_v - <X_u, {N^X}_v>)N^X,
+			X_{uv} = {X^T}_{uv} + \langle X_{uv}, N^X \rangle N^X = {X^T}_{uv} + (\langle X_u,N^X \rangle_v - \langle X_u, {N^X}_v \rangle )N^X,
 		\]
 		\[
-			X_{vv} = {X^T}_{vv} + <X_{vv}, N^X>N^X = {X^T}_{vv} + (<X_v,N^X>_v - <X_v, {N^X}_v>)N^X.
+			X_{vv} = {X^T}_{vv} + \langle X_{vv}, N^{X} \rangle N^X = {X^T}_{vv} + (\langle X_v,N^X \rangle _v - \langle X_v, N^{X}_{v}\rangle )N^X.
 		\]
 		
 		Despejando en ambas igualdades
 		
 		\[
-			{X^T}_{uv} = X_{uv} + <X_u, {N^X}_v>N^X,
+			{X^T}_{uv} = X_{uv} + \langle X_u, N^{X}_{v} \rangle N^X,
 		\]
 		\[
-			{X^T}_{vv} = X_{vv} + <X_v, {N^X}_v>N^X.
+			{X^T}_{vv} = X_{vv} + \langle X_v, N^{X}_{v} \rangle N^X.
 		\]
 		
 		Derivando en $v$ y en $u$ respectivamente
 		
 		\[
-			({X^T}_{uv})_v = X_{uvv} + <X_u, {N^X}_v>_v N^X + <X_u, {N^X}_v> {N^X}_v,
+			({X^T}_{uv})_v = X_{uvv} + \langle X_u, N^{X}_{v} \rangle _v N^X + \langle X_u, N^{X}_{v} \rangle N^{X}_{v},
 		\]
 		\[
-			({X^T}_{vv})_u = X_{vvu} + <X_v, {N^X}_v>_u N^X + <X_v, {N^X}_v>{N^X}_u.
+			({X^T}_{vv})_u = X_{vvu} + \langle X_v, {N^X}_v\rangle _u N^X + \langle X_v, {N^X}_v \rangle {N^X}_u.
 		\]
 		
 		Hacemos el producto escalar de estas dos últimas expresiones por $X_u$ y las restamos
 		
 		\[
-			<({X^T}_{uv})_v, X_u> = <X_{uvv}, X_u> + <X_u, {N^X}_v>^2,
+			\langle ({X^T}_{uv})_v, X_u \rangle = \langle X_{uvv}, X_u \rangle + \langle X_u, {N^X}_v \rangle ^2,
 		\]
 		\[
-			<({X^T}_{vv})_u, X_u> = <X_{vvu}, X_u> + <X_v, {N^X}_v><{N^X}_u, X_u>,
+			\langle ({X^T}_{vv})_u, X_u \rangle = \langle X_{vvu}, X_u \rangle + \langle X_v, {N^X}_v \rangle \langle {N^X}_u, X_u \rangle ,
 		\]
 	${ }$\\	
 		\[
-			<({X^T}_{vv})_u, X_u> - <({X^T}_{uv})_v, X_u> = <X_v, {N^X}_v><{N^X}_u, X_u> - <X_u, {N^X}_v>^2
+			\langle ({X^T}_{vv})_u, X_u \rangle - \langle ({X^T}_{uv})_v, X_u \rangle = \langle X_v, {N^X}_v \rangle \langle {N^X}_u, X_u \rangle - \langle X_u, {N^X}_v \rangle ^2
 		\]
 		\[
 			= eg - f^2.
@@ -287,20 +287,20 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 		Donde,
 		
 		\[
-			e = \sigma(X_u, X_u) = - <dN(X_u), X_u> = - <d(N\circ X)(\frac{\partial}{\partial u} ), X_u> =
+			e = \sigma(X_u, X_u) = - \langle dN(X_u), X_u \rangle = - \langle d(N\circ X)(\frac{\partial}{\partial u} ), X_u \rangle =
 		\]
 		\[
-			= - <dN^X(\frac{\partial}{\partial u} ), X_u> = - <{N^X}_u, X_u>
+			= - \langle dN^X(\frac{\partial}{\partial u} ), X_u\rangle = - \langle {N^X}_u, X_u \rangle
 		\]
 	${ }$\\	
 		\[
-			g = \sigma (X_v, X_v) =  - <{N^X}_v, X_v> \;\;\;\;\;\;\;\;\;\;\;\; f = \sigma (X_v, X_u) =  - <{N^X}_v, X_u>
+			g = \sigma (X_v, X_v) =  - \langle {N^X}_v, X_v \rangle \;\;\;\;\;\;\;\;\;\;\;\; f = \sigma (X_v, X_u) =  - \langle {N^X}_v, X_u \rangle
 		\]
 		
 		Por tanto, usando que la curvatura de Gauss es
 		
 		\[
-			K \circ X = \frac{eg - f^2}{|X_u|^2|X_v|^2 - <X_u, X_v>^2}
+			K \circ X = \frac{eg - f^2}{|X_u|^2|X_v|^2 - \langle X_u, X_v\rangle ^2}
 		\]
 		obtenemos el resultado.
 
@@ -310,13 +310,13 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	Para la demostración del Tª Egregium aplicamos el lema demostrado anteriormente a la parametrización $X$, teniendo así
 	
 	\[
-		<({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u> = (K \circ F)(EG - F^2),
+		\langle ({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u \rangle = (K \circ F)(EG - F^2),
 	\]
 	
 	Tambien tenemos que $X' = f \circ X$ es una parametrización de la superficie $S'$. Aplicando el lema a la segunda superficie tenemos
 	
 	\[
-		<({X'^T}_{vv})_u - ({X'^T}_{uv})_v, X'_u> = (K' \circ F')(E'G' - F'^2),
+		\langle ({X'^T}_{vv})_u - ({X'^T}_{uv})_v, X'_u \rangle = (K' \circ F')(E'G' - F'^2),
 	\]
 	
 	Por otro lado, calculando las derivadas parciales de $X'$ mediante la regla de la cadena, tenemos
@@ -336,35 +336,35 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\]
 	
 	\[
-		F' = <X'_u, X'_v> = <(df)_X(X_u), (df)_X(X_v)> = <X_u, X_v> = F
+		F' = \langle X'_u, X'_v \rangle = \langle (df)_X(X_u), (df)_X(X_v) \rangle = \langle X_u, X_v \rangle = F
 	\]
 	
 	Derivando $E$ y $G$ con respecto a $u$ y $v$, tenemos
 	
 	\[
-		<X_{uv}, X_u> = <X'_{uv}, X'_u> \;\;\;\;\;\;  \;\;\;\;\;\; <X_{uu}, X_u> = <X'_{uu}, X'_u>,
+		\langle X_{uv}, X_u \rangle = \langle X'_{uv}, X'_u \rangle \;\;\;\;\;\;  \;\;\;\;\;\; \langle X_{uu}, X_u \rangle = \langle X'_{uu}, X'_u \rangle,
 	\]
 	
 	\[
-		<X_{vu}, X_v> = <X'_{vu}, X'_v> \;\;\;\;\;\;  \;\;\;\;\;\; <X_{vv}, X_v> = <X'_{vv}, X'_v>.
+		\langle X_{vu}, X_v \rangle = \langle X'_{vu}, X'_v \rangle \;\;\;\;\;\;  \;\;\;\;\;\; \langle X_{vv}, X_v \rangle = \langle X'_{vv}, X'_v \rangle.
 	\]
 	
 	Derivando tambien $F$ con respecto a $u$ y $v$, obtenemos
 	
 	\[
-		<X_{uu}, X_v> + <X_u, X_{vu}> = <X'_{uu}, X'_v> + <X'_u, X'_{vu}>
+		\langle X_{uu}, X_v \rangle + \langle X_u, X_{vu} \rangle = \langle X'_{uu}, X'_v \rangle + \langle X'_u, X'_{vu} \rangle
 	\]
 	
 	\[
-		\to <X_{uu}, X_v> = <X'_{uu}, X'_v>
+		\to \langle X_{uu}, X_v \rangle = \langle X'_{uu}, X'_v \rangle
 	\]
 	
 	\[
-		<X_{uv}, X_v> + <X_u, X_{vv}> = <X'_{uv}, X'_v> + <X'_u, X'_{vv}>
+		\langle X_{uv}, X_v \rangle + \langle X_u, X_{vv} \rangle = \langle X'_{uv}, X'_v \rangle + \langle X'_u, X'_{vv} \rangle
 	\]
 	
 	\[
-		\to <X_u, X_{vv}> = <X'_u, X'_{vv}>
+		\to \langle X_u, X_{vv} \rangle = \langle X'_u, X'_{vv} \rangle
 	\]
 	
 	Considerando
@@ -374,7 +374,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\]
 	
 	\[
-		<X_{vv}, X_u> = A|X_u|^2 + B<X_u, X_v> \;\;\;\;\;\; <X_{vv}, X_v> = A<X_u, X_v> + B|X_v|^2
+		\langle X_{vv}, X_u \rangle = A|X_u|^2 + B \langle X_u, X_v \rangle \;\;\;\;\;\; \rangle X_{vv}, X_v \langle = A \langle X_u, X_v \rangle + B|X_v|^2
 	\]
 	
 	\[
@@ -382,7 +382,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\]
 	
 	\[
-		<X'_{vv}, X'_u> = A'|X'_u|^2 + B'<X'_u, X'_v> \;\;\;\;\;\; <X'_{vv}, X'_v> = A'<X'_u, X'_v> + B'|X'_v|^2
+		\langle X'_{vv}, X'_u \rangle = A'|X'_u|^2 + B'\langle X'_u, X'_v \rangle \;\;\;\;\;\; \langle X'_{vv}, X'_v \rangle = A' \langle X'_u, X'_v \rangle + B'|X'_v|^2
 	\]
 	obtenemos que
 	
@@ -402,20 +402,20 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	Finalmente comprobamos que
 	
 	\[
-		<(X'^{T}_{vv})_u, X'_u> = <(X'^{T}_{vv}), X'_u>_u - <(X'^{T}_{vv}), X'_{uu}>
+		\langle (X'^{T}_{vv})_u, X'_u \rangle = \langle (X'^{T}_{vv}), X'_u \rangle _u - \langle (X'^{T}_{vv}), X'_{uu} \rangle
 	\]
 	
 	\[
-		= <(df)_X(X^{T}_{vv}), (df)_X(X_u)>_u - <(df)_X(X^{T}_{vv}), (df)_X(X_{uu})>
+		= \langle (df)_X(X^{T}_{vv}), (df)_X(X_u) \rangle _u - \langle (df)_X(X^{T}_{vv}), (df)_X(X_{uu}) \rangle
 	\]
 	
 	\[
-		= <X^{T}_{vv}, X_u>_u - <X^{T}_{vv}, X_{uu}> = <(X^{T}_{vv})_u, X_u>
+		= \langle X^{T}_{vv}, X_u \rangle _u - \langle X^{T}_{vv}, X_{uu} \rangle = \langle (X^{T}_{vv})_u, X_u \rangle
 	\]
 	por un procedimiento análogo, tenemos que
 	
 	\[
-		<(X'^{T}_{uv})_v, X'_u> = <(X^{T}_{uv})_u, X_u>.
+		\langle (X'^{T}_{uv})_v, X'_u \rangle = \langle (X^{T}_{uv})_u, X_u \rangle.
 	\]
 	${ }$\\	
 	
