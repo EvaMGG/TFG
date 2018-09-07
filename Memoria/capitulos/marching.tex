@@ -4,11 +4,11 @@ ${ }$\\
 $\textbf{MÍO}$
 ${ }$\\
 
-En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita, la cual es de la forma
+En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita
 \[
 	F(x,y,z) = 0,
 \]
-vamos a usar dos métodos de aproximación de soluciones que son Newton-Raphson y Regula-Falsi. cada uno tiene unas ventajas e inconvenientes que justifican el uso de ambos de forma combinada. El primero de ellos no garantiza que se llegue a una aproximación de la solución ya que la sucesión que genera puede divergir como se verá mas adelante, pero este método converge mas rápido que el segundo. Para comprobar este hecho introduciremos algunos términos como el orden de convergencia. 
+vamos a usar el método de Newton-Raphson y Regula-Falsi de forma combinada ya que cada uno tiene unas ventajas e inconvenientes que justifican el uso de ambos. Mientras Newton-Raphson no garantiza que se llegue a una aproximación de la solución y la sucesión que genera puede divergir como se verá mas adelante, el método de Regula-Falsi asegura la convergencia de la solución.Sin embargo, el método de Newton-Raphson converge mas rápido que Regula-Falsi.
 
 
 ${ }$\\
@@ -17,13 +17,13 @@ ${ }$\\
 
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.8\textwidth]{imagenes/newton.png}
+		\includegraphics[width=1.0\textwidth]{imagenes/newton.png}
 	\end{center}
 	\caption{Construcción gráfica de la sucesión dada por el método de Newton-Raphson}
 	\label{fig:etiq_7}
 \end{figure}
 
-Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza con un valor $x_0$ que es una primera aproximación, y para calcular el siguiente valor de la sucesión toma la pendiente de la función en el punto $(x_0, f(x_0))$, entonces $x_1$ será la intersección del eje de abscisas con la recta tangente que acabamos de ver.
+Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza tomando una aproximación inicial $x_0$, y para calcular el siguiente valor de la sucesión toma la recta tangente en el punto $(x_0, f(x_0))$, la intersección de esta recta con el eje de abscisas será el siguiente valor de la sucesión, $x_1$. El proceso es el mismo para los siguientes valores si sustituimos $x_0$ por $x_n$ y $x_1$ por $x_{n+1}$.
 ${ }$\\
 
 El algoritmo a seguir es el siguiente:
@@ -33,7 +33,7 @@ El algoritmo a seguir es el siguiente:
 	\item Paso 1 : $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
 \end{itemize}
 
-Se puede observar que no siempre es posible calcular el siguiente $x_n$ ya que la derivada de la función en $x_{n-1}$ podría ser $0$.
+Se puede observar que no siempre es posible calcular el siguiente $x_{n+1}$ ya que la derivada de la función en $x_{n}$ podría ser $0$.
 ${ }$\\
 ${ }$\\
 
