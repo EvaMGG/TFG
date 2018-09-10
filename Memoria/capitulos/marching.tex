@@ -41,10 +41,10 @@ ${ }$\\
 $\textbf{Regula-Falsi}$
 ${ }$\\
 
-El algoritmo de Regula-Falsi es un refinamiento de el método de bisección. Al igual que en el método de bisección partimos de un intervalo inicial $[a_0, b_0]$, teniendo $f(a_0)$ y $f(b_0)$ signos opuestos, ya que como dice el Teorema\ref{teo:bolzano} esto nos garantiza que hay una solución dentro de ese intervalo, aunque por el procedimiento que sigue este algoritmo es posible no encontrar soluciones que correspondan con un mínimo o un máximo de la función. Este método va calculando intervalos cada vez mas pequeños que incluyen a la solución.
+El algoritmo de Regula-Falsi es un refinamiento del método de bisección. Al igual que en el método de bisección partimos de un intervalo inicial $[a_0, b_0]$, teniendo $F(r(a_0))$ y $F(r(b_0))$ signos opuestos, ya que como dice el Teorema\ref{teo:bolzano} esto nos garantiza que hay una solución dentro de ese intervalo, aunque por el procedimiento que sigue este algoritmo es posible no encontrar soluciones que correspondan con un mínimo o un máximo de la función. Este método va calculando intervalos cada vez mas pequeños que incluyen a la solución.
 ${ }$\\
 
-Como se puede ver en la Figura \ref{fig:etiq_8}, gráficamente el procedimiento toma la recta que pasa por los puntos $(a_0, f(a_0))$ y $(b_0, f(b_0))$ y toma el punto de intersección de esta con el eje de abscisas el nuevo intervalo se ajustará dependiendo de que el valor de la función en este nuevo punto sea negativo a positivo, $f(a_1) \cdot f(b_1) < 0$.
+Como se puede ver en la Figura \ref{fig:etiq_8}, gráficamente el procedimiento toma la recta que pasa por los puntos $(a_0, F((a_0)))$ y $(b_0, F((b_0)))$ y toma el punto de intersección de esta con el eje de abscisas. El nuevo intervalo se ajustará dependiendo de que el valor de la función en este nuevo punto sea negativo o positivo poniendose en el lugar de $a_1$ o $b_1$ de tal manera que se siga cumpliendo $F(r(a_1)) \cdot F(r(b_1)) < 0$.
 
 \begin{teorema}\label{teo:bolzano}
 	$\textbf{(de los ceros de Bolzano)}$ Sea una función continua $f : [a,b] \to \mathbb{R}$ tal que $f(a) \cdot f(b) < 0$, entonces existe al menos un $s \in (a,b)$ tal que $f(s) = 0$.
@@ -236,20 +236,37 @@ Para el caso de Newton-Raphson encontramos dos resultados que nos indican cuales
 
 
 ${ }$\\
+$\textbf{Combinación de algoritmos}$
+${ }$\\
+
+Para la programación de nuestro algoritmo primero calcularemos los extremos del intervalo en los que se mueve $t$ para el rayo $r(t) \equiv o + dt$ serán tales que para un extremo del intervalo la función $F(r(t))$ sea positiva y para el otro extremo la función sea negativa. De esta forma como ya hemos visto nos aseguramos que para algún valor de ese intervalo el rayo corta a la superficie.
+${ }$\\
+
+Lo siguiente será calcular el siguiente termino de la sucesión mediante el método de Newton-Raphson, en caso de este se salga del intervalo no usaremos este termino y lo volveremos a calcular pero esta vez mediante el algoritmo de Regula-Falsi. Luego con este último termino calculado procederemos como en el método de Regula-Falsi y comprobaremos si $F(r(t))$ se hace positivo o negativo y lo cambiaremos por su correspondiente en el intervalo (formando el nuevo intervalo).
+${ }$\\
+
+En caso de tener mas de una figura en la escena...
+
+
+${ }$\\
 $\textbf{Criterio de parada}$
 ${ }$\\
 
-El algoritmo que queremos implementar va calculando los elementos de una sucesión que converge a la solución pero en la mayoría de los casos no llega a ser la solución exacta y hay infinitos términos de la sucesión por lo que tenemos que elegir un método que nos diga cuando queremos que pare de calcular elementos de la sucesión. Usaremos como método uno de los siguientes criterios de parada: para cuando se hayan realizado un número determinado de iteraciones, parar cuando $|f(x_n)| < \epsilon$, parar cuando $|x_{n-1} -x_n| < \epsilon$ donde $\epsilon > 0$. En este caso vamos a usar que $|f(x_n)| < \epsilon$.
+El algoritmo que queremos implementar va calculando los elementos de una sucesión que converge a la solución pero en la mayoría de los casos no llega a ser la solución exacta y hay infinitos términos de la sucesión por lo que tenemos que elegir un método que nos diga cuando queremos que pare de calcular elementos de la sucesión. Para parar el proceso de selección de una solución podemos usar varios métodos para asegurarnos un mínimo de precisión, algunos de ellos son:
+\begin{itemize}
+	\item para cuando se hayan realizado un número determinado de iteraciones,
+	\item parar cuando $|F(r(t_n))| < \epsilon$,
+	\item parar cuando $|t_{n-1} - t_n| < \epsilon$ donde $\epsilon > 0$.
+\end{itemize}
+En este caso vamos a usar que $|F(r(t_n))| < \epsilon$.
 
 
 ${ }$\\
 $\textbf{INTRODUCCIÓN}$
 ${ }$\\
 
-Las ecuaciones implícitas de superficies son de la forma $F(x, y, z) = 0$ esta forma es adecuada para imágenes con sombreado. Las coordenadas de pixeles son sustituidas por $x$ e $y$ y la ecuación es resuelta para z. Los algoritmos para dibujar tales objetos se han desarrollado principalmente para funciones polinomiales de primer y segundo orden, una subcategoría conocida como superficies algebraicas. Este artículo presenta un nuevo algoritmo aplicable a otras formas funcionales, en particular a la suma de varias distribuciones de densidad gaussianas. El algoritmo fue creado para modelar mapas de densidad electrónica de estructuras moleculares, pero puede ser utilizado para otras formas artísticamente interesantes.
-
 La tecnología de crear imágenes realistas y visualmente interesantes de tres
-las formas dimensionales están avanzando en muchos frentes. Uno de ellos es el desarrollo de algoritmos para dibujar superficies curvas directamente desde sus definiciones matemáticas en lugar de dividirlas en grandes cantidades de polígonos. Dos clases de superficies que han recibido atención son las superficies paramétricas cuádruples y las bivariadas. Las superficies paramétricas bivariadas se generan mediante tres funciones de dos variables (la mayoría de las veces son polinomios), ya que las variables adquieren diferentes valores.
+las formas dimensionales están avanzando en muchos frentes. Uno de ellos es el desarrollo de algoritmos para dibujar superficies curvas directamente desde sus definiciones matemáticas en lugar de dividirlas en grandes cantidades de polígonos. 
 
 Superficies cuádricas, por otro lado, son soluciones de ecuaciones de segundo orden.
 
