@@ -12,7 +12,7 @@
 #include "error-ogl.hpp"
 #include "tuplas.hpp"   // Tupla3f, Tupla4f, Tupla3i
 #include "tfg.hpp"
-//#include "objeto.hpp"
+//#include "superficie.hpp"
 //#include "esfera.hpp"
 //#include "cubo.hpp"
 
@@ -22,6 +22,7 @@
 #include <string>
 #include <fstream>  // ifstream
 #include <vector>
+#include <math.h>
 
 
 #define INFINITO 99999 
@@ -30,55 +31,55 @@ using namespace std;
 
 
 
-class Objeto {
+class Superficie {
 
 private :
-
+	Tupla3f color;
 
 public :
 	
-	Objeto();
-	Objeto(const Objeto &obj);
+	Superficie(Tupla3f col);
+	Superficie(const Superficie &sup);
 	virtual double interseccion(Tupla3f origen, Tupla3f direccion) = 0;
-	virtual Tupla3f getColor()=0;
+	virtual Tupla3f getColor();
 	virtual Tupla3f normal(Tupla3f e, Tupla3f d, float t)=0;
 
 };
 
-Objeto::Objeto(){}
-Objeto::Objeto(const Objeto &obj){}
+Superficie::Superficie(Tupla3f col){
+	color = col;
+}
+Superficie::Superficie(const Superficie &sup){}
+Tupla3f Superficie::getColor(){
+	return color;
+}
 
 
-
-class Esfera : public Objeto {
+class Esfera : public Superficie {
 
 private :
 
 	Tupla3f centro;
 	float radio;
-	Tupla3f color;
 
 public :
 
 	Esfera(Tupla3f c, float r, Tupla3f col);
 	Esfera(const Esfera &sph);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f getColor();
 	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
 
 };
 
-Esfera::Esfera(Tupla3f c, float r, Tupla3f col):Objeto() {
+Esfera::Esfera(Tupla3f c, float r, Tupla3f col):Superficie(col) {
 	centro = c;
 	radio = r;
-	color = col;
 }
 
 
-Esfera::Esfera(const Esfera &sph): Objeto(sph) {
+Esfera::Esfera(const Esfera &sph): Superficie(sph) {
 	centro = sph.centro;
 	radio = sph.radio;
-	color = sph.color;
 }
 
 
@@ -99,9 +100,6 @@ double Esfera::interseccion(Tupla3f o, Tupla3f d){
 	return interseccion;
 }
 
-Tupla3f Esfera::getColor() {
-	return color;
-}
 
 Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, float t) {
 	return Tupla3f( ((e + t*d)-centro)/radio );
@@ -109,18 +107,17 @@ Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, float t) {
 
 
 
-class Cubo : public Objeto {
+class Cubo : public Superficie {
 
 private :
 
-	Tupla3f esquina1, esquina2, color;
+	Tupla3f esquina1, esquina2;
 
 public :
 
 	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3);
 	Cubo(const Cubo &squ);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f getColor();
 	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
 
 };
@@ -128,16 +125,14 @@ public :
 
 
 
-Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Objeto() {
+Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Superficie(e3) {
 	esquina1 = e1;
 	esquina2 = e2;
-	color = e3;
 }
 
-Cubo::Cubo(const Cubo &squ):Objeto(squ) {
+Cubo::Cubo(const Cubo &squ):Superficie(squ) {
 	esquina1 = squ.esquina1;
 	esquina2 = squ.esquina2;
-	color = squ.color;
 }
 
 double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
@@ -184,9 +179,6 @@ double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
 	else return -1;
 }
 
-Tupla3f Cubo::getColor() {
-	return color;
-}
 
 Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
 	if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
@@ -197,6 +189,33 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
 	else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
 }
 
+
+
+
+class Elipse : public Superficie{
+
+private:
+	float radioMayor, radioMenor;
+
+public :
+
+	Elipse(float radio1, float radio2, Tupla3f);
+	Elipse(const Elipse &eli);
+	double interseccion(Tupla3f origen, Tupla3f direccion);
+	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
+	float funcion(Tupla3f o, Tupla3f d, float t);
+	float derivada(Tupla3f o, Tupla3f d, float t);
+};
+
+
+//Corregir
+float Elipse::funcion(Tupla3f o, Tupla3f d, float t){
+	return ((pow(t,2) / pow(radioMayor,2)) + (pow(t,2) / pow(radioMenor,2)) -1);
+}
+
+float derivada(Tupla3f o, Tupla3f d, float t){
+	
+}
 
 
 
@@ -256,7 +275,7 @@ Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
 
 
 
-vector<Objeto *> objetos;
+vector<Superficie *> superficies;
 
 float a1, a2, b1, b2;
 float s = 6.0;
@@ -271,11 +290,11 @@ LuzDireccional luz = LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1));
 
 void TFG_Inicializar(int x, int y) {
 
-	//Inicialización de los objetos de la escena
+	//Inicialización de los superficies de la escena
 
-	objetos.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
-	objetos.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
-	objetos.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
+	superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
+	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
+	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
 
 	image = new Tupla3f [x*y];
 
@@ -293,13 +312,13 @@ void TFG_Inicializar(int x, int y) {
 	v = w*u;
 }
 
-//Devuelve en los parametros pasados por referencia el valor de t en el que se corta por primera vez un objeto y el indice que indica la posición en el vector de objetos del objeto al que el rayo interseca por primera vez.
+//Devuelve en los parametros pasados por referencia el valor de t en el que se corta por primera vez una superficie y el indice que indica la posición en el vector de superficies de la superficie a la que el rayo interseca por primera vez.
 void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 	indice_min = 0;
-	min_inter = (objetos[0])->interseccion(e,direccion);
+	min_inter = (superficies[0])->interseccion(e,direccion);
 
-	for (int k = 1; k < (int)objetos.size(); k++) {
-		double intersec = (objetos[k])->interseccion(e,direccion);
+	for (int k = 1; k < (int)superficies.size(); k++) {
+		double intersec = (superficies[k])->interseccion(e,direccion);
 
 		if ( (intersec < min_inter && intersec >= 0) || (min_inter == -1 && intersec >= 0) ) {
 			indice_min = k;
@@ -308,12 +327,12 @@ void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 	}
 }
 
-//Devuelve true si hay un objeto que se interpone entre el objeto cuyo indice se pasa como parámetro y la luz
-bool interposicionObjeto(Tupla3f direccion, double min_inter, int indice_min){
+//Devuelve true si hay una superficie que se interpone entre la superficie cuyo indice se pasa como parámetro y la luz
+bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min){
 	bool inter = false;
 	int k=0;
-	while ( (k < (int)objetos.size()) && !inter) {
-		if ( ((objetos[k])->interseccion( e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
+	while ( (k < (int)superficies.size()) && !inter) {
+		if ( ((superficies[k])->interseccion( e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
 		k++;
 	}
 	return inter;
@@ -329,7 +348,7 @@ Tupla3f* TFG_Image(int x, int y){
 			direccion = (a1 + (b1 - a1)*(i/(x-1.0)))*u + (a2 + (b2 - a2)*(j/(y-1.0)))*v -s*w;
 			
 
-			if (!objetos.empty()){
+			if (!superficies.empty()){
 
 				int indice_min;
 				double int_ant;
@@ -337,9 +356,9 @@ Tupla3f* TFG_Image(int x, int y){
 				primeraInterseccion(direccion, int_ant, indice_min);
 
 				if (int_ant >= 0) {
-					image[i*y +j] = luz.LeyLambert( (objetos[indice_min])->getColor(), (objetos[indice_min])->normal(e, direccion, int_ant));
-					//std::cout << ((objetos[indice_min])->normal(e, direccion, int_ant))).coo[0] << endl;
-					if (interposicionObjeto(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
+					image[i*y +j] = luz.LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(e, direccion, int_ant));
+					//std::cout << ((superficies[indice_min])->normal(e, direccion, int_ant))).coo[0] << endl;
+					if (interposicionSuperficie(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
 				}
 				else image[i*y +j] = Tupla3f(1, 1, 1);
 			}
@@ -351,8 +370,8 @@ Tupla3f* TFG_Image(int x, int y){
 
 void TFG_Destruir()
 {
-	for (int i = 0; i < (int)objetos.size(); i++){
-		delete objetos[i];
+	for (int i = 0; i < (int)superficies.size(); i++){
+		delete superficies[i];
 	}
 	delete image;
 }
