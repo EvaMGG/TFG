@@ -42,14 +42,21 @@ public :
 	Superficie(const Superficie &sup);
 	virtual double interseccion(Tupla3f origen, Tupla3f direccion) = 0;
 	virtual Tupla3f getColor();
-	virtual Tupla3f normal(Tupla3f e, Tupla3f d, float t)=0;
+	virtual Tupla3f normal(Tupla3f e, Tupla3f d, float t) = 0;
+	virtual float funcion(/*Tupla3f o, Tupla3f d,*/ float t) = 0;
+	virtual float derivada(/*Tupla3f o, Tupla3f d,*/ float t) = 0;
 
 };
 
 Superficie::Superficie(Tupla3f col){
 	color = col;
 }
-Superficie::Superficie(const Superficie &sup){}
+
+Superficie::Superficie(const Superficie &sup){
+	color = sup.color;
+}
+
+
 Tupla3f Superficie::getColor(){
 	return color;
 }
@@ -69,7 +76,23 @@ public :
 	double interseccion(Tupla3f origen, Tupla3f direccion);
 	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
 
+// BORRAR MAS TARDE
+	float funcion(/*Tupla3f o, Tupla3f d,*/ float t);
+	float derivada(/*Tupla3f o, Tupla3f d,*/ float t);
+
 };
+
+//BORRAR MAS TARDE
+float Esfera::funcion(/*Tupla3f o, Tupla3f d,*/ float t){
+}
+float Esfera::derivada(/*Tupla3f o, Tupla3f d,*/ float t){
+}
+
+
+
+
+
+
 
 Esfera::Esfera(Tupla3f c, float r, Tupla3f col):Superficie(col) {
 	centro = c;
@@ -120,7 +143,20 @@ public :
 	double interseccion(Tupla3f origen, Tupla3f direccion);
 	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
 
+// BORRAR MAS TARDE
+	float funcion(/*Tupla3f o, Tupla3f d,*/ float t);
+	float derivada(/*Tupla3f o, Tupla3f d,*/ float t);
+
 };
+
+//BORRAR MAS TARDE
+float Cubo::funcion(/*Tupla3f o, Tupla3f d,*/ float t){
+}
+float Cubo::derivada(/*Tupla3f o, Tupla3f d,*/ float t){
+}
+
+
+
 
 
 
@@ -195,11 +231,11 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
 class Elipse : public Superficie{
 
 private:
-	float radioMayor, radioMenor;
+	float radio0, radio1, radio2;
 
 public :
 
-	Elipse(float radio1, float radio2, Tupla3f);
+	Elipse(float rad0, float rad1, float rad2, Tupla3f color);
 	Elipse(const Elipse &eli);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
 	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
@@ -208,13 +244,36 @@ public :
 };
 
 
-//Corregir
-float Elipse::funcion(Tupla3f o, Tupla3f d, float t){
-	return ((pow(t,2) / pow(radioMayor,2)) + (pow(t,2) / pow(radioMenor,2)) -1);
+
+Elipse::Elipse(float rad0, float rad1, float rad2, Tupla3f col):Superficie(col){
+	radio0 = rad0;
+	radio1 = rad1;
+	radio2 = rad2;
 }
 
-float derivada(Tupla3f o, Tupla3f d, float t){
-	
+Elipse::Elipse(const Elipse &eli):Superficie(eli){
+	radio0 = eli.radio0;
+	radio1 = eli.radio1;
+	radio2 = eli.radio2;
+}
+
+double Elipse::interseccion(Tupla3f origen, Tupla3f direccion){
+
+}
+
+Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, float t){
+
+}
+
+
+
+
+float Elipse::funcion(Tupla3f o, Tupla3f d, float t){
+	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
+}
+
+float Elipse::derivada(Tupla3f o, Tupla3f d, float t){
+	return 2*((o.coo[0]+ d.coo[0]*t / pow(radio0,2)) + (o.coo[1]+ d.coo[1]*t / pow(radio1,2)) + (o.coo[2]+ d.coo[2]*t / pow(radio2,2)) );
 }
 
 
@@ -338,6 +397,31 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 	return inter;
 }
 
+
+
+float TFG_RegulaFalsi(Superficie &sup, float &tn){
+	
+}
+
+float TFG_NewtonRaphson(Superficie &sup, float &tn){
+	return tn - (sup.funcion(tn)/sup.derivada(tn));
+}
+
+
+
+void TFG_AlgoritmoInterseccion(){
+	// 1. Intervalo inicial (mediante algun método heurístico)
+	// 2. Hasta que se cumpla el criterio de parada
+	//   2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
+	//   2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
+	//   2.3. Cambiar el valor de la sucesión por el extremo correspondiente del intervalo
+	// 3. Devolver el 't' en el que mas o menos intersecta el rayo con la superficie
+}
+
+
+
+
+
 Tupla3f* TFG_Image(int x, int y){
 	//Dirección de los rayos de visión y matriz que contiene a la imagen
 	Tupla3f direccion;
@@ -357,7 +441,7 @@ Tupla3f* TFG_Image(int x, int y){
 
 				if (int_ant >= 0) {
 					image[i*y +j] = luz.LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(e, direccion, int_ant));
-					//std::cout << ((superficies[indice_min])->normal(e, direccion, int_ant))).coo[0] << endl;
+
 					if (interposicionSuperficie(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
 				}
 				else image[i*y +j] = Tupla3f(1, 1, 1);
