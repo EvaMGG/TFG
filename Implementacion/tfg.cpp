@@ -42,9 +42,9 @@ public :
 	Superficie(const Superficie &sup);
 	virtual double interseccion(Tupla3f origen, Tupla3f direccion) = 0;
 	virtual Tupla3f getColor();
-	virtual Tupla3f normal(Tupla3f e, Tupla3f d, float t) = 0;
-	virtual float funcion(/*Tupla3f o, Tupla3f d,*/ float t) = 0;
-	virtual float derivada(/*Tupla3f o, Tupla3f d,*/ float t) = 0;
+	virtual Tupla3f normal(Tupla3f e, Tupla3f d, double t) = 0;
+	virtual double funcion(Tupla3f o, Tupla3f d, double t) = 0;
+	virtual double derivada(Tupla3f o, Tupla3f d, double t) = 0;
 
 };
 
@@ -67,25 +67,25 @@ class Esfera : public Superficie {
 private :
 
 	Tupla3f centro;
-	float radio;
+	double radio;
 
 public :
 
-	Esfera(Tupla3f c, float r, Tupla3f col);
+	Esfera(Tupla3f c, double r, Tupla3f col);
 	Esfera(const Esfera &sph);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 
 // BORRAR MAS TARDE
-	float funcion(/*Tupla3f o, Tupla3f d,*/ float t);
-	float derivada(/*Tupla3f o, Tupla3f d,*/ float t);
+	double funcion(Tupla3f o, Tupla3f d, double t);
+	double derivada(Tupla3f o, Tupla3f d, double t);
 
 };
 
 //BORRAR MAS TARDE
-float Esfera::funcion(/*Tupla3f o, Tupla3f d,*/ float t){
+double Esfera::funcion(Tupla3f o, Tupla3f d, double t){
 }
-float Esfera::derivada(/*Tupla3f o, Tupla3f d,*/ float t){
+double Esfera::derivada(Tupla3f o, Tupla3f d, double t){
 }
 
 
@@ -94,7 +94,7 @@ float Esfera::derivada(/*Tupla3f o, Tupla3f d,*/ float t){
 
 
 
-Esfera::Esfera(Tupla3f c, float r, Tupla3f col):Superficie(col) {
+Esfera::Esfera(Tupla3f c, double r, Tupla3f col):Superficie(col) {
 	centro = c;
 	radio = r;
 }
@@ -109,7 +109,7 @@ Esfera::Esfera(const Esfera &sph): Superficie(sph) {
 double Esfera::interseccion(Tupla3f o, Tupla3f d){
 	double interseccion = -1;
 
-	float discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
+	double discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
 
 	if (discriminante > 0) {
 		
@@ -124,7 +124,7 @@ double Esfera::interseccion(Tupla3f o, Tupla3f d){
 }
 
 
-Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, float t) {
+Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, double t) {
 	return Tupla3f( ((e + t*d)-centro)/radio );
 }
 
@@ -141,18 +141,18 @@ public :
 	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3);
 	Cubo(const Cubo &squ);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 
 // BORRAR MAS TARDE
-	float funcion(/*Tupla3f o, Tupla3f d,*/ float t);
-	float derivada(/*Tupla3f o, Tupla3f d,*/ float t);
+	double funcion(Tupla3f o, Tupla3f d, double t);
+	double derivada(Tupla3f o, Tupla3f d, double t);
 
 };
 
 //BORRAR MAS TARDE
-float Cubo::funcion(/*Tupla3f o, Tupla3f d,*/ float t){
+double Cubo::funcion(Tupla3f o, Tupla3f d, double t){
 }
-float Cubo::derivada(/*Tupla3f o, Tupla3f d,*/ float t){
+double Cubo::derivada(Tupla3f o, Tupla3f d, double t){
 }
 
 
@@ -172,7 +172,7 @@ Cubo::Cubo(const Cubo &squ):Superficie(squ) {
 }
 
 double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
-	float tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
+	double tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
 
 
 	if (direccion.coo[0] > 0) {
@@ -216,7 +216,7 @@ double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
 }
 
 
-Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
+Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
 	if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
 	else if ( abs((e+t*d).coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
 	else if ( abs((e+t*d).coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
@@ -231,21 +231,21 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
 class Elipse : public Superficie{
 
 private:
-	float radio0, radio1, radio2;
+	double radio0, radio1, radio2;
 
 public :
 
-	Elipse(float rad0, float rad1, float rad2, Tupla3f color);
+	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
 	Elipse(const Elipse &eli);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
-	float funcion(Tupla3f o, Tupla3f d, float t);
-	float derivada(Tupla3f o, Tupla3f d, float t);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
+	double funcion(Tupla3f o, Tupla3f d, double t);
+	double derivada(Tupla3f o, Tupla3f d, double t);
 };
 
 
 
-Elipse::Elipse(float rad0, float rad1, float rad2, Tupla3f col):Superficie(col){
+Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
 	radio0 = rad0;
 	radio1 = rad1;
 	radio2 = rad2;
@@ -261,18 +261,18 @@ double Elipse::interseccion(Tupla3f origen, Tupla3f direccion){
 
 }
 
-Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, float t){
+Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
 
 }
 
 
 
 
-float Elipse::funcion(Tupla3f o, Tupla3f d, float t){
+double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
 	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
 }
 
-float Elipse::derivada(Tupla3f o, Tupla3f d, float t){
+double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
 	return 2*((o.coo[0]+ d.coo[0]*t / pow(radio0,2)) + (o.coo[1]+ d.coo[1]*t / pow(radio1,2)) + (o.coo[2]+ d.coo[2]*t / pow(radio2,2)) );
 }
 
@@ -336,8 +336,8 @@ Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
 
 vector<Superficie *> superficies;
 
-float a1, a2, b1, b2;
-float s = 6.0;
+double a1, a2, b1, b2;
+double s = 6.0;
 Tupla3f e = Tupla3f(0,0,8);
 Tupla3f g = Tupla3f(0,0,-2);
 Tupla3f vup = Tupla3f(0,1,0);
@@ -399,24 +399,47 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 
 
 
-float TFG_RegulaFalsi(Superficie &sup, float &tn){
+
+
+
+
+//ESTE CONJUNTO DE FUNCIONES DEBERIA IMPLEMENTARSE EN LA CLASE SUPERFICIE
+
+void TFG_intervaloInicial(double &t1, double &t2){
 	
 }
 
-float TFG_NewtonRaphson(Superficie &sup, float &tn){
-	return tn - (sup.funcion(tn)/sup.derivada(tn));
+double TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+}
+
+double TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
 }
 
 
-
-void TFG_AlgoritmoInterseccion(){
+//ARREGLAR CONSTRUCTOR DE COPIA
+double TFG_AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+	double an, bn, tn=0;
 	// 1. Intervalo inicial (mediante algun método heurístico)
+	TFG_intervaloInicial(an,bn);
 	// 2. Hasta que se cumpla el criterio de parada
-	//   2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
-	//   2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
-	//   2.3. Cambiar el valor de la sucesión por el extremo correspondiente del intervalo
-	// 3. Devolver el 't' en el que mas o menos intersecta el rayo con la superficie
+	while (abs(sup.funcion(o, d, tn)) > 0.01){
+		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
+		tn = TFG_NewtonRaphson(sup, tn, o, d);
+		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
+		if (tn < an || bn < tn) tn = TFG_RegulaFalsi(sup, an, bn, o, d);
+		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
+		if (sup.funcion(o, d, tn) == 0) return tn;
+		else if (an*tn > 0) an = tn;
+		else bn = tn;
+	}
+	// 3. Devolver aproximación a la intersección del rayo con la superficie
+	return tn;
 }
+
+
+
 
 
 
