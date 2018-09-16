@@ -448,7 +448,6 @@ double TFG_AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
 Tupla3f* TFG_Image(int x, int y){
 	//Dirección de los rayos de visión y matriz que contiene a la imagen
 	Tupla3f direccion;
-	//Tupla3f *image = new Tupla3f [x*y];
 
 	for(int i = 0; i < x; i++) {
 		for (int j = 0; j < y; j++){
