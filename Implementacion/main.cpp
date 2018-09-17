@@ -243,7 +243,7 @@ cout << image[i][j].coo[2] << endl;
 
 
 glRasterPos2i(0,0);
-glDrawPixels(ventana_tam_x, ventana_tam_y, GL_RGB, GL_FLOAT, TFG_Image(ventana_tam_y, ventana_tam_x));
+glDrawPixels(ventana_tam_x, ventana_tam_y, GL_RGB, GL_FLOAT, Image(ventana_tam_y, ventana_tam_x));
 //glDrawPixels(ventana_tam_x, ventana_tam_y, GL_RGB, GL_FLOAT, image);
 glutSwapBuffers();
 
@@ -465,13 +465,13 @@ void Inicializar( int argc, char *argv[] )
 
    // inicializar tfg
 
-	TFG_Inicializar(ventana_tam_y, ventana_tam_x);
+	Inicializar(ventana_tam_y, ventana_tam_x);
 
 }
 
 void Destruir()
 {
-	TFG_Destruir();
+	DestruirTFG();
 }
 
 // *********************************************************************

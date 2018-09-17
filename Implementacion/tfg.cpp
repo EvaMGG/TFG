@@ -233,9 +233,9 @@ class Elipse : public Superficie{
 private:
 	double radio0, radio1, radio2;
 
-	void TFG_intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
-	double TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
-	double TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
+	void intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
+	double RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
+	double NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
 
 public :
 
@@ -263,7 +263,7 @@ Elipse::Elipse(const Elipse &eli):Superficie(eli){
 
 
 
-void Elipse::TFG_intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
+void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
 	t1 = 0;
 	double incremento = 0.25;
 	for (int i = 0; i < 5; i++){
@@ -276,15 +276,15 @@ void Elipse::TFG_intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double 
 	}
 }
 
-double Elipse::TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
 	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
 }
 
-double Elipse::TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
 	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
 }
 
-/*double Elipse::TFG_AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+/*double Elipse::AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
 
 }*/
 
@@ -294,13 +294,13 @@ double Elipse::TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f 
 double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
 	double an, bn, tn=0;
 	// 1. Intervalo inicial (mediante algun método heurístico)
-	TFG_intervaloInicial(sup, o, d, an,bn);
+	intervaloInicial(sup, o, d, an,bn);
 	// 2. Hasta que se cumpla el criterio de parada
 	while (abs(sup.funcion(o, d, tn)) > 0.01){
 		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
-		tn = TFG_NewtonRaphson(sup, tn, o, d);
+		tn = NewtonRaphson(sup, tn, o, d);
 		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
-		if (tn < an || bn < tn) tn = TFG_RegulaFalsi(sup, an, bn, o, d);
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
 		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
 		if (sup.funcion(o, d, tn) == 0) return tn;
 		else if (an*tn > 0) an = tn;
@@ -396,7 +396,7 @@ Tupla3f *image;
 LuzDireccional luz = LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1));
 
 
-void TFG_Inicializar(int x, int y) {
+void Inicializar(int x, int y) {
 
 	//Inicialización de los superficies de la escena
 
@@ -457,7 +457,7 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 
 
 
-Tupla3f* TFG_Image(int x, int y){
+Tupla3f* Image(int x, int y){
 	//Dirección de los rayos de visión y matriz que contiene a la imagen
 	Tupla3f direccion;
 
@@ -486,7 +486,7 @@ Tupla3f* TFG_Image(int x, int y){
 }
 
 
-void TFG_Destruir()
+void DestruirTFG()
 {
 	for (int i = 0; i < (int)superficies.size(); i++){
 		delete superficies[i];

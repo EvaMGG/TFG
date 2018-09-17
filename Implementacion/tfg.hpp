@@ -15,8 +15,8 @@
 
 
 
-Tupla3f* TFG_Image(int x, int y); 
-void TFG_Inicializar( int x, int y ) ;
-void TFG_Destruir();
+Tupla3f* Image(int x, int y); 
+void Inicializar( int x, int y ) ;
+void DestruirTFG();
 
 #endif
