@@ -233,11 +233,15 @@ class Elipse : public Superficie{
 private:
 	double radio0, radio1, radio2;
 
+	void TFG_intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
+	double TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
+	double TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
+
 public :
 
 	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
 	Elipse(const Elipse &eli);
-	double interseccion(Tupla3f origen, Tupla3f direccion);
+	double interseccion(Superficie &sup, Tupla3f o, Tupla3f d);
 	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 	double funcion(Tupla3f o, Tupla3f d, double t);
 	double derivada(Tupla3f o, Tupla3f d, double t);
@@ -257,12 +261,57 @@ Elipse::Elipse(const Elipse &eli):Superficie(eli){
 	radio2 = eli.radio2;
 }
 
-double Elipse::interseccion(Tupla3f origen, Tupla3f direccion){
 
+
+void Elipse::TFG_intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
+	t1 = 0;
+	double incremento = 0.25;
+	for (int i = 0; i < 5; i++){
+		t2 = 0;
+		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 7){
+			t2 = t2 + incremento;
+		}
+		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
+		else incremento = incremento / 3;
+	}
+}
+
+double Elipse::TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+}
+
+double Elipse::TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
+}
+
+/*double Elipse::TFG_AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+
+}*/
+
+
+
+
+double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+	double an, bn, tn=0;
+	// 1. Intervalo inicial (mediante algun método heurístico)
+	TFG_intervaloInicial(sup, o, d, an,bn);
+	// 2. Hasta que se cumpla el criterio de parada
+	while (abs(sup.funcion(o, d, tn)) > 0.01){
+		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
+		tn = TFG_NewtonRaphson(sup, tn, o, d);
+		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
+		if (tn < an || bn < tn) tn = TFG_RegulaFalsi(sup, an, bn, o, d);
+		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
+		if (sup.funcion(o, d, tn) == 0) return tn;
+		else if (an*tn > 0) an = tn;
+		else bn = tn;
+	}
+	// 3. Devolver aproximación a la intersección del rayo con la superficie
+	return tn;
 }
 
 Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-
+	return Tupla3f(1.0,1.0,1.0);
 }
 
 
@@ -398,45 +447,8 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 }
 
 
-
-
-
-
-
-//ESTE CONJUNTO DE FUNCIONES DEBERIA IMPLEMENTARSE EN LA CLASE SUPERFICIE
-
-void TFG_intervaloInicial(double &t1, double &t2){
-	
-}
-
-double TFG_RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
-	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
-}
-
-double TFG_NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
-	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
-}
-
-
 //ARREGLAR CONSTRUCTOR DE COPIA
-double TFG_AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
-	double an, bn, tn=0;
-	// 1. Intervalo inicial (mediante algun método heurístico)
-	TFG_intervaloInicial(an,bn);
-	// 2. Hasta que se cumpla el criterio de parada
-	while (abs(sup.funcion(o, d, tn)) > 0.01){
-		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
-		tn = TFG_NewtonRaphson(sup, tn, o, d);
-		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
-		if (tn < an || bn < tn) tn = TFG_RegulaFalsi(sup, an, bn, o, d);
-		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
-		if (sup.funcion(o, d, tn) == 0) return tn;
-		else if (an*tn > 0) an = tn;
-		else bn = tn;
-	}
-	// 3. Devolver aproximación a la intersección del rayo con la superficie
-	return tn;
-}
+
 
 
 
