@@ -62,6 +62,124 @@ Tupla3f Superficie::getColor(){
 }
 
 
+
+
+
+
+
+
+class Elipse : public Superficie{
+
+private:
+	double radio0, radio1, radio2;
+
+	void intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
+	double RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
+	double NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
+
+public :
+
+	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
+	Elipse(const Elipse &eli);
+	double interseccion(Superficie &sup, Tupla3f o, Tupla3f d);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
+	double funcion(Tupla3f o, Tupla3f d, double t);
+	double derivada(Tupla3f o, Tupla3f d, double t);
+};
+
+
+
+Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
+	radio0 = rad0;
+	radio1 = rad1;
+	radio2 = rad2;
+}
+
+Elipse::Elipse(const Elipse &eli):Superficie(eli){
+	radio0 = eli.radio0;
+	radio1 = eli.radio1;
+	radio2 = eli.radio2;
+}
+
+
+
+void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
+	t1 = 0;
+	double incremento = 0.25;
+	for (int i = 0; i < 5; i++){
+		t2 = 0;
+		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 7){
+			t2 = t2 + incremento;
+		}
+		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
+		else incremento = incremento / 3;
+	}
+}
+
+double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+}
+
+double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
+}
+
+/*double Elipse::AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+
+}*/
+
+
+
+
+double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+	double an, bn, tn=0;
+	// 1. Intervalo inicial (mediante algun método heurístico)
+	intervaloInicial(sup, o, d, an,bn);
+	// 2. Hasta que se cumpla el criterio de parada
+	while (abs(sup.funcion(o, d, tn)) > 0.01){
+		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
+		tn = NewtonRaphson(sup, tn, o, d);
+		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
+		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
+		if (sup.funcion(o, d, tn) == 0) return tn;
+		else if (an*tn > 0) an = tn;
+		else bn = tn;
+	}
+	// 3. Devolver aproximación a la intersección del rayo con la superficie
+	return tn;
+}
+
+Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
+	return Tupla3f(1.0,1.0,1.0);
+}
+
+
+
+
+double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
+	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
+}
+
+double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
+	return 2*((o.coo[0]+ d.coo[0]*t / pow(radio0,2)) + (o.coo[1]+ d.coo[1]*t / pow(radio1,2)) + (o.coo[2]+ d.coo[2]*t / pow(radio2,2)) );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Esfera : public Superficie {
 
 private :
@@ -228,106 +346,6 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
 
 
 
-class Elipse : public Superficie{
-
-private:
-	double radio0, radio1, radio2;
-
-	void intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
-	double RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
-	double NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
-
-public :
-
-	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
-	Elipse(const Elipse &eli);
-	double interseccion(Superficie &sup, Tupla3f o, Tupla3f d);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
-	double funcion(Tupla3f o, Tupla3f d, double t);
-	double derivada(Tupla3f o, Tupla3f d, double t);
-};
-
-
-
-Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
-	radio0 = rad0;
-	radio1 = rad1;
-	radio2 = rad2;
-}
-
-Elipse::Elipse(const Elipse &eli):Superficie(eli){
-	radio0 = eli.radio0;
-	radio1 = eli.radio1;
-	radio2 = eli.radio2;
-}
-
-
-
-void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
-	t1 = 0;
-	double incremento = 0.25;
-	for (int i = 0; i < 5; i++){
-		t2 = 0;
-		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 7){
-			t2 = t2 + incremento;
-		}
-		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
-		else incremento = incremento / 3;
-	}
-}
-
-double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
-	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
-}
-
-double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
-	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
-}
-
-/*double Elipse::AlgoritmoInterseccion(Superficie &sup, Tupla3f o, Tupla3f d){
-
-}*/
-
-
-
-
-double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
-	double an, bn, tn=0;
-	// 1. Intervalo inicial (mediante algun método heurístico)
-	intervaloInicial(sup, o, d, an,bn);
-	// 2. Hasta que se cumpla el criterio de parada
-	while (abs(sup.funcion(o, d, tn)) > 0.01){
-		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
-		tn = NewtonRaphson(sup, tn, o, d);
-		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
-		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
-		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
-		if (sup.funcion(o, d, tn) == 0) return tn;
-		else if (an*tn > 0) an = tn;
-		else bn = tn;
-	}
-	// 3. Devolver aproximación a la intersección del rayo con la superficie
-	return tn;
-}
-
-Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-	return Tupla3f(1.0,1.0,1.0);
-}
-
-
-
-
-double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
-	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
-}
-
-double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
-	return 2*((o.coo[0]+ d.coo[0]*t / pow(radio0,2)) + (o.coo[1]+ d.coo[1]*t / pow(radio1,2)) + (o.coo[2]+ d.coo[2]*t / pow(radio2,2)) );
-}
-
-
-
-
 
 
 class LuzDireccional{
@@ -400,9 +418,14 @@ void Inicializar(int x, int y) {
 
 	//Inicialización de los superficies de la escena
 
-	superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
+	/*superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
 	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
-	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
+	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));*/
+
+	superficies.push_back(new Elipse(0.1, 0.3, 0.5, Tupla3f(0.3, 0.3, 0.3)));
+
+
+
 
 	image = new Tupla3f [x*y];
 
