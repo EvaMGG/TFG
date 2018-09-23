@@ -58,8 +58,8 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	\end{enumerate}
 \end{proof}
 
-\begin{teorema}
-	Dadas dos superficies S y $S'$ orientables y compactas, sean N y $N'$ las aplicaciones de Gauss para sendas superficies cuyas segundas formas fundamentales asociadas son $\sigma$ y $\sigma'$ respectivamente.
+\begin{teorema} \label{teo:rig2}
+	$\textbf{(Teorema fundamental de la teoría local de superficies)}$ Dadas dos superficies S y $S'$ orientables y compactas, sean N y $N'$ las aplicaciones de Gauss para sendas superficies cuyas segundas formas fundamentales asociadas son $\sigma$ y $\sigma'$ respectivamente.
 	Si $f : S \to S'$ es una isometría que conserva la segunda forma fundamental, entonces existe un movimiento rígido $\Phi : \mathbb{R}^3 \to \mathbb{R}^3$ tal que $\Phi_{\mid S} = f$.
 \end{teorema}
 
@@ -226,7 +226,7 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 	Sean S y S' dos esferas con el mismo radio y sea $f : S \to S'$ una isometría. La segunda forma fundamental, en cada punto, de ambas superficies está expresada como $-\frac{1}{r} \langle v,w \rangle$ para cada v, w de sus respectivos tangentes, por tanto $f$ conserva la segunda forma fundamental y se puede extender a un movimiento rígido.
 \end{ejemplo}
 
-\begin{teorema}
+\begin{teorema} \label{teo:egre}
 	$\textbf{(Teorema Egregium)}$ Sean $f : S \to S'$ una isometría local entre dos superficies y $K$ y $K'$ sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
 \end{teorema}
 
@@ -433,9 +433,37 @@ En los siguientes dos resultados veremos que dado un movimiento rígido, su rest
 \end{teorema}
 
 \begin{proof}
-	Por ser $f$ isometría es también difeomorfismo y por ende es una aplicación abierta. Por tanto, su imagen $f(\mathbb{S}^2(r))$ es un abierto de $S$. Además es un cerrado por ser imagen de un compacto $(\mathbb{S}^2(r))$ en un espacio Hausdorff.
+	Por ser $f$ isometría local es también homomorfismo local y por tanto una aplicación abierta. Por tanto, su imagen $f(\mathbb{S}^2(r))$ es un abierto de $S$. Además, $f$ es cerrada por ser una aplicación continua de un compacto en un Hausdorff. Así que $S$ es cerrado y abierto y por la hipótesis es conexo.
+		${ }$\\
+		
+	Ahora partimos de que $f(\mathbb{S}^2(r)) \subset S$ es abierto y cerrado y por ser cerrado su complementario es abierto. De esta manera hemos encontrado una partición por abiertos de $S$, pero como $S$ es conexa esto no es posible, por tanto $f(\mathbb{S}^2(r)) = S$.
+		${ }$\\
+		
+	Por otro lado, también tenemos que $\mathbb{S}^2(r)$ es una superficie compacta con curvatura constate igual a $1 / r^2$, aplicando el Teorema Egregium de Gauss \ref{teo:egre}, $S$ tiene también curvatura de Gauss constante igual a $1 / r^2$. Por tanto, aplicando el teorema de Hilbert-Liebmann \ref{teo:hil-lie} tenemos que $S$ es una esfera de radio $r$.
+		${ }$\\
+		
+	Hemos llegado a la conclusión de que $f$ es una aplicación entre dos esferas del mismo radio. Y además sabemos que el normal exterior a una esfera viene dado por:
+	\[
+		N(p) = \frac{1}{r} (p - p_0),  \;\;\;  \forall p \in \mathbb{S}^2(r)
+	\]
+	donde $p_0$ es el centro de la esfera y $r$ el radio. Por tanto, tenemos
+	\[
+		(dN)_p (v) = \frac{1}{r} v,  \;\;\;  \forall v \in T_p \mathbb{S}^2(r)
+	\]
+	y por tanto, la segunda forma fundamental viene dada por
+	\[
+		\sigma_p (v, w) = - \frac{1}{r} \langle v, w \rangle,  \;\;\;  \forall v, w \in T_p \mathbb{S}^2(r).
+	\]
 	
-	Finalmente, por el teorema Egregium concluimos la demostración.
+	Finalmente, si tomamos $U \subset \mathbb{S}^2(r)$ es conexo y abierto, y $f: U \to  S$ es una isometría local,
+	\[
+		\sigma_{f(p)}'((df)_p(u), (df)_p(v)) = \frac{1}{r} \langle (df)_p(u), (df)_p(v) \rangle = \frac{1}{r} \langle u, v \rangle = \sigma_p (u,v),
+	\]
+	y aplicando el Teorema fundamental de la teoría local de superficies \ref{teo:rig2} deducimos que $f$ es la restricción de un movimiento rígido.
+	
+	
+	
+	
 \end{proof}
 	${ }$\\
 %Como acabamos de ver la rigidez es una propiedad de las esferas, aunque no es exclusiva para las esferas sino para mas superficies entre ellas los ovaloides (como veremos mas adelante). Sin embargo, hay superficies que no tienen esta propiedad de rigidez como se puede observar en el ejemplo que se muestra en la Figura \ref{fig:etiq_2}
