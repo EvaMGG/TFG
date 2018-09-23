@@ -40,7 +40,7 @@ public :
 	
 	Superficie(Tupla3f col);
 	Superficie(const Superficie &sup);
-	virtual double interseccion(Tupla3f origen, Tupla3f direccion) = 0;
+	virtual double interseccion(Superficie &sup, Tupla3f origen, Tupla3f direccion) = 0;
 	virtual Tupla3f getColor();
 	virtual Tupla3f normal(Tupla3f e, Tupla3f d, double t) = 0;
 	virtual double funcion(Tupla3f o, Tupla3f d, double t) = 0;
@@ -105,10 +105,11 @@ Elipse::Elipse(const Elipse &eli):Superficie(eli){
 
 void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
 	t1 = 0;
-	double incremento = 0.25;
+	double incremento = 0.01;
+	while ( (sup.funcion(o, d, t1) * sup.funcion(o, d, t1+ incremento) > 0) && t1 < 2) t1 = t1 + incremento;
 	for (int i = 0; i < 5; i++){
 		t2 = 0;
-		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 7){
+		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 2){
 			t2 = t2 + incremento;
 		}
 		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
@@ -117,6 +118,7 @@ void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1,
 }
 
 double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+	if (sup.funcion(o, d, an) == sup.funcion(o, d, bn)) cout << "notANumber" << endl;
 	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
 }
 
@@ -132,29 +134,33 @@ double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
 
 
 double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
-	double an, bn, tn=0;
+	double an, bn, tn;
+	int num_iteraciones = 0;
 	// 1. Intervalo inicial (mediante algun método heurístico)
 	intervaloInicial(sup, o, d, an,bn);
+	tn = an;
+	if (sup.funcion(o, d, an) == 0) return an;
+	else if (sup.funcion(o, d, bn) == 0) return bn;
+	else if (an == bn) return -1;
 	// 2. Hasta que se cumpla el criterio de parada
-	while (abs(sup.funcion(o, d, tn)) > 0.01){
+	while (abs(sup.funcion(o, d, tn)) > 0.1 && num_iteraciones < 100){
 		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
 		tn = NewtonRaphson(sup, tn, o, d);
 		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
 		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
 		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
 		if (sup.funcion(o, d, tn) == 0) return tn;
-		else if (an*tn > 0) an = tn;
+		else if (sup.funcion(o, d, an)*sup.funcion(o, d, tn) > 0) an = tn;
 		else bn = tn;
+		num_iteraciones++;
 	}
 	// 3. Devolver aproximación a la intersección del rayo con la superficie
 	return tn;
 }
 
 Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-	return Tupla3f(1.0,1.0,1.0);
+	return Tupla3f(1.0,1.0,1.0) ;
 }
-
-
 
 
 double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
@@ -365,7 +371,7 @@ LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c) {
 }
 
 Tupla3f LuzDireccional::LeyLambert(Tupla3f objColor, Tupla3f normal) {
-	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normal | direccion);
+	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normalized(normal) | normalized(direccion));
 	return L;
 }
 
@@ -422,7 +428,7 @@ void Inicializar(int x, int y) {
 	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
 	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));*/
 
-	superficies.push_back(new Elipse(0.1, 0.3, 0.5, Tupla3f(0.3, 0.3, 0.3)));
+	superficies.push_back(new Elipse(1, 0.5, 0.8, Tupla3f(0.7, 0.3, 0.3)));
 
 
 
@@ -446,10 +452,10 @@ void Inicializar(int x, int y) {
 //Devuelve en los parametros pasados por referencia el valor de t en el que se corta por primera vez una superficie y el indice que indica la posición en el vector de superficies de la superficie a la que el rayo interseca por primera vez.
 void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 	indice_min = 0;
-	min_inter = (superficies[0])->interseccion(e,direccion);
+	min_inter = (superficies[0])->interseccion(*(superficies[0]), e,direccion);
 
 	for (int k = 1; k < (int)superficies.size(); k++) {
-		double intersec = (superficies[k])->interseccion(e,direccion);
+		double intersec = (superficies[k])->interseccion(*(superficies[k]), e,direccion);
 
 		if ( (intersec < min_inter && intersec >= 0) || (min_inter == -1 && intersec >= 0) ) {
 			indice_min = k;
@@ -463,7 +469,7 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 	bool inter = false;
 	int k=0;
 	while ( (k < (int)superficies.size()) && !inter) {
-		if ( ((superficies[k])->interseccion( e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
+		if ( ((superficies[k])->interseccion(*(superficies[k]),  e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
 		k++;
 	}
 	return inter;
@@ -498,6 +504,7 @@ Tupla3f* Image(int x, int y){
 
 				if (int_ant >= 0) {
 					image[i*y +j] = luz.LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(e, direccion, int_ant));
+					//cout << (superficies[indice_min])->normal(e, direccion, int_ant).coo[0] << endl;
 
 					if (interposicionSuperficie(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
 				}

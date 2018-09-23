@@ -1,12 +1,12 @@
-\chapter*{Ray-Tracing}
+\chapter*{4. Ray-Tracing}
 
-$\textbf{INTRODUCCIÓN}$
+$\textbf{4.1. INTRODUCCIÓN}$
 ${ }$\\
 
 Antes de comenzar con Ray-Marching empezaré implementando un pequeño algoritmo de Ray-Tracing sobre el que implementaré luego el algoritmo Ray-Marching. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Para probar la implementación se creará una escena con un cubo y una esfera.
 
 ${ }$\\
-$\textbf{RAY-TRACING}$
+$\textbf{4.2. RAY-TRACING}$
 ${ }$\\
 %%%Explicar Ray-Tracing con alguna imagen
 
@@ -200,7 +200,7 @@ void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{INTERSECCIÓN DE RAYOS CON OBJETOS}$
+$\textbf{4.3. INTERSECCIÓN DE RAYOS CON OBJETOS}$
 ${ }$\\
 
 En lo que sigue se van a definir dos clases (Esfera y Cubo) que van a ser subclase de la clase Objeto definida como sigue:
@@ -226,7 +226,7 @@ Objeto::Objeto(const Objeto &obj){}
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{INTERSECCIÓN RAYO-ESFERA}$
+$\textbf{4.4. INTERSECCIÓN RAYO-ESFERA}$
 ${ }$\\
 
 Una esfera con centro en $c = (c_x, c_y, c_z)$ y radio $R>0$ se puede representar mediante la siguiente ecuación:
@@ -323,7 +323,7 @@ Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, float t) {
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{INTERSECCIÓN RAYO-CAJA}$
+$\textbf{4.5. INTERSECCIÓN RAYO-CAJA}$
 ${ }$\\
 
 Las cajas de esta sección serán representadas mediante las coordenadas de sus esquinas $p_0 = (x_0, y_0, z_0)$ y $p_1 = (x_1, y_1, z_1)$ y los lados de dichas cajas estarán alineados con los ejes. Para ver la intersección de los rayos usaremos un método que resulta ser más rápido que comprobar la intersección con cada una de las seis caras.
@@ -453,15 +453,11 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{ILUMINACIÓN}$
+$\textbf{4.6. ILUMINACIÓN}$
 ${ }$\\
 
 La iluminación hace las imágenes más realistas y nos permite apreciar la profundidad de los objetos. En esta sección veremos una implementación de la iluminación sencilla que solo dependerá de la normal de la superficie y la dirección de incidencia de la fuente de iluminación. 
 
-
-${ }$\\
-$\textbf{IMPLEMENTACIÓN ILUMINACIÓN}$
-${ }$\\
 
 Como se muestra en la Figura\ref{fig:etiq_5}, el rayo de visión está dirigido hacia el punto iluminado este rayo esta definido por el vector \textbf{d} y a partir de él definimos el vector unidad \textbf{e} el cual tiene la misma dirección de \textbf{d} pero sentido opuesto:
 
