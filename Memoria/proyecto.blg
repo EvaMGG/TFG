@@ -1,0 +1,82 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: proyecto.aux
+The style file: biblatex.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: proyecto-blx.bib
+Database file #2: bibliografia.bib
+I was expecting a `,' or a `}'---line 25 of file bibliografia.bib
+ :     
+ :     publisher =    "Jet Propulsion Laboratory",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 41 of file bibliografia.bib
+ :     
+ :     publisher =    "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 95 of file bibliografia.bib
+ :  
+ :  publisher =    "EPFL",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 116 of file bibliografia.bib
+ :  
+ :  publisher =    "1st International Workshop on Haskell And Rewriting Techniques",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Biblatex version: 3.3
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+You've used 17 entries,
+            6047 wiz_defined-function locations,
+            1195 strings with 10003 characters,
+and the built_in function-call counts, 49315 in all, are:
+= -- 1554
+> -- 2949
+< -- 523
++ -- 2186
+- -- 2131
+* -- 2144
+:= -- 3981
+add.period$ -- 0
+call.type$ -- 17
+change.case$ -- 193
+chr.to.int$ -- 220
+cite$ -- 32
+duplicate$ -- 5088
+empty$ -- 5056
+format.name$ -- 430
+if$ -- 9698
+int.to.chr$ -- 0
+int.to.str$ -- 28
+missing$ -- 0
+newline$ -- 263
+num.names$ -- 421
+pop$ -- 5166
+preamble$ -- 1
+purify$ -- 197
+quote$ -- 0
+skip$ -- 2394
+stack$ -- 0
+substring$ -- 1408
+swap$ -- 1576
+text.length$ -- 414
+text.prefix$ -- 17
+top$ -- 1
+type$ -- 634
+warning$ -- 0
+while$ -- 348
+width$ -- 0
+write$ -- 245
+(There were 4 error messages)

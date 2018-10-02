@@ -159,7 +159,7 @@ double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
 }
 
 Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-	return Tupla3f(1.0,1.0,1.0) ;
+	return Tupla3f((e+d*t).coo[0]/radio0, (e+d*t).coo[1]/radio1, (e+d*t).coo[2]/radio2) ;
 }
 
 

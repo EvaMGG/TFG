@@ -18,6 +18,9 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 
+\usepackage[backend=bibtex, style=numeric]{biblatex}
+\addbibresource{bibliografia.bib}
+
 
 \newtheorem{teorema}{Teorema}
 \newtheorem{lema}[teorema]{Lema}
@@ -245,17 +248,20 @@ pdfproducer = {pdflatex}
 
 \thispagestyle{empty}
 
-\begin{thebibliography}{9}
-	\bibitem{MonRos} S. Montiel-A. Ros, \textit{ Curves and Surfaces }, Graduate Studies in Mathematics v. 69., 2005.
-	
-	\bibitem{Shirley} Peter Shirley, \textit{ Realistic Ray Tracing }, A K Peters/CRC Press, 1874.
-	
-	\bibitem{Shirley} James F. Blinn, \textit{A Generalization of Algebraic Surface Drawing}, Jet Propulsion Laboratory, 1982.
-	
-	\bibitem{Atkinson} K. Atkinson, \textit{An Introduction to Numerical Analysis}, Wiley,1989.
-	
-	\bibitem{Press} W. H. Press and company, \textit{Numerical Recipes in C++: The Art of Scientific Computing}, Cambridge University Press, 2002.
+\nocite{*}
+\printbibliography
 
-\end{thebibliography}
+%\begin{thebibliography}{9}
+%	\bibitem{MonRos} S. Montiel-A. Ros, \textit{ Curves and Surfaces }, Graduate Studies in Mathematics v. 69., 2005.
+%	
+%	\bibitem{Shirley} Peter Shirley, \textit{ Realistic Ray Tracing }, A K Peters/CRC Press, 1874.
+	
+%	\bibitem{Blinn} James F. Blinn, \textit{A Generalization of Algebraic Surface Drawing}, Jet Propulsion Laboratory, 1982.
+	
+%	\bibitem{Atkinson} K. Atkinson, \textit{An Introduction to Numerical Analysis}, Wiley,1989.
+	
+%	\bibitem{Press} W. H. Press and company, \textit{Numerical Recipes in C++: The Art of Scientific Computing}, Cambridge University Press, 2002.
+
+%\end{thebibliography}
 
 \end{document}

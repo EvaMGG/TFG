@@ -43,7 +43,7 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 	
 	Si tomamos $\alpha : [a,b] \to S$ una curva diferenciable en la superficie $S$, entonces la longitud de la curva imagen es la siguiente
 	\[
-	L^{b}_{a} (f \circ \alpha) = \int^{b}_{a} |(f \circ \alpha)'(t)| dt = \int^{b}_{a} |(df)_{\alpha(t)}(\alpha'(t)))|.
+	L^{b}_{a} (f \circ \alpha) = \int^{b}_{a} |(f \circ \alpha)'(t)| dt = \int^{b}_{a} |(df)_{\alpha(t)}(\alpha'(t)))| dt.
 	\]
 	como $f$ es isometría, tenemos
 	\[
@@ -52,12 +52,12 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 	
 	Ahora veamos el recíproco, tomando $p \in S$ y $v \in T_p S$, existe una curva diferenciable $\alpha : (-\epsilon, \epsilon) \to S$ para cierto $\epsilon > 0$ tal que $\alpha(0) = p$ y $\alpha'(0) = v$. Como $f$ conserva las distancias, tenemos
 	\[
-	\int^{t}_{0}|(f \circ \alpha)'(u)| du = L^{t}_{0} (f \circ \alpha) L^{t}_{0}(\alpha) = \int^{t}_{0} |\alpha'(u)|du.
+	\int^{t}_{0}|(df)_{\alpha(t)}(\alpha'(t)))| dt = L^{t}_{0} (f \circ \alpha) = L^{t}_{0}(\alpha) = \int^{t}_{0} |\alpha'(t)|dt.
 	\]
 	
 \end{proof}
 
-Dicho esto, las superficies rígidas son aquellas que, al aplicarles una función $f : S \to S'$ isometría, conservan la distancia entre puntos y también las curvaturas de las secciones normales de la superficie luego la superficie no puede ser ni estirada (no conservaría distancias) ni deformada (no conservaría curvaturas) dejando solo la posibilidad de ser girada y trasladada en el espacio esto nos permitirá extender esta función a un movimiento rígido de $\mathbb{R}^3$.
+Dicho esto, las superficies rígidas son aquellas que, al aplicarles una función $f : S \to S'$ isometría, conservan la distancia entre puntos y también las curvaturas de las secciones normales de la superficie luego la superficie no puede ser ni estirada (no conservaría distancias) ni deformada (no conservaría curvaturas para cada uno de sus puntos) dejando solo la posibilidad de ser girada y trasladada en el espacio esto nos permitirá extender esta función a un movimiento rígido de $\mathbb{R}^3$.
 ${ }$\\
 
 
