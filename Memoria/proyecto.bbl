@@ -93,16 +93,28 @@
 \endentry
 
 \entry{ref1}{online}{}
-  \field{sortinit}{D}
-  \field{title}{Debugging the code of an external library in Intellij Idea}
+  \field{sortinit}{G}
+  \field{title}{Geometría diferencial de curvas y superficies en el espacio
+  euclídeo}
   \verb{url}
-  \verb https://stackoverflow.com/questions/43396002/debugging-the-code-of-an-e
-  \verb xternal-library-in-intellij-idea
+  \verb www.mat.ucm.es/~jlafuent/Docencia/cys/cyslc.pdf
   \endverb
-  \field{year}{2017}
-  \field{urlday}{08}
-  \field{urlmonth}{04}
-  \field{urlyear}{2017}
+  \field{year}{2010}
+  \warn{\item Invalid format of field 'urldate'}
+\endentry
+
+\entry{RonGoldman}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Goldman}{G.}%
+     {Ron}{R.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{GR1}
+  \strng{fullhash}{GR1}
+  \field{sortinit}{G}
+  \field{title}{Curvature formulas for implicit curves and surfaces}
 \endentry
 
 \entry{ref5}{online}{}

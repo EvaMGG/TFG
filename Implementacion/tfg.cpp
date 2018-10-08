@@ -105,9 +105,9 @@ Elipse::Elipse(const Elipse &eli):Superficie(eli){
 
 void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
 	t1 = 0;
-	double incremento = 0.01;
+	double incremento = 0.1;
 	while ( (sup.funcion(o, d, t1) * sup.funcion(o, d, t1+ incremento) > 0) && t1 < 2) t1 = t1 + incremento;
-	for (int i = 0; i < 5; i++){
+	for (int i = 0; i < 3; i++){
 		t2 = 0;
 		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 2){
 			t2 = t2 + incremento;
@@ -428,7 +428,7 @@ void Inicializar(int x, int y) {
 	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
 	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));*/
 
-	superficies.push_back(new Elipse(1, 0.5, 0.8, Tupla3f(0.7, 0.3, 0.3)));
+	superficies.push_back(new Elipse(1.6, 2, 1.3, Tupla3f(0.7, 0.3, 0.3)));
 
 
 

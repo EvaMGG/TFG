@@ -20,17 +20,22 @@ I was expecting a `,' or a `}'---line 25 of file bibliografia.bib
  :     publisher =    "Jet Propulsion Laboratory",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 41 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 39 of file bibliografia.bib
  :     
  :     publisher =    "",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 95 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 46 of file bibliografia.bib
+ :  
+ :  publisher =    "Computer Aided Geometric Design",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 103 of file bibliografia.bib
  :  
  :  publisher =    "EPFL",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 116 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 124 of file bibliografia.bib
  :  
  :  publisher =    "1st International Workshop on Haskell And Rewriting Techniques",
 (Error may have been on previous line)
@@ -38,45 +43,45 @@ I'm skipping whatever remains of this entry
 Biblatex version: 3.3
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 17 entries,
+You've used 18 entries,
             6047 wiz_defined-function locations,
-            1195 strings with 10003 characters,
-and the built_in function-call counts, 49315 in all, are:
-= -- 1554
-> -- 2949
-< -- 523
-+ -- 2186
-- -- 2131
-* -- 2144
-:= -- 3981
+            1201 strings with 10055 characters,
+and the built_in function-call counts, 51691 in all, are:
+= -- 1637
+> -- 3028
+< -- 546
++ -- 2202
+- -- 2154
+* -- 2268
+:= -- 4119
 add.period$ -- 0
-call.type$ -- 17
-change.case$ -- 193
+call.type$ -- 18
+change.case$ -- 201
 chr.to.int$ -- 220
-cite$ -- 32
-duplicate$ -- 5088
-empty$ -- 5056
-format.name$ -- 430
-if$ -- 9698
+cite$ -- 34
+duplicate$ -- 5372
+empty$ -- 5331
+format.name$ -- 478
+if$ -- 10254
 int.to.chr$ -- 0
-int.to.str$ -- 28
+int.to.str$ -- 30
 missing$ -- 0
-newline$ -- 263
-num.names$ -- 421
-pop$ -- 5166
+newline$ -- 274
+num.names$ -- 462
+pop$ -- 5505
 preamble$ -- 1
-purify$ -- 197
+purify$ -- 206
 quote$ -- 0
-skip$ -- 2394
+skip$ -- 2548
 stack$ -- 0
-substring$ -- 1408
-swap$ -- 1576
-text.length$ -- 414
-text.prefix$ -- 17
+substring$ -- 1418
+swap$ -- 1638
+text.length$ -- 437
+text.prefix$ -- 18
 top$ -- 1
-type$ -- 634
+type$ -- 672
 warning$ -- 0
-while$ -- 348
+while$ -- 364
 width$ -- 0
-write$ -- 245
-(There were 4 error messages)
+write$ -- 255
+(There were 5 error messages)

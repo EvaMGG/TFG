@@ -746,16 +746,139 @@ ${ }$\\
 	\end{observacion}
 	
 	\begin{lema}
-		Sean $\Phi$ y $\Psi$ dos endomorfismos autoadjuntos definidos positivos o negativos de un plano vectorial euclídeo y $det \Phi = det \Psi$. Entonces, $det (\Phi + \Psi) \leq 0$ y la igualdad se da si y solo si $\Phi = - \Psi$.
+		Sean $G$ y $H$ dos endomorfismos autoadjuntos definidos positivos o negativos de un plano vectorial euclídeo y $det \; G = det \; H$. Entonces, $det \; (G + H) \leq 0$ y la igualdad se da si y solo si $G = - H$.
 	\end{lema}
 	\begin{proof}
-		Supongamos que $det(\Phi + \Psi) > 0$, y tomemos como $ {v_1 , v_2} $ una base que diagonaliza a $\Phi + \Psi$ entonces podemos expresarlo como
+		Como $G$ y $H$ son autoadjuntos tenemos que
 		\[
-			\Phi + \Psi = \left( {\begin{array}{cc}
+			\langle G(v), w \rangle = \langle v, G(v) \rangle,
+		\]
+		\[
+			\langle H(v), w \rangle = \langle v, H(v) \rangle.
+		\]
+		
+		Ahora, sea $\{ e_1, e_2 \}$ una base ortonormal que diagonaliza a G:
+		\[
+			G = \left( {\begin{array}{cc}
+							\lambda_1 & 0 \\
+							0 & \lambda_2 \\
+						\end{array}} \right).
+		\]
+		Respecto de esta base tenemos la siguiente expresión de H:
+		\[
+			H = \left( {\begin{array}{cc}
+					a & c \\
+					c & b \\
+				\end{array}} \right)
+		\]
+		y además,
+		\[
+			H(e_1) = a e_1 + c e_2,
+		\]
+		\[
+			H(e_2) = c e_1 + b e_2.
+		\]
+		Luego en esta base,
+		\[
+			G+H = \left( {\begin{array}{cc}
+							\lambda_1 + a & c \\
+							c & \lambda_2 + b \\
+						\end{array}} \right)
+		\]
+		
+		
+		
+		Supongamos que $det(G + H) > 0$ y tomemos como $ {v_1 , v_2} $ una base que diagonaliza a $G + H$ entonces podemos expresarlo como
+		\[
+			G + H = \left( {\begin{array}{cc}
 									\mu_1 & 0 \\
 									0 & \mu_2 \\
 								\end{array} } \right).
 		\]
+		Y para $v \neq 0$, ocurre que
+		\[
+		\langle (F+G)(v), v \rangle = \langle (F+G)(\alpha v_1 + \beta v_2), \; \alpha v_1 + \beta v_2 \rangle =
+		\]
+		\[
+		\alpha^2 \langle (F+G)(v_1), \; v_1 \rangle + \beta^2 \langle (F+G)(v_2), \; v_2 \rangle = \alpha^2 \mu_1 + \beta^2 \mu_2 > 0
+		\]
+		
+		Así, $ det (G + H) = \mu_1 \mu_2 > 0 $, entonces es $\mu_1, \mu_2 > 0$ definida positiva, o $\mu_1, \mu_2 < 0$ definida negativa, entonces $\lambda_1 + a = \langle (G + H)(e_1), e_1 \rangle$, $\lambda_2 + b = \langle (G + H)(e_2), e_2 \rangle > 0$. Supongamos que $\lambda_1$, $\lambda_2$ son positivos. Entonces, $\lambda_1 > -a$ y $\lambda_2 > -b$.
+		
+		$$ 0 < det(G + H) = (\lambda_1 + a) (\lambda_2 + b) - c^2 = \lambda_1 \lambda_2 + ab - c^2 + \lambda_1 b + \lambda_2 a = $$ $$ 2 \lambda_1 \lambda_2 + \lambda_1 b + \lambda_2 a = \lambda_1(\lambda_2 + b) + \lambda_2(\lambda_1 + a) $$
+		
+		$ ab > 0$, $a,b>0$ ó $a,b<0$, $\lambda_1\lambda_2 > ab$.
+		$ -c^2 = \lambda_1 \lambda_2 - ab > 0$ contradicción.
+		$a$ y $b$ no pueden ser negativos.
+		
+		$ab > 0$
+		
+		$ab < \lambda_1 \lambda_2$
+		
+		$0 \geq -c^2 = \lambda_1 \lambda_2 - ab > 0$
+		
+		Veamos que pasa si vale 0
+		$$ det(G+H) \leq 0 $$ $$ det(G+H) = 0 $$
+		$$ (\lambda_1 + a)(\lambda_2 + b) = c^2 $$
+		$$ \lambda_1 \lambda_2 + ab + \lambda_1 b + \lambda_2 a = c^2 $$
+		$$ 2 \lambda_1 \lambda_2 + \lambda_1 b + \lambda_2 a = 0 $$
+		$$ \lambda_1 ( \lambda_2 + b ) + \lambda_2 ( \lambda_1 + a ) = 0 $$
+		
+		$\lambda_1$, $\lambda_2 > 0 \Rightarrow a,b < 0$
+		
+		$\lambda_1$, $\lambda_2 < 0 \Rightarrow a,b > 0$
+		
+		$ \{ v_1, v_2 \} $ base ortonormal que diagonaliza a $G+H$
+		
+		\[
+			F = \left( {\begin{array}{cc}
+							\lambda & 0 \\
+							0 & 0 \\
+						\end{array}} \right)
+		\]
+		
+		\[
+			G = \left( {\begin{array}{cc}
+							x & z \\
+							z & y \\
+						\end{array}} \right)
+		\]
+		\[
+			H = \left( {\begin{array}{cc}
+							a & c \\
+							c & b \\
+						\end{array}} \right)
+		\]
+		\[
+			G + H = \left( {\begin{array}{cc}
+								x+a & z+c \\
+								z+c & y+b \\
+						\end{array}} \right)
+		\]
+		
+		$x + a = \lambda$
+		
+		$z = -c$
+		
+		$y = -b$
+		
+		$-x = a$
+		
+		\[
+			F = \left( {\begin{array}{cc}
+							x & z \\
+							z & y \\
+						\end{array}} \right)
+		\]
+
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		entonces $\Phi - \Psi$ es definido positivo. Si tomamos una base que diagonalize a $\Phi$ dada por $\{e_1, e_2\}$, tenemos
 		\[
