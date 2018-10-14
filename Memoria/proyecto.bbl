@@ -117,17 +117,17 @@
   \field{title}{Curvature formulas for implicit curves and surfaces}
 \endentry
 
-\entry{ref5}{online}{}
-  \field{sortinit}{I}
-  \field{title}{Integrating Intellij Idea and SBT}
+\entry{ref2}{online}{}
+  \field{sortinit}{H}
+  \field{title}{How to prove that an ellipsoid is an ovaloid?}
   \verb{url}
-  \verb https://intellij-support.jetbrains.com/hc/en-us/community/posts/1150004
-  \verb 75984-Integrating-Intellij-Idea-and-SBT
+  \verb https://math.stackexchange.com/questions/2939383/how-to-prove-that-an-e
+  \verb llipsoid-is-an-ovaloid
   \endverb
-  \field{year}{2017}
+  \field{year}{2018}
   \field{urlday}{04}
-  \field{urlmonth}{08}
-  \field{urlyear}{2017}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
 \endentry
 
 \entry{ref6}{online}{}
@@ -144,32 +144,18 @@
   \field{urlyear}{2017}
 \endentry
 
-\entry{ref4}{online}{}
-  \field{sortinit}{N}
-  \field{title}{NoClassDefFoundError using sbt for builds and imports in
-  Intellij Idea}
+\entry{ref3}{online}{}
+  \field{sortinit}{I}
+  \field{title}{Is there an ovaloid that is not topologically equivalent to a
+  sphere?}
   \verb{url}
-  \verb https://stackoverflow.com/questions/45486294/noclassdeffounderror-using
-  \verb -sbt-for-builds-and-imports-in-intellij-idea
+  \verb https://math.stackexchange.com/questions/2939619/is-there-an-ovaloid-th
+  \verb at-is-not-topologically-equivalent-to-a-sphere
   \endverb
-  \field{year}{2017}
-  \field{urlday}{04}
-  \field{urlmonth}{08}
-  \field{urlyear}{2017}
-\endentry
-
-\entry{ref2}{online}{}
-  \field{sortinit}{O}
-  \field{title}{Online dependence not found in .ivy2 file and not found by
-  Intellij Idea}
-  \verb{url}
-  \verb https://stackoverflow.com/questions/45463978/online-dependence-not-foun
-  \verb d-in-ivy2-file-and-not-found-by-intellij-idea
-  \endverb
-  \field{year}{2017}
-  \field{urlday}{08}
-  \field{urlmonth}{04}
-  \field{urlyear}{2017}
+  \field{year}{2018}
+  \field{urlday}{07}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
 \endentry
 
 \entry{Press}{book}{}
@@ -195,17 +181,30 @@
   \field{year}{2002}
 \endentry
 
-\entry{ref3}{online}{}
+\entry{ref4}{online}{}
   \field{sortinit}{P}
-  \field{title}{Problems with SBT dependencies in Intellij Idea}
+  \field{title}{Proof of a linear algebra lemma for Cohn-Vossen's theorem}
   \verb{url}
-  \verb https://stackoverflow.com/questions/45471836/problems-with-sbt-dependen
-  \verb cies-in-intellij-idea
+  \verb https://math.stackexchange.com/questions/2943781/proof-of-a-linear-alge
+  \verb bra-lemma-for-cohn-vossens-theorem
   \endverb
-  \field{year}{2017}
-  \field{urlday}{08}
-  \field{urlmonth}{04}
-  \field{urlyear}{2017}
+  \field{year}{2018}
+  \field{urlday}{07}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
+\endentry
+
+\entry{ref5}{online}{}
+  \field{sortinit}{R}
+  \field{title}{Ray Marching and Signed Distance Functions}
+  \verb{url}
+  \verb http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions
+  \verb /
+  \endverb
+  \field{year}{2016}
+  \field{urlday}{12}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
 \endentry
 
 \entry{kuncak}{article}{}

@@ -34,6 +34,39 @@ void Matriz4x4f::MAT_Trasposicion(int x, int y, int z)
    coe[2][3]=z;
 }
 
+void Matriz4x4f::MAT_RotacionX(const float ang_gra){
+	coe[1][1]=cos(ang_gra);
+	coe[1][2]=-sin(ang_gra);
+	coe[2][1]=sin(ang_gra);
+	coe[2][2]=cos(ang_gra);
+}
+
+void Matriz4x4f::MAT_RotacionY(const float ang_gra){
+	coe[0][0]=cos(ang_gra);
+	coe[0][2]=sin(ang_gra);
+	coe[2][0]=-sin(ang_gra);
+	coe[2][2]=cos(ang_gra);
+}
+
+void Matriz4x4f::MAT_RotacionZ(const float ang_gra){
+	coe[0][0]=cos(ang_gra);
+	coe[0][1]=-sin(ang_gra);
+	coe[1][0]=sin(ang_gra);
+	coe[1][1]=cos(ang_gra);
+}
+
+void Matriz4x4f::MAT_RotacionXYZtoUVW(const float ang_gra, Tupla3f u, Tupla3f v, Tupla3f w){
+	coe[0][0]=u.coo[0];
+	coe[1][0]=u.coo[1];
+	coe[2][0]=u.coo[2];
+	coe[0][1]=v.coo[0];
+	coe[1][1]=v.coo[1];
+	coe[2][1]=v.coo[2];
+	coe[0][2]=w.coo[0];
+	coe[1][2]=w.coo[1];
+	coe[2][2]=w.coo[2];
+}
+
 void Matriz4x4f::MAT_Rotacion( const float ang_gra, const float ex, const float ey, const float ez ) {
 
    coe[0][0]=((1-cos(ang_gra))*ex)*ex+cos(ang_gra);

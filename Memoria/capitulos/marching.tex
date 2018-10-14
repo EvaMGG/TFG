@@ -1,9 +1,5 @@
 \chapter*{5. Ray-Marching}
 
-${ }$\\
-$\textbf{MÍO}$
-${ }$\\
-
 En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita
 \[
 	F(x,y,z) = 0,
@@ -23,7 +19,7 @@ ${ }$\\
 	\label{fig:etiq_7}
 \end{figure}
 
-Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza tomando una aproximación inicial $x_0$, y para calcular el siguiente valor de la sucesión toma la recta tangente en el punto $(x_0, f(x_0))$, la intersección de esta recta con el eje de abscisas será el siguiente valor de la sucesión, $x_1$. El proceso es el mismo para los siguientes valores si sustituimos $x_0$ por $x_n$ y $x_1$ por $x_{n+1}$.
+Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza tomando una aproximación inicial $x_0$. Para calcular el siguiente valor de la sucesión se toma la recta tangente en el punto $(x_n, f(x_n))$, la intersección de esta recta con el eje de abscisas será el siguiente valor de la sucesión, $x_{n+1}$.
 ${ }$\\
 
 El algoritmo a seguir es el siguiente:
@@ -41,7 +37,7 @@ ${ }$\\
 $\textbf{Regula-Falsi}$
 ${ }$\\
 
-El algoritmo de Regula-Falsi es un refinamiento del método de bisección. Al igual que en el método de bisección partimos de un intervalo inicial $[a_0, b_0]$, teniendo $F(r(a_0))$ y $F(r(b_0))$ signos opuestos, ya que como dice el Teorema\ref{teo:bolzano} esto nos garantiza que hay una solución dentro de ese intervalo, aunque por el procedimiento que sigue este algoritmo es posible no encontrar soluciones que correspondan con un mínimo o un máximo de la función. Este método va calculando intervalos cada vez mas pequeños que incluyen a la solución.
+El algoritmo de Regula-Falsi es un refinamiento del método de bisección. Al igual que en el método de bisección partimos de un intervalo inicial $[a_0, b_0]$, teniendo $F(r(a_0))$ y $F(r(b_0))$ signos opuestos(aquí estamos considerando que F es la función implícita $F(x,y,z)$ y $r(t)$ es la ecuación del rayo). Esto nos es de utilidad ya que como dice el Teorema\ref{teo:bolzano} esto nos garantiza que hay una solución dentro de ese intervalo. Este método va calculando intervalos cada vez mas pequeños que incluyen a la solución.
 ${ }$\\
 
 Como se puede ver en la Figura \ref{fig:etiq_8}, gráficamente el procedimiento toma la recta que pasa por los puntos $(a_0, F((a_0)))$ y $(b_0, F((b_0)))$ y toma el punto de intersección de esta con el eje de abscisas. El nuevo intervalo se ajustará dependiendo de que el valor de la función en este nuevo punto sea negativo o positivo poniendose en el lugar de $a_1$ o $b_1$ de tal manera que se siga cumpliendo $F(r(a_1)) \cdot F(r(b_1)) < 0$.

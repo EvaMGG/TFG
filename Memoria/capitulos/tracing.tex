@@ -3,21 +3,23 @@
 $\textbf{4.1. INTRODUCCIÓN}$
 ${ }$\\
 
-Antes de comenzar con Ray-Marching empezaré implementando un pequeño algoritmo de Ray-Tracing sobre el que implementaré luego el algoritmo Ray-Marching. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Para probar la implementación se creará una escena con un cubo y una esfera.
+Antes de comenzar con Ray-Marching empezaré implementando un pequeño algoritmo de Ray-Tracing sobre el que mas tarde implementaré el algoritmo Ray-Marching. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Finalmente para comprobar que esta implementación es correcta se creará una escena con un cubo y una esfera.
 
 ${ }$\\
 $\textbf{4.2. RAY-TRACING}$
 ${ }$\\
 %%%Explicar Ray-Tracing con alguna imagen
 
-La forma de almacenar la información se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
+Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Para tratar con vectores necesitaremos una clase que en mi caso se llama \textbf{Tupla3f} y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escala, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
 	${ }$\\	
 	
 El color de cada pixel se representará mediante una tupla de tres valores \textbf{double} que se corresponderán los colores rojo, azul y verde (esta representación codificación del color se llama RGB). El valor \textbf{double} que irá de 0.0 a 1.0 indicará la cantidad de ese color.
 	${ }$\\	
 	
-Los rayos y las superficies serán representadas mediante sus expresiones matemáticas. Determinaremos el color de cada pixel mediante el cálculo de la intersección de una recta con la superficie, cada rayo se corresponderá con uno de los pixeles siendo el valor del pixel el color de la superficie del punto donde interseca el rayo (en el caso de que tenga puntos de intersección con la superficie). Para ilustrar como se corresponden los pixeles con los rayos solo basta imaginar una matriz (como un trozo de plano dividido en el espacio), frente a la escena que se quiere visualizar y hacer que de cada elemento de la matriz salga un rayo perpendicular a dicho plano.
+Los rayos y las superficies serán representadas mediante sus expresiones matemáticas. Determinaremos el color de cada pixel mediante el cálculo de la intersección de una recta con la superficie, cada rayo se corresponderá con uno de los pixeles siendo el valor del pixel el color de la superficie del punto donde interseca el rayo (en el caso de que tenga puntos de intersección con la superficie). Para ilustrar como se corresponden los pixeles con los rayos solo basta imaginar una matriz (como un trozo de plano dividido en el espacio), frente a la escena que se quiere visualizar y hacer que de cada elemento de la matriz salga un rayo perpendicular a dicho plano. Esta es una forma de lanzar los rayos aunque la que se usará en este trabajo es diferente.
 	${ }$\\	
+	
+	En esta primera parte calcularemos la intersección del rayo con unos objetos mas sencillos de forma directa pues sabemos como calcularla. Pero hay casos en los que por la complejidad de la ecuación esto es mas complicado y necesitamos la ayuda de algoritmos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi que veremos mas adelante.
 	
 El color del punto se determina teniendo en cuenta el color de la superficie en dicho punto y, añadiendo la iluminación, también se considerará el ángulo que forma la fuente de iluminación con la normal del objeto en ese punto y el color de la fuente de luz como indica la Ley de Lambert que se verá más adelante.
 	${ }$\\	
@@ -36,7 +38,7 @@ En este caso para visualizar la escena se va a utilizar un simulador de cámara 
 	\label{fig:etiq_1}
 \end{figure}
 
-Primero consideraremos el sistema de referencia de visualización el cual está definido por un punto de origen \textbf{o} y una base ortonormal \{$\textbf{u}$, $\textbf{v}$, $\textbf{w}$\}. Para implementar la cámara, se tomará un rectángulo en el espacio que estará alineado con los ejes $\textbf{u}$ y $\textbf{v}$ como se muestra en la Figura\ref{fig:etiq_3}, este rectángulo se encuentra a distancia $\textbf{s}$ del origen $\textbf{o}$. Llamaremos $\textbf{a}$ y $\textbf{b}$ a las esquinas del rectangulo, que vienen dadas en coordenadas sobre la base \{$\textbf{u}$, $\textbf{v}$, $\textbf{w}$\}.
+Primero consideraremos el sistema de referencia de visualización el cual está definido por un punto de origen \textbf{o} y una base ortonormal \{$\textbf{u}$, $\textbf{v}$, $\textbf{w}$\}. Para implementar la cámara, se tomará un rectángulo en el espacio que estará alineado con los ejes $\textbf{u}$ y $\textbf{v}$ como se muestra en la Figura\ref{fig:etiq_3}, este rectángulo se encuentra a distancia $\textbf{s}$ del origen $\textbf{o}$. Llamaremos $\textbf{a}$ y $\textbf{b}$ a las esquinas del rectángulo, que vienen dadas en coordenadas sobre la base \{$\textbf{u}$, $\textbf{v}$, $\textbf{w}$\}.
 	${ }$\\
 
 % Imagen propia 1
@@ -52,10 +54,7 @@ Primero consideraremos el sistema de referencia de visualización el cual está 
 
 %%% Hacer yo una imagen con el sistema de coordenadas y el rectangulo dividido con los rayos saliendo del punto.
 
-Sobre el rectángulo tomaremos muestras que se corresponderán con los pixeles que ocupa la ventana de visualización. Imaginemos que el rectángulo está dividido en tantas filas y columnas como filas-1 y columnas-1 de pixeles necesitamos para crear la imagen. La forma de tomar el valor para estas muestras se llevará a cabo mediante rayos que pasan por $\textbf{o}$ y por las intersecciones de los segmentos que hemos usado para las divisiones que hemos trazado antes sobre el rectángulo (incluyendo los propios segmentos del rectángulo). Las coordenadas de puntos intersección de segmentos dicha se calculan mediante los siguientes cálculos, estas coordenadas están dadas en la base \{$\textbf{u}$, $\textbf{v}$\}
-	${ }$\\
-	${ }$\\
-	${ }$\\
+Sobre este rectángulo tomaremos muestras que se corresponderán con los píxeles que ocupa la ventana de visualización. Volvamos a la Figura\ref{fig:etiq_1} e imaginemos que el rectángulo está dividido en tantas filas y columnas como filas-1 y columnas-1 de pixeles necesitamos para crear la imagen. La forma de tomar el valor para estas muestras se llevará a cabo mediante rayos que pasan por $\textbf{o}$ y por las intersecciones de los segmentos que hemos usado para las divisiones que hemos trazado antes sobre el rectángulo (incluyendo los propios segmentos del rectángulo). Las coordenadas de puntos intersección de segmentos dicha se calculan mediante los siguientes cálculos, estas coordenadas están dadas en la base \{$\textbf{u}$, $\textbf{v}$\}
 
 
 \[
@@ -72,7 +71,7 @@ Entonces los rayos que nos interesan se expresan del siguiente modo en el sistem
 	p_{i,j}(t) = (0,0,0) + t(u_i , v_j, -s).
 \]
 
-En las coordenadas del espacio, en las que está expresada la superficie, esto se traduce en 
+En las coordenadas del espacio (estas son las coordenadas en las que está expresada la ecuación de la superficie), esto se traduce en 
 
 \[
 	p_{i,j}(t) = e + t( u_i \; u, v_j \; v, -s \; w).
@@ -99,142 +98,150 @@ Con estos datos los vectores de la base ortonormal de visión son
 		v = w \times u.
 	\]
 	
-Si queremos que el rectángulo de visión este centrado con respecto a g hay que asegurarse de que $a_1 = -b_1$ y $a_2 = -b_2$. Además, si no queremos que la imagen resultante se vea estirada en alguno de los ejes \textbf{u} o \textbf{v} debemos asegurarnos de las que divisiones realizadas sobre el rectángulo de visión sean del mismo tamaño tanto para las filas como para las columnas quedandando dividido el rectángulo en cuadrados, esto se consigue asegurandose de que
+Si queremos que el rectángulo de visión este centrado con respecto a g hay que asegurarse de que $a_1 = -b_1$ y $a_2 = -b_2$. Además, si no queremos que la imagen resultante se vea estirada en alguno de los ejes \textbf{u} o \textbf{v} debemos asegurarnos de las que divisiones realizadas sobre el rectángulo de visión sean del mismo tamaño tanto para las filas como para las columnas quedando dividido el rectángulo en cuadrados, esto se consigue asegurándose de que
 	\[
 		\frac{b_1-a_1}{b_2 - a_2} = \frac{n_x}{n_y}.
 	\]
 	${ }$\\
 
-En el siguiente código la función $TFG\_Image$ se encarga de devolver la imagen que se ve desde el punto del observador en una matriz de dimensiones iguales a las del tamaño de la ventana donde se muestra la imagen, la funión $interposicionObjeto$ y la Ley de Lambert se verán mas adelante en la parte de iluminación. La función $TFG\_Inicializar$ se encarga de inicializar los objetos de la escena y otras variables necesarias para la visualización.
+En el siguiente código la función $Image$ se encarga de devolver la imagen que se ve desde el punto del observador en una matriz de dimensiones iguales a las del tamaño de la ventana donde se muestra la imagen, la función $interposicionObjeto$ y la Ley de Lambert se verán mas adelante en la parte de iluminación. La función $Inicializar$ se encarga de inicializar los objetos de la escena y otras variables necesarias para la visualización.
 %%%[style=Consola]
 \begin{lstlisting}[style=Consola]
-vector<Objeto *> objetos;
+vector<Superficie *> superficies;
 
-float a1, a2, b1, b2;
-float s = 6.0;
+double a1, a2, b1, b2;
+double s = 6.0;
 Tupla3f e = Tupla3f(0,0,8);
 Tupla3f g = Tupla3f(0,0,-2);
 Tupla3f vup = Tupla3f(0,1,0);
 Tupla3f u, v, w;
+Tupla3f *image;
 
 LuzDireccional luz = LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1));
 
 
-void TFG_Inicializar(int x, int y) {
+void Inicializar(int x, int y) {
 
-  //Inicializacion de los objetos de la escena
+	superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
+	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
+	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
+	
+	image = new Tupla3f [x*y];
 
-  objetos.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
-  objetos.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
-  objetos.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
+	a1=-x/200.0;
+	a2=y/200.0;
+	b1=-a1;
+	b2=-a2;
 
-
-
-  //Inicializacion de los elementos de la vista
-
-  //Nos aseguramos de que la imagen no aparezca ensanchada
-  a1=-x/200.0;
-  a2=y/200.0;
-  b1=-a1;
-  b2=-a2;
-
-  //Calculamos la base de visualizacion
-  w = (-1)*normalized(g);
-  u = normalized(vup*w);
-  v = w*u;
+	w = (-1)*normalized(g);
+	u = normalized(vup*w);
+	v = w*u;
 }
+
 \end{lstlisting}
 
 
 
 \begin{lstlisting}[style=Consola]
-Tupla3f* TFG_Image(int x, int y){
-  //Direccion de los rayos de vision y matriz que contiene a la imagen
-  Tupla3f direccion;
-  Tupla3f *image = new Tupla3f [x*y];
+Tupla3f* Image(int x, int y){
 
-  for(int i = 0; i < x; i++) {
-    for (int j = 0; j < y; j++){
-      direccion = (a1 + (b1 - a1)*(i/(x-1.0)))*u + (a2 + (b2 - a2)*(j/(y-1.0)))*v -s*w;
+Tupla3f direccion;
 
+	for(int i = 0; i < x; i++) {
+		for (int j = 0; j < y; j++){
+			direccion = (a1 + (b1 - a1)*(i/(x-1.0)))*u + (a2 + (b2 - a2)*(j/(y-1.0)))*v -s*w;
 
-      if (!objetos.empty()){
+			if (!superficies.empty()){
 
-        int indice_min;
-        double int_ant;
+				int indice_min;
+				double int_ant;
 
-        primeraInterseccion(direccion, int_ant, indice_min);
+				primeraInterseccion(direccion, int_ant, indice_min);
 
-        if (int_ant >= 0) {
-          image[i*y +j] = luz.LeyLambert( (objetos[indice_min])->getColor(), (objetos[indice_min])->normal(e, direccion, int_ant));
-          if (interposicionObjeto(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
-        }	
-        else image[i*y +j] = Tupla3f(1, 1, 1);
-      }
-    }
-  }
-  return image;
+				if (int_ant >= 0) {
+					image[i*y +j] = luz.LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(e, direccion, int_ant));
+
+					if (interposicionSuperficie(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
+				}
+				else image[i*y +j] = Tupla3f(1, 1, 1);
+			}
+		}
+	}
+	return image;
 }
+
 
 \end{lstlisting}
 ${ }$\\
 
-Cuando hay varios objetos en la escena hay que tener en cuenta cual es el primero que se encuentra el rayo en su recorrido esto se implementa en la siguite función.
+Cuando hay varios objetos en la escena hay que tener en cuenta cual es el primero que se encuentra el rayo en su recorrido, pues los que encuentre con posterioridad no serán vistos por el observador. Esto es de lo que se encarga la siguiente función.
 
 \begin{lstlisting}[style=Consola]
 
 void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
-  indice_min = 0;
-  min_inter = (objetos[0])->interseccion(e,direccion);
 
-  for (int k = 1; k < (int)objetos.size(); k++) {
-    double intersec = (objetos[k])->interseccion(e,direccion);
+	indice_min = 0;
+	min_inter = (superficies[0])->interseccion(*(superficies[0]), e,direccion);
 
-    if ( (intersec < min_inter && intersec >= 0) || (min_inter == -1 && intersec >= 0) ) {
-      indice_min = k;
-      min_inter = intersec;
-    }
-  }
+	for (int k = 1; k < (int)superficies.size(); k++) {
+		double intersec = (superficies[k])->interseccion(*(superficies[k]), e,direccion);
+
+		if ( (intersec < min_inter && intersec >= 0) || (min_inter == -1 && intersec >= 0) ) {
+			indice_min = k;
+			min_inter = intersec;
+		}
+	}
 }
 
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{4.3. INTERSECCIÓN DE RAYOS CON OBJETOS}$
+$\textbf{4.3. INTERSECCIÓN DE RAYOS CON OBJETOS SENCILLOS}$
 ${ }$\\
 
-En lo que sigue se van a definir dos clases (Esfera y Cubo) que van a ser subclase de la clase Objeto definida como sigue:
+En lo que sigue se van a definir dos clases (Esfera y Cubo) que van a ser subclase de la clase Superficie definida como sigue:
 
 \begin{lstlisting}[style=Consola]
-class Objeto {
+class Superficie {
 
 private :
-
+	Tupla3f color;
 
 public :
-
-	Objeto();
-	Objeto(const Objeto &obj);
-	virtual double interseccion(Tupla3f origen, Tupla3f direccion) = 0;
-	virtual Tupla3f getColor()=0;
+	Superficie(Tupla3f col);
+	Superficie(const Superficie &sup);
+	virtual double interseccion(Superficie &sup, Tupla3f origen, Tupla3f direccion) = 0;
+	virtual Tupla3f getColor();
+	virtual Tupla3f normal(Tupla3f e, Tupla3f d, double t) = 0;
+	virtual double funcion(Tupla3f o, Tupla3f d, double t) = 0;
+	virtual double derivada(Tupla3f o, Tupla3f d, double t) = 0;
 
 };
 
-Objeto::Objeto(){}
+Superficie::Superficie(Tupla3f col){
+	color = col;
+}
 
-Objeto::Objeto(const Objeto &obj){}
+Superficie::Superficie(const Superficie &sup){
+	color = sup.color;
+}
+
+
+Tupla3f Superficie::getColor(){
+	return color;
+}
+
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{4.4. INTERSECCIÓN RAYO-ESFERA}$
+$\textbf{4.3.1. Intersección rayo-esfera}$
 ${ }$\\
 
 Una esfera con centro en $c = (c_x, c_y, c_z)$ y radio $R>0$ se puede representar mediante la siguiente ecuación:
-
 \[
 	(x-c_x)^2 + (y-c_y)^2 + (z-c_z)^2 = 0,
 \]
-tambien se puede expresar como sigue
+también se puede expresar como sigue
 \[
 	(p-c)\cdot(p-c) - R^2 = 0,
 \]
@@ -252,84 +259,72 @@ podemos observar que esta es una ecuación del la forma $At^2+Bt+C=0$ de la cual
 \]
 aplicando esto a nuestro caso, tenemos
 \[
-	t = \frac{-d\cdot (o-c) \pm \sqrt{(d\cdot (o-c))^2 - (d\cdot d)((o-c)\cdot(o-c)-R^2)}}{d\cdot d}.
+	t = \frac{-d\cdot (o-c) \pm \sqrt{(d\cdot (o-c))^2 - (d\cdot d)((o-c)\cdot(o-c)-R^2)}}{d\cdot d},
 \]
+donde como ya hemos visto $t$ indica el lugar del rayo donde alcanza la superficie.
 
-Para saber si el rayo interseca con la superficie se tendrá en cuenta el signo del discriminante $B^2-4CA$. En el caso de que el discriminante sea igual a cero solo habrá una solución. Si fuese positivo el rayo interseca con la superficie en dos puntos. Por último, si dicho valor es negativo el valor de la raíz será imaginario y no habrá puntos de intersección de la esfera con el rayo.
+Para saber si el rayo interseca con la superficie se tendrá en cuenta el signo del discriminante $B^2-4CA$. En el caso de que el discriminante sea igual a cero solo habrá una solución. Si fuese positivo el rayo interseca con la superficie en dos puntos (uno de ellos es el punto a través del cual entra en la superficie y el otra por donde sale de la esfera). Por último, si dicho valor es negativo el valor de la raíz será imaginario y no habrá puntos de intersección de la esfera con el rayo.
 	${ }$\\	
 	
 A continuación se muestra el código de la clase Esfera la cual permite la creación de una esfera con centro y radio elegidos. Además contiene un método que nos devuelve la distancia del punto origen $\textbf{o}$, de un rayo pasado como parámetro, al punto de intersección mas cercano de la esfera.
 
 
 \begin{lstlisting}[style=Consola]
-class Esfera : public Objeto {
+class Esfera : public Superficie {
 
 private :
-
 	Tupla3f centro;
-	float radio;
-	Tupla3f color;
+	double radio;
 
 public :
-
-	Esfera(Tupla3f c, float r, Tupla3f col);
+	Esfera(Tupla3f c, double r, Tupla3f col);
 	Esfera(const Esfera &sph);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f getColor();
-	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
+
 };
 
 
-
-
-Esfera::Esfera(Tupla3f c, float r, Tupla3f col):Objeto() {
+Esfera::Esfera(Tupla3f c, double r, Tupla3f col):Superficie(col) {
 	centro = c;
 	radio = r;
-	color = col;
 }
 
 
-Esfera::Esfera(const Esfera &sph): Objeto(sph) {
+Esfera::Esfera(const Esfera &sph): Superficie(sph) {
 	centro = sph.centro;
 	radio = sph.radio;
-	color = sph.color;
 }
-
 
 double Esfera::interseccion(Tupla3f o, Tupla3f d){
 	double interseccion = -1;
 
-	float discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
+	double discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
 
 	if (discriminante > 0) {
-
-
 		double t0 = ( ( -(d|(o-centro)) + sqrt( discriminante ) ) / ( d|d ) );
 		double t1 = ( ( -(d|(o-centro)) - sqrt( discriminante ) ) / ( d|d ) );
 
+		if (t0 > 0) interseccion = t0;
 		if (t0 > t1 && t1>0) interseccion = t1;
-		else if (t0 > 0) interseccion = t0;
 	}
 	return interseccion;
 }
 
-Tupla3f Esfera::getColor() {
-	return color;
-}
 
-Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, float t) {
+Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, double t) {
 	return Tupla3f( ((e + t*d)-centro)/radio );
 }
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{4.5. INTERSECCIÓN RAYO-CAJA}$
+$\textbf{4.3.2. Inerseccion rayo-caja}$
 ${ }$\\
 
-Las cajas de esta sección serán representadas mediante las coordenadas de sus esquinas $p_0 = (x_0, y_0, z_0)$ y $p_1 = (x_1, y_1, z_1)$ y los lados de dichas cajas estarán alineados con los ejes. Para ver la intersección de los rayos usaremos un método que resulta ser más rápido que comprobar la intersección con cada una de las seis caras.
+Las cajas de esta sección serán representadas mediante las coordenadas de dos esquinas opuestas $p_0 = (x_0, y_0, z_0)$ y $p_1 = (x_1, y_1, z_1)$ y los lados de dichas cajas estarán alineados con los ejes. Para ver la intersección de los rayos usaremos un método que resulta ser más rápido que comprobar la intersección con cada una de las seis caras y que es la que aparece en el libro \cite{Shirley}.
 	${ }$\\	
 	
-El método al que me refiero considera tres intervalos que se corresponden con cada una de las tres coordenadas, así un punto $(x, y, z)$ que esté dentro del cubo debe cumplir $x \in [x_0, x_1]$, $y \in [y_0, y_1]$ y $z \in [z_0, z_1]$. De este modo, para un rayo dado por $p(t) = o + td$ calcularemos en que intervalo ha de encontrarse la $t$ para que el rayo corte la superficie. Para $x \in [x_0, x_1]$,
+El método al que me refiero considera tres intervalos que se corresponden con cada una de las tres coordenadas, así un punto $(x, y, z)$ que esté dentro del cubo debe cumplir $x \in [x_0, x_1]$, $y \in [y_0, y_1]$ y $z \in [z_0, z_1]$. De este modo, para un rayo dado por $p(t) = o + td$ calcularemos en que intervalo ha de encontrarse $t$ para que el rayo corte la superficie. Para $x \in [x_0, x_1]$,
 
 \[
 	x_0 = o_x + t_{x0}d_x
@@ -343,7 +338,7 @@ y despejando $t_{xi}$ en cada ecuación obtenemos que el segmento de rayo que es
 	t \in [(x_0-o_x)/d_x, (x_1-o_x)/d_x]
 \]
 
-Para definir el intervalo de $t's$ para los que el rayo está en la franja de espacio $[x_0, x_1]$ cuenta si $d_x$ es positivo o negativo, en caso de que sea positivo el intervalo sería el esperado $[t_{x0}, t_{x1}]$, en caso de ser negativo $[t_{x1}, t_{x0}]$, este intervalo lo notaremos por $[t_{x min}, t_{x max}]$.
+Para definir el intervalo de $t's$ para los que el rayo está en la franja de espacio $[x_0, x_1]$ cuenta si $d_x$ es positivo o negativo, en caso de que sea positivo el intervalo sería el esperado $[t_{x0}, t_{x1}]$, pero en caso de ser negativo sería de la forma $[t_{x1}, t_{x0}]$, por comodidad este intervalo se notará como $[t_{x min}, t_{x max}]$.
 	${ }$\\	
 % Imagen propia 2
 %${ }$\\
@@ -358,45 +353,41 @@ Para definir el intervalo de $t's$ para los que el rayo está en la franja de es
 
 
 
-El proceso seguido anteriormente para el intervalo en $x$, será el seguido para el intervalo en $y$ y $z$ obteniendo $[t_{y min}, t_{y max}]$ y $[t_{z min}, t_{z max}]$. Una vez calculados los tres intervalos se comprobará si el rayo corta la superficie y cual es el primer punto donde lo hace, esto se hará calculando la intersección de los tres intervalos y comprobando si es vacío o no y cual es el mínimo del intervalo. Para esto último el algoritmo implementado tomará $t_{min} = max\{t_{x min}, t_{y min}, t_{z min}\}$ y $t_{max} = min\{t_{x max}, t_{y max}, t_{z max}\}$, siendo el intervalo $[t_{min}, t_{max}]$ el intervalo de los $t$ para los que el rayo se encuentra dentro del cubo. Si $t_{min} > t_{max}$ entonces el intervalo es vacío y el rayo no toca al cubo, en caso contrario el algoritmo calcula en qué lugar del rayo se corta por primera vez la superficie lo que quiere decir que nos devolverá $t_{min}$. Para ilustrar este método se muestra una simplificación del problema en el espacio 2-dimensional en la Figura\ref{fig:etiq_4}.
+El proceso seguido anteriormente para el intervalo en $x$, será el seguido para el intervalo en $y$ y $z$ obteniendo $[t_{y min}, t_{y max}]$ y $[t_{z min}, t_{z max}]$. Una vez calculados los tres intervalos se comprobará si el rayo corta la superficie y cual es el primer punto donde lo hace, esto se hará calculando la intersección de los tres intervalos y comprobando si es vacío o no y en caso de que no sea vacío se devolverá el mínimo del intervalo. Para esto último el algoritmo implementado tomará $t_{min} = max\{t_{x min}, t_{y min}, t_{z min}\}$ y $t_{max} = min\{t_{x max}, t_{y max}, t_{z max}\}$, siendo el intervalo $[t_{min}, t_{max}]$ el intervalo de los $t$ para los que el rayo se encuentra dentro del cubo. Si $t_{min} > t_{max}$ entonces el intervalo es vacío y el rayo no toca al cubo, en caso contrario el algoritmo calcula en qué lugar del rayo se corta por primera vez la superficie lo que quiere decir que nos devolverá $t_{min}$. Para ilustrar este método se muestra una simplificación del problema en el espacio 2-dimensional en la Figura\ref{fig:etiq_4}.
 	${ }$\\	
 
 
 
-El código que corresponde a la representación interna del cubo es el que se muestra a continuación:
+El código que corresponde a la representación computacional del cubo es el que se muestra a continuación:
 
 \begin{lstlisting}[style=Consola]
-class Cubo : public Objeto {
+class Cubo : public Superficie {
 
 private :
 
-	Tupla3f esquina1, esquina2, color;
+	Tupla3f esquina1, esquina2;
 
 public :
 
 	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3);
 	Cubo(const Cubo &squ);
 	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f getColor();
-	Tupla3f normal(Tupla3f e, Tupla3f d, float t);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 
 };
 
-
-Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Objeto() {
+Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Superficie(e3) {
 	esquina1 = e1;
 	esquina2 = e2;
-	color = e3;
 }
 
-Cubo::Cubo(const Cubo &squ):Objeto(squ) {
+Cubo::Cubo(const Cubo &squ):Superficie(squ) {
 	esquina1 = squ.esquina1;
 	esquina2 = squ.esquina2;
-	color = squ.color;
 }
 
 double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
-	float tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
+	double tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
 
 	if (direccion.coo[0] > 0) {
 		tx_min = (esquina1.coo[0] - origen.coo[0])/direccion.coo[0];
@@ -438,22 +429,19 @@ double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
 	else return -1;
 }
 
-Tupla3f Cubo::getColor() {
-	return color;
-}
 
-Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, float t) {
-  if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
-  else if ( abs((e+t*d).coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
-  else if ( abs((e+t*d).coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
-  else if ( abs((e+t*d).coo[0] - esquina1.coo[0]) <= 0.01 ) return Tupla3f(-1,0,0);
-  else if ( abs((e+t*d).coo[1] - esquina1.coo[1]) <= 0.01 ) return Tupla3f(0,-1,0);
-  else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
+Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
+	if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
+	else if ( abs((e+t*d).coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
+	else if ( abs((e+t*d).coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
+	else if ( abs((e+t*d).coo[0] - esquina1.coo[0]) <= 0.01 ) return Tupla3f(-1,0,0);
+	else if ( abs((e+t*d).coo[1] - esquina1.coo[1]) <= 0.01 ) return Tupla3f(0,-1,0);
+	else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
 }
 \end{lstlisting}
 
 ${ }$\\
-$\textbf{4.6. ILUMINACIÓN}$
+$\textbf{4.4. ILUMINACIÓN}$
 ${ }$\\
 
 La iluminación hace las imágenes más realistas y nos permite apreciar la profundidad de los objetos. En esta sección veremos una implementación de la iluminación sencilla que solo dependerá de la normal de la superficie y la dirección de incidencia de la fuente de iluminación. 
@@ -467,7 +455,7 @@ Como se muestra en la Figura\ref{fig:etiq_5}, el rayo de visión está dirigido 
 \[
 	\textbf{e} = - \frac{\textbf{d}}{\|\textbf{d}\|},
 \]
-este vector será prescindible a la hora de añadir la iluminación, se utiliza para materiales que cambian su brillo de posición cuando el observador cambia tambien la suya.
+este vector será prescindible a la hora de añadir la iluminación, se utiliza para materiales que cambian su brillo de posición cuando el observador cambia también la suya.
 ${ }$\\
 
 
@@ -476,7 +464,7 @@ El vector \textbf{l} indica la dirección desde la que llega la luz y \textbf{n}
 \[
 	L = ER(\textbf{n}\cdot \textbf{l}),
 \]
-esta ley nos da el valor del color del pixel habiendo añadido la iluminación. En esta fórmula $E$ es el valor del color de la fuente de luz y $R$ el color del punto de incidencia, el producto de ellos es componente a componente. Debemos observar que $L$ puede ser negativo, cuando esto ocurre podemos tomar dos caminos, uno de los cuales es hacer cero los valores negativos, el cual es el que vamos a usar, y otro consiste en tomar el valor absoluto.
+esta ley nos da el valor del color del pixel habiendo añadido la iluminación. En esta fórmula $E$ es el valor del color de la fuente de luz y $R$ el color del punto de incidencia, el producto de ellos es componente a componente. Debemos observar que $L$ puede ser negativo, cuando esto ocurre podemos tomar dos caminos, uno de los cuales es hacer cero los valores negativos, este es el que se va a usar aquí es el que vamos a usar, y otro consiste en tomar el valor absoluto.
 	${ }$\\	
 
 
@@ -493,7 +481,7 @@ esta ley nos da el valor del color del pixel habiendo añadido la iluminación. 
 
 
 
-Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un obejto se interpone entre la fuente de luz y otro objeto.
+Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un objeto se interpone entre la fuente de luz y otro objeto.
 	${ }$\\	
 	
 En este caso tomamos un rayo que sale de un punto \textbf{q}, del que se quiere calcular su color, en dirección \textbf{l} pero sentido opuesto. Si el rayo interseca con otra superficie el valor de $L$ se pone a cero en caso contrario se calcula el valor del color mediante la Ley de Lambert. Se puede ver este hecho en la Figura\ref{fig:etiq_6}. No se tendrán en cuenta objetos que intersequen en un valor de t negativo o cero.
@@ -510,8 +498,8 @@ También puede ocurrir que por razones de precisión finita haya puntos que se o
 	\label{fig:etiq_6}
 \end{figure}
 
-El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $TFG\_Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $TFG\_Image$ que ya se ha visto anteriormente, en está función se implementa la iluminación cuando hay mas de un objeto dando la correspondiente sombra a los objetos que tienen otro objeto interpuesto entre él y la luz.
-
+El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto.
+	${ }$\\
 
 
 
@@ -519,28 +507,34 @@ El siguiente código implementa la fuente de luz que solo tiene como atributos l
 \begin{lstlisting}[style=Consola]
 
 class LuzDireccional{
+
 private:
-Tupla3f direccion;
-Tupla3f color;
+
+	Tupla3f direccion;
+	Tupla3f color;
 
 public:
-LuzDireccional(Tupla3f d, Tupla3f c);
-Tupla3f LeyLambert(Tupla3f objColor, Tupla3f normal);
-Tupla3f getDireccion();
+
+	LuzDireccional(Tupla3f d, Tupla3f c);
+	Tupla3f LeyLambert(Tupla3f objColor, Tupla3f normal);
+	Tupla3f getDireccion();
 };
 
 LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c) {
-direccion = d;
-color = c;
+
+	direccion = d;
+	color = c;
 }
 
 Tupla3f LuzDireccional::LeyLambert(Tupla3f objColor, Tupla3f normal) {
-Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normal | direccion);
-return L;
+
+	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normalized(normal) | normalized(direccion));
+	return L;
 }
 
 Tupla3f LuzDireccional::getDireccion() {
-return direccion;
+
+	return direccion;
 }
 
 
@@ -549,20 +543,22 @@ return direccion;
 
 \begin{lstlisting}[style=Consola]
 
-bool interposicionObjeto(Tupla3f direccion, double min_inter, int indice_min){
-  bool inter = false;
-  int k=0;
-  while ( (k < (int)objetos.size()) && !inter) {
-    if ( ((objetos[k])->interseccion( e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
-    k++;
-  }
-  return inter;
+bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min){
+
+	bool inter = false;
+	int k=0;
+
+	while ( (k < (int)superficies.size()) && !inter) {
+		if ( ((superficies[k])->interseccion(*(superficies[k]),  e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
+		k++;
+	}
+	return inter;
 }
 \end{lstlisting}
+	${ }$\\
 
 
-
-Finalmente para comprobar que funciona correctamente hemos usado el ejemplo que hemos visto en el codigo precedente y el resultado ha sido el siguiente:
+Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando lo objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.
 
 \begin{figure}
 	\begin{center}

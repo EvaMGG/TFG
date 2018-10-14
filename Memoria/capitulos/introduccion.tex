@@ -2,7 +2,9 @@
 
 
 ${ }$\\
-$\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y CONCEPTOS}$
+$\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y}$
+${ }$\\
+	$\textbf{CONCEPTOS}$
 ${ }$\\
 
 Para llegar al resultado principal que se pretende demostrar primero vamos a ver algunos resultados y definiciones que son necesarios para comprender un poco mejor lo que se quiere mostrar. Algunos de estos resultados no estarán demostrados debido a su extensión o complejidad y a que se alejan del propósito de este trabajo.
@@ -10,12 +12,20 @@ ${ }$\\
 
 En esta primera parte del trabajo vamos a ver que superficies sabemos que son rígidas, como ya veremos estas son las esferas y mas generalmente los ovaloides. Para ello es importante tener en cuenta algunos conceptos y resultados. Como son los siguientes.
 
+\begin{definicion}
+	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie}} si para todo $p \in S$ existe un entorno $V \subset S$ de $p$, un abierto $U \subset \mathbb{R}^2$ y una aplicación $X : U \to \mathbb{R}^3$ diferenciable tales que:
+	\begin{enumerate}
+		\item $X(U) = V$,
+		\item la aplicación $X : U \to V$ es un homeomorfismo,
+		\item $\forall q \in U$, $(dX)_q : \mathbb{R}^2 \to \mathbb{R}^3$ es inyectiva.
+	\end{enumerate}
+\end{definicion}
 
 \begin{definicion}
 	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a las aplicaciones de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
 \end{definicion}
 
-Mas intuitivamente, los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$, es decir, que la distancia entre puntos, siendo la distancia la longitud de la linea recta que los une, se conserva al aplicar $f$.
+Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que mas intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
 
 \begin{definicion}\label{def:isom} % label para cuando haga una referencia.
 	Dadas dos superficies S y $S'$ y dada una aplicación $f : S \longrightarrow S'$, diremos que $f$ es una \underline{\textbf{isometría}} si es un difeomorfismo y además conserva la primera forma fundamental, esto es, $\forall p \in S$ y $\forall u,v \in T_p S$ $\langle df_p(u), df_p(v)\rangle = \langle u, v\rangle$.
@@ -49,6 +59,35 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 	
 \end{proof}
 
+
+\begin{teorema}
+	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : R_1 \to R_2$ un difeomorfismo, siendo $R_1$, $R_2$ de dos superficies orientables, y sea $\Phi : R_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
+	\[
+	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
+	\]
+\end{teorema}
+
+\begin{teorema}\label{teo:divergencia}
+	$\textbf{(Teorema de la divergencia sobre superficies)}$ Sea una superficie compacta $S$ y un campo diferenciable de vectores $V : S \to \mathbb{R}^3$. Entonces:
+	\begin{enumerate}
+		\item $\int_S div V = -2 \int_S \langle V, N \rangle H$,
+		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
+	\end{enumerate}
+\end{teorema}
+
+\begin{teorema} \label{teo:hil-lie}
+	$\textbf{(Teorema de Hilbert-Liebmann)}$ La única superficie conexa y compacta con curvatura constate es la esfera.
+\end{teorema}
+
+
+\begin{teorema}
+	$\textbf{(Fórmulas de Minkowski)}$ Sea $S$ una superficie compacta, $N$ su normal interior y $K$, $H$ sus curvaturas de Gauss y media. Entonces, se cumplen las siguientes fórmulas:
+	\begin{enumerate}
+		\item $\int_S (1 + \langle p, N(p) \rangle H(p) \; dp = 0$,
+		\item $\int_S (H(p) + \langle p, N(p) \rangle K(p) \; dp = 0$
+	\end{enumerate}
+\end{teorema}
+${ }$\\
 
 ${ }$\\
 $\textbf{1.1.1. Ovaloides}$
@@ -142,13 +181,13 @@ ${ }$\\
 	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie rígida}} cuando toda isometría $f : S \to S'$ sea la restricción de un movimiento rígido.
 \end{definicion}
 
-Dicho esto, las superficies rígidas son aquellas que, al aplicarles una función $f : S \to S'$ isometría, conservan la distancia entre puntos y también las curvaturas de las secciones normales de la superficie luego la superficie no puede ser ni estirada (no conservaría distancias) ni deformada (no conservaría curvaturas para cada uno de sus puntos) dejando solo la posibilidad de ser girada y trasladada en el espacio esto nos permitirá extender esta función a un movimiento rígido de $\mathbb{R}^3$.
+Dicho esto, las superficies rígidas son aquellas que, al aplicarles una isometría $f : S \to S'$, conservan la distancia entre puntos y también las curvaturas de las secciones normales de la superficie luego la superficie no puede ser ni estirada (no conservaría distancias) ni deformada (no conservaría curvaturas para cada uno de sus puntos) dejando solo la posibilidad de ser girada y trasladada en el espacio esto nos permitirá extender esta función a un movimiento rígido de $\mathbb{R}^3$.
 ${ }$\\
 
 
 
 %%% VOLVER A MIRAR ESTE PARRAFO PARA CORREGIRLO
-En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico a través de este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría ya que como se ve en la imagen es diferenciable, pero no es un movimiento rígido ya que ha cambiado sus curvaturas principales en los puntos que tocan el plano a través del cual se hace la simetría.
+En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría ya que como se ve en la imagen es diferenciable, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
 
 \begin{figure}
 	\begin{center}
@@ -157,51 +196,6 @@ En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver
 	\caption{Superficie no rígida.}
 	\label{fig:etiq_2}
 \end{figure}
-
-
-
-
-\begin{definicion}
-	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie}} si para todo $p \in S$ existe un entorno $V \subset S$ de $p$, un abierto $U \subset \mathbb{R}^2$ y una aplicación $X : U \to \mathbb{R}^3$ diferenciable tales que:
-	\begin{enumerate}
-		\item $X(U) = V$,
-		\item la aplicación $X : U \to V$ es un homeomorfismo,
-		\item $\forall q \in U$, $(dX)_q : \mathbb{R}^2 \to \mathbb{R}^3$ es inyectiva.
-	\end{enumerate}
-\end{definicion}
-${ }$\\
-
-\begin{teorema}
-	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : R_1 \to R_2$ un difeomorfismo, siendo $R_1$, $R_2$ de dos superficies orientables, y sea $\Phi : R_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
-	\[
-	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
-	\]
-\end{teorema}
-${ }$\\
-
-\begin{teorema}\label{teo:divergencia}
-	$\textbf{(Teorema de la divergencia sobre superficies)}$ Sea una superficie compacta $S$ y un campo diferenciable de vectores $V : S \to \mathbb{R}^3$. Entonces:
-	\begin{enumerate}
-		\item $\int_S div V = -2 \int_S \langle V, N \rangle H$,
-		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
-	\end{enumerate}
-\end{teorema}
-${ }$\\
-
-\begin{teorema} \label{teo:hil-lie}
-	$\textbf{(Teorema de Hilbert-Liebmann)}$ La única superficie conexa y compacta con curvatura constate es la esfera.
-\end{teorema}
-${ }$\\
-
-
-\begin{teorema}
-	$\textbf{(Fórmulas de Minkowski)}$ Sea $S$ una superficie compacta, $N$ su normal interior y $K$, $H$ sus curvaturas de Gauss y media. Entonces, se cumplen las siguientes fórmulas:
-	\begin{enumerate}
-		\item $\int_S (1 + \langle p, N(p) \rangle H(p) \; dp = 0$,
-		\item $\int_S (H(p) + \langle p, N(p) \rangle K(p) \; dp = 0$
-	\end{enumerate}
-\end{teorema}
-${ }$\\
 
 
 (HACER UN RESPASO DE TODO LO QUE HE HECHO PARA VER QUE METO EN ESTA SECCION)
