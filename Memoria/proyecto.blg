@@ -30,9 +30,9 @@ I was expecting a `,' or a `}'---line 46 of file bibliografia.bib
  :  publisher =    "Computer Aided Geometric Design",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 103 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 95 of file bibliografia.bib
  :  
- :  publisher =    "EPFL",
+ :  publisher =    "Washington State University",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 I was expecting a `,' or a `}'---line 124 of file bibliografia.bib
@@ -45,43 +45,43 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 You've used 18 entries,
             6047 wiz_defined-function locations,
-            1205 strings with 10029 characters,
-and the built_in function-call counts, 51803 in all, are:
-= -- 1641
-> -- 3041
-< -- 548
-+ -- 2211
-- -- 2161
-* -- 2270
-:= -- 4132
+            1206 strings with 9938 characters,
+and the built_in function-call counts, 51400 in all, are:
+= -- 1636
+> -- 3012
+< -- 543
++ -- 2199
+- -- 2140
+* -- 2194
+:= -- 4099
 add.period$ -- 0
 call.type$ -- 18
 change.case$ -- 201
 chr.to.int$ -- 226
 cite$ -- 34
-duplicate$ -- 5382
-empty$ -- 5337
-format.name$ -- 478
-if$ -- 10270
+duplicate$ -- 5351
+empty$ -- 5320
+format.name$ -- 457
+if$ -- 10185
 int.to.chr$ -- 0
 int.to.str$ -- 30
 missing$ -- 0
-newline$ -- 274
+newline$ -- 267
 num.names$ -- 462
-pop$ -- 5505
+pop$ -- 5501
 preamble$ -- 1
-purify$ -- 206
+purify$ -- 204
 quote$ -- 0
-skip$ -- 2552
+skip$ -- 2531
 stack$ -- 0
-substring$ -- 1436
-swap$ -- 1638
-text.length$ -- 437
+substring$ -- 1431
+swap$ -- 1622
+text.length$ -- 431
 text.prefix$ -- 18
 top$ -- 1
 type$ -- 672
 warning$ -- 0
 while$ -- 366
 width$ -- 0
-write$ -- 255
+write$ -- 248
 (There were 5 error messages)

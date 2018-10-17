@@ -390,7 +390,7 @@ void Inicializa_GLUT( int argc, char * argv[] )
    glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
    
    // crea y visualiza una ventana:
-   glutCreateWindow("Ray Tracing v1");
+   glutCreateWindow("Ray Marching v1");
    
    // establece función gestora del evento de redibujado:
    glutDisplayFunc( FGE_Redibujado );

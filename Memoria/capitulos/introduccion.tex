@@ -6,11 +6,13 @@ $\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y}$
 ${ }$\\
 	$\textbf{CONCEPTOS}$
 ${ }$\\
+${ }$\\
 
 Para llegar al resultado principal que se pretende demostrar primero vamos a ver algunos resultados y definiciones que son necesarios para comprender un poco mejor lo que se quiere mostrar. Algunos de estos resultados no estarán demostrados debido a su extensión o complejidad y a que se alejan del propósito de este trabajo.
 ${ }$\\
 
 En esta primera parte del trabajo vamos a ver que superficies sabemos que son rígidas, como ya veremos estas son las esferas y mas generalmente los ovaloides. Para ello es importante tener en cuenta algunos conceptos y resultados. Como son los siguientes.
+${ }$\\
 
 \begin{definicion}
 	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie}} si para todo $p \in S$ existe un entorno $V \subset S$ de $p$, un abierto $U \subset \mathbb{R}^2$ y una aplicación $X : U \to \mathbb{R}^3$ diferenciable tales que:
@@ -20,21 +22,26 @@ En esta primera parte del trabajo vamos a ver que superficies sabemos que son r�
 		\item $\forall q \in U$, $(dX)_q : \mathbb{R}^2 \to \mathbb{R}^3$ es inyectiva.
 	\end{enumerate}
 \end{definicion}
+${ }$\\
 
 \begin{definicion}
 	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a las aplicaciones de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
 \end{definicion}
+${ }$\\
 
 Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que mas intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
+${ }$\\
 
 \begin{definicion}\label{def:isom} % label para cuando haga una referencia.
 	Dadas dos superficies S y $S'$ y dada una aplicación $f : S \longrightarrow S'$, diremos que $f$ es una \underline{\textbf{isometría}} si es un difeomorfismo y además conserva la primera forma fundamental, esto es, $\forall p \in S$ y $\forall u,v \in T_p S$ $\langle df_p(u), df_p(v)\rangle = \langle u, v\rangle$.
 \end{definicion}
+${ }$\\
 
 Dicho esto, dos superficies son isométricas si existe una isometría que nos lleva una superficie en la otra.
 	${}$\\
 	
 También tenemos que las isometrías son aplicaciones que conservan la distancia entre puntos de la superficie, tomando la distancia entre dos puntos como la longitud de la geodésica que une cada punto con otro. Esto quiere decir que si tomamos dos puntos cualquiera de $S$ la distancia de los puntos imagen sigue siendo la misma. Vamos a ver que esto es cierto con la siguiente proposición:
+${ }$\\
 
 \begin{proposicion}
 	$f : S \to S'$ es una isometría, si y sólo si, $f$ conserva la longitud de las curvas.
@@ -58,6 +65,7 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 	\]
 	
 \end{proof}
+${ }$\\
 
 
 \begin{teorema}
@@ -66,6 +74,7 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
 	\]
 \end{teorema}
+${ }$\\
 
 \begin{teorema}\label{teo:divergencia}
 	$\textbf{(Teorema de la divergencia sobre superficies)}$ Sea una superficie compacta $S$ y un campo diferenciable de vectores $V : S \to \mathbb{R}^3$. Entonces:
@@ -74,10 +83,12 @@ También tenemos que las isometrías son aplicaciones que conservan la distancia
 		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
 	\end{enumerate}
 \end{teorema}
+${ }$\\
 
 \begin{teorema} \label{teo:hil-lie}
 	$\textbf{(Teorema de Hilbert-Liebmann)}$ La única superficie conexa y compacta con curvatura constate es la esfera.
 \end{teorema}
+${ }$\\
 
 
 \begin{teorema}
@@ -98,6 +109,7 @@ ${ }$\\
 	
 	También, si $S$ es un ovaloide, $N =$ normal interior de $S$ y $\sigma =$ segunda forma fundamental respecto a $N$. Entonces, $\sigma > 0$.
 \end{definicion}
+${ }$\\
 
 \begin{ejemplo} 
 	
@@ -147,19 +159,38 @@ ${ }$\\
 	\]
 	que es siempre positivo.
 \end{ejemplo}
+${ }$\\
+
+\begin{ejemplo}
+	Otro ejemplo de ovaloide es el dado por la ecuación $x^4 + y^4 + z^4 = 1$ la gráfica de esta ecuación está representada en la Figura \ref{fig:etiq_11}.
+		\begin{figure}
+			\begin{center}
+				\includegraphics[width=0.8\textwidth]{imagenes/ovaloide2.png}
+			\end{center}
+			\caption{Ejemplo de ovaloide.}
+			\label{fig:etiq_11}
+		\end{figure}
+\end{ejemplo}
+${ }$\\
+
 Como vimos en Topología II podemos clasificar las superficies compactas y conexas en los siguientes grupos de homotopías: esfera, suma conexa de toros y suma conexa de botellas de Klein. Como el ovaloide también es compacto y conexo veamos en cuales de estos grupos podemos incluir los ovaloides. Como podemos ver, las esferas son ovaloides, ¿pero, hay ovaloides que no sean homotópicos a la esfera?
+${ }$\\
 
 Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según el siguiente corolario que aparece en la bibliografía \cite{ref1}. Recordemos tambien que homeomorfo implica homotopico.
+${ }$\\
 
 \begin{corolario}
 	Si $S$ es una superficie diferenciable de $\mathbb{R}^3$ conexa y compacta con curvatura de Gauss $K \leq 0$ no identicamente $0$, entonces $S$ es homeomorfa a una esfera.
 \end{corolario}
+${ }$\\
 
 Incluso vas a allá con el siguiente resultado.
+${ }$\\
 
 \begin{teorema}
 	$\textbf{(Hadamard)}$Sea $S$ un ovaloide, entonces la aplicación de Gauss $N : S \to \mathbb{S}^2$ es un difeomorfismo. En particular, $S$ es difeomorfa a una esfera.
 \end{teorema}
+${ }$\\
 
 
 
@@ -171,6 +202,7 @@ Incluso vas a allá con el siguiente resultado.
 		\item Para cada $p \in S$, $\Pi_p \cap S = \{p\}$, donde $\Pi_p$ es el plano tangente afín a $S$ en p. Además, $\overline{\Omega} \subset \bigcap_{p \in S} \; \Pi^{+}_{p}$.
 	\end{enumerate}
 \end{teorema}
+${ }$\\
 
 
 ${ }$\\
@@ -180,6 +212,7 @@ ${ }$\\
 \begin{definicion}
 	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie rígida}} cuando toda isometría $f : S \to S'$ sea la restricción de un movimiento rígido.
 \end{definicion}
+${ }$\\
 
 Dicho esto, las superficies rígidas son aquellas que, al aplicarles una isometría $f : S \to S'$, conservan la distancia entre puntos y también las curvaturas de las secciones normales de la superficie luego la superficie no puede ser ni estirada (no conservaría distancias) ni deformada (no conservaría curvaturas para cada uno de sus puntos) dejando solo la posibilidad de ser girada y trasladada en el espacio esto nos permitirá extender esta función a un movimiento rígido de $\mathbb{R}^3$.
 ${ }$\\
@@ -188,6 +221,7 @@ ${ }$\\
 
 %%% VOLVER A MIRAR ESTE PARRAFO PARA CORREGIRLO
 En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría ya que como se ve en la imagen es diferenciable, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
+${ }$\\
 
 \begin{figure}
 	\begin{center}
@@ -207,7 +241,33 @@ ${ }$\\
 $\textbf{1.2. RAY-MARCHING EVOLUCIÓN}$
 ${ }$\\
 
-Ray-marching es una tecnica para la visualización de superficies mas complejas dadas en ecuaciones de implicitas que son las de la siguiente forma:
+Las ecuaciones paramétricas que definen una superficie podrían ser vistas como una función a la que, pasándole una tupla te devuelven uno de los puntos que está en la superficie. Veamos la siguiente representación:
+${ }$\\
+$$ x = x(u,v) $$
+$$ y = y(u,v) $$
+$$ z = z(u,v). $$
+${ }$\\
+Del mismo modo que con las ecuaciones paramétricas que definen superficies, podríamos ver las ecuaciones implícitas que definen una superficie, como una función que a partir de un punto del espacio indica si dicho punto esta fuera o dentro de la superficie.
+${ }$\\
+
+Poniendo como ejemplo a la esfera, que puede definirse de cualquiera de las siguientes dos formas
+${ }$\\
+$$ {x_1}^2 + {x_2}^2 + {x_3}^2 -1 = 0, $$
+$$ \lVert \mathbf{x} \rVert -1 = 0, $$
+${ }$\\
+donde $x = (x_1, x_2, x_3)$. La segunda definición en forma implícita de la esfera concuerda con la primera en todos los puntos que pertenecen a la esfera, pero difiere en los demás. La primera de ellas define la distancia algebraica mientras que la otra define la distancia geométrica o euclidea.
+${ }$\\
+
+¿Cual de las representaciones anterior podría ser mejor que la otra? En el artículo \ref{JHart} se puede leer lo siguiente:
+
+``A comparison of geometric versus algebraic representations of quadric surfaces preferred the geometric representation [Goldman, 1983]. The parameters of a geometric representation are coordinate-independent, and are more robust and intuitive than algebraic coefficients. Distance-based functions like (2) are one method for representing implicit surfaces geometrically.
+
+Several methods exist for rendering implicit surfaces. Indirect methods polygonize the implicit surface to a given tolerance, allowing the use of existing polygon rendering techniques and hardware for interactive inspection [Wyvill et al, 1986; Bloomenthal, 1988]. Although polygonization transforms implicit surfaces into a representation easily rendered and incorporated into graphics systems, polygonizations are typically not guaranteed and may not accurately detect disconnected or detailed sections of the implicit surface. Production ray tracing systems tend to polygonize surfaces, resulting in large time and memory overhead to accurately represent an otherwise simple implicit model.
+
+In an effort to combine speed and accuracy, [Sederberg & Zundel, 1989] developed a direct scan-line method to more accurately render algebraic implicit surfaces at interactive speeds. Ray tracing, on the other hand, is a direct, accurate and elegant method for investigating a much larger variety of implicit surfaces.''
+${ }$\\
+
+Ray-marching es una técnica para la visualización de superficies mas complejas dadas en ecuaciones de implicitas que son las de la siguiente forma:
 
 \[
 F(x,y,z) = 0.

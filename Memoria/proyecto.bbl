@@ -92,6 +92,18 @@
   \field{title}{A Generalization of Algebraic Surface Drawing}
 \endentry
 
+\entry{ref6}{online}{}
+  \field{sortinit}{D}
+  \field{title}{Distance}
+  \verb{url}
+  \verb https://en.wikipedia.org/wiki/Distance#Algebraic_distance
+  \endverb
+  \field{year}{2018}
+  \field{urlday}{17}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
+\endentry
+
 \entry{ref1}{online}{}
   \field{sortinit}{G}
   \field{title}{Geometría diferencial de curvas y superficies en el espacio
@@ -117,6 +129,21 @@
   \field{title}{Curvature formulas for implicit curves and surfaces}
 \endentry
 
+\entry{JHart}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Hart}{H.}%
+     {John~C.}{J.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{HJC1}
+  \strng{fullhash}{HJC1}
+  \field{sortinit}{H}
+  \field{title}{Sphere tracing: a geometric method for the antialiased ray
+  tracing of implicit surfaces}
+\endentry
+
 \entry{ref2}{online}{}
   \field{sortinit}{H}
   \field{title}{How to prove that an ellipsoid is an ovaloid?}
@@ -128,20 +155,6 @@
   \field{urlday}{04}
   \field{urlmonth}{10}
   \field{urlyear}{2018}
-\endentry
-
-\entry{ref6}{online}{}
-  \field{sortinit}{I}
-  \field{title}{Integrating Intellij Idea and SBT II}
-  \verb{url}
-  \verb https://intellij-support.jetbrains.com/hc/en-us/community/posts/1150004
-  \verb 93770-Integrating-Intellij-Idea-and-SBT-II?page=1#community_comment_115
-  \verb 000407610
-  \endverb
-  \field{year}{2017}
-  \field{urlday}{08}
-  \field{urlmonth}{04}
-  \field{urlyear}{2017}
 \endentry
 
 \entry{ref3}{online}{}
@@ -205,25 +218,6 @@
   \field{urlday}{12}
   \field{urlmonth}{10}
   \field{urlyear}{2018}
-\endentry
-
-\entry{kuncak}{article}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Reynolds}{R.}%
-     {Andrew}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Kuncak}{K.}%
-     {Viktor}{V.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{RAKV1}
-  \strng{fullhash}{RAKV1}
-  \field{sortinit}{R}
-  \field{title}{Automating induction with an SMT solver}
 \endentry
 
 \entry{cesarR}{article}{}

@@ -25,7 +25,8 @@
 #include <math.h>
 
 
-#define INFINITO 99999 
+#define INFINITO 99999
+#define EPSILON 0.00005
 
 using namespace std;
 
@@ -160,7 +161,7 @@ double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
 }
 
 Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-	return normalized( Tupla3f(funcion( (e+t*d) + Tupla3f(0.000005, 0.0, 0.0) ) - funcion( (e+t*d) - Tupla3f(0.000005, 0.0, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, 0.000005, 0.0) ) - funcion( (e+t*d) - Tupla3f(0.0, 0.000005, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, 0.0, 0.000005) ) - funcion( (e+t*d) - Tupla3f(0.0, 0.0, 0.000005) )) );
+	return normalized( Tupla3f(funcion( (e+t*d) + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( (e+t*d) - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( (e+t*d) - Tupla3f(0.0, EPSILON, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( (e+t*d) - Tupla3f(0.0, 0.0, EPSILON) )) );
 }
 
 double Elipse::funcion(Tupla3f xyz){
@@ -173,7 +174,7 @@ double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
 }
 
 double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
-	return (funcion(o, d, t + 0.000005) + funcion(o, d, t)) / 0.000005;
+	return (funcion(o, d, t + EPSILON) + funcion(o, d, t)) / EPSILON;
 }
 
 

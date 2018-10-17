@@ -1,11 +1,13 @@
 \chapter*{5. Ray-Marching}
 
 En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita
+${ }$\\
 \[
 	F(x,y,z) = 0,
 \]
+${ }$\\
 vamos a usar el método de Newton-Raphson y Regula-Falsi de forma combinada ya que cada uno tiene unas ventajas e inconvenientes que justifican el uso de ambos. Mientras Newton-Raphson no garantiza que se llegue a una aproximación de la solución y la sucesión que genera puede divergir como se verá mas adelante, el método de Regula-Falsi asegura la convergencia de la solución.Sin embargo, el método de Newton-Raphson converge mas rápido que Regula-Falsi.
-
+${ }$\\
 
 ${ }$\\
 $\textbf{Newton-Raphson}$
@@ -28,6 +30,19 @@ El algoritmo a seguir es el siguiente:
 	\item Paso 0 : Tomar un $x_0$ inicial.
 	\item Paso 1 : $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
 \end{itemize}
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+
+double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+
+	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
+}
+
+\end{lstlisting}
+${ }$\\
+
+
 
 Se puede observar que no siempre es posible calcular el siguiente $x_{n+1}$ ya que la derivada de la función en $x_{n}$ podría ser $0$.
 ${ }$\\
@@ -59,6 +74,17 @@ El algoritmo de Regula-Falsi es el siguiente:
 		\item Si $f(b_n) \cdot f(m_n) < 0$, $a_n = m_n$.
 	\end{itemize}
 \end{itemize}
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+
+double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+
+return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+}
+
+\end{lstlisting}
+${ }$\\
 
 \begin{figure}
 	\begin{center}
@@ -90,15 +116,18 @@ ${ }$\\
 		\item Si $p=2$, la llamamos cuadrática.
 	\end{itemize}
 \end{definicion}
+${ }$\\
 
 Hay que tener en cuenta que para mayores valores de $p$ mayor es la rapidez con que converge.
 ${ }$\\
 
 Para el caso de Newton-Raphson encontramos dos resultados que nos indican cuales son los ordenes de convergencia que nos podemos encontrar a la hora de aplicar ese método. Uno de ellos es para una función cuyo cero queremos encontrar es simple, es decir, $f'(s) \neq 0$ para $s$ raíz de $f$; y el otro para el caso de que la raíz sea un cero múltiple.
+${ }$\\
 
 \begin{definicion}
 	Sea $f \in C^M([a,b])$ y $s$ valor donde $f$ se hace cero, diremos que es de multiplicidad $M$ si y sólo si $f^{(k)}(s) = 0$, $k = 0, ..., M-1$ y $f^{(M)}(s) \neq 0$. Si $M = 1$ se llama cero simple.
 \end{definicion}
+${ }$\\
 
 \begin{teorema}
 	Sea $f \in C^2(U_S)$ con $U_S$ un entorno de $s$ tal que $f(s) = 0$ y $f'(s) \neq 0$. Entonces, $\exists \epsilon > 0$ tal que si $|x^{(0)} - s| \leq \epsilon$ la sucesión generada por el método de Newton-Raphson converge a $s$ con convergencia cuadrática y constante asintótica del error $\frac{|f''(s)|}{2|f'(s)|}$.
@@ -165,6 +194,7 @@ Para el caso de Newton-Raphson encontramos dos resultados que nos indican cuales
 		\lim_{n \rightarrow \infty} \frac{|s - x_{n+1}|}{|s - x_{n}|^2} = - \lim_{n \rightarrow \infty} \frac{f''(\xi_n)}{2f'(x_n)} = - \frac{f''(s)}{2f'(s)}.
 	\]
 \end{proof}
+${ }$\\
 
 
 
@@ -232,6 +262,7 @@ CORREGIR REGULA-FALSI
 	
 	Por tanto la sucesión de Regula-Falsi converge con orden de convergencia lineal.
 \end{proof}
+${ }$\\
 
 
 ${ }$\\
@@ -244,8 +275,37 @@ ${ }$\\
 Lo siguiente será calcular el siguiente termino de la sucesión mediante el método de Newton-Raphson, en caso de este se salga del intervalo no usaremos este termino y lo volveremos a calcular pero esta vez mediante el algoritmo de Regula-Falsi. Luego con este último termino calculado procederemos como en el método de Regula-Falsi y comprobaremos si $F(r(t))$ se hace positivo o negativo y lo cambiaremos por su correspondiente en el intervalo (formando el nuevo intervalo).
 ${ }$\\
 
-En caso de tener mas de una figura en la escena...
 
+
+\begin{lstlisting}[style=Consola]
+double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+	double an, bn, tn;
+	int num_iteraciones = 0;
+
+	intervaloInicial(sup, o, d, an,bn);
+	tn = an;
+	
+	if (sup.funcion(o, d, an) == 0) return an;
+	else if (sup.funcion(o, d, bn) == 0) return bn;
+	else if (an == bn) return -1;
+
+	while (abs(sup.funcion(o, d, tn)) > 0.1 && num_iteraciones < 100){
+	
+		tn = NewtonRaphson(sup, tn, o, d);
+		
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
+		
+		if (sup.funcion(o, d, tn) == 0) return tn;
+		else if (sup.funcion(o, d, an)*sup.funcion(o, d, tn) > 0) an = tn;
+		else bn = tn;
+		
+		num_iteraciones++;
+	}
+	
+	return tn;
+}
+\end{lstlisting}
+${ }$\\
 
 ${ }$\\
 $\textbf{Criterio de parada}$
@@ -257,7 +317,162 @@ El algoritmo que queremos implementar va calculando los elementos de una sucesi�
 	\item parar cuando $|F(r(t_n))| < \epsilon$,
 	\item parar cuando $|t_{n-1} - t_n| < \epsilon$ donde $\epsilon > 0$.
 \end{itemize}
-En este caso vamos a usar que $|F(r(t_n))| < \epsilon$.
+Aquí se va a utilizar el criterio que comprueba $|F(r(t_n))| < \epsilon$.
+${ }$\\
+
+
+
+
+${ }$\\
+$\textbf{IMPLEMENTACIÓN Y PRUEBA}$
+${ }$\\
+
+A continuación podemos el código que implementa Newton-Raphson en la función llamada $NewtonRaphson$ y Regula-Falsi en la función llamada $RegulaFalsi$. La combinación de ambos que se ha explicado anteriormente está implementado en la función $interseccion$ que es la que se encarga de conocer si para un rayo dado este corta o no a la superficie e indica en que altura $t$ lo hace.
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+
+class Elipse : public Superficie{
+	
+private:
+
+	double radio0, radio1, radio2;
+	
+	
+	void intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
+	
+	double RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
+	
+	double NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
+	
+public :
+	
+	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
+	Elipse(const Elipse &eli);
+	double interseccion(Superficie &sup, Tupla3f o, Tupla3f d);
+	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
+	double funcion(Tupla3f xyz);
+	double funcion(Tupla3f o, Tupla3f d, double t);
+	double derivada(Tupla3f o, Tupla3f d, double t);
+};
+\end{lstlisting}
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
+
+	radio0 = rad0;
+	radio1 = rad1;
+	radio2 = rad2;
+}
+
+Elipse::Elipse(const Elipse &eli):Superficie(eli){
+
+	radio0 = eli.radio0;
+	radio1 = eli.radio1;
+	radio2 = eli.radio2;
+}
+
+
+
+void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
+
+	t1 = 0;
+	double incremento = 0.1;
+	
+	while ( (sup.funcion(o, d, t1) * sup.funcion(o, d, t1+ incremento) > 0) && t1 < 2) t1 = t1 + incremento;
+	
+	for (int i = 0; i < 3; i++){
+	
+		t2 = 0;
+		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 2){
+		
+			t2 = t2 + incremento;
+		}
+
+		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
+		else incremento = incremento / 3;
+	}
+}
+
+double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+
+return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+}
+
+double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
+
+	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
+}
+
+double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+
+	double an, bn, tn;
+	int num_iteraciones = 0;
+
+	intervaloInicial(sup, o, d, an,bn);
+	
+	tn = an;
+	
+	if (sup.funcion(o, d, an) == 0) return an;
+	else if (sup.funcion(o, d, bn) == 0) return bn;
+	else if (an == bn) return -1;
+
+	while (abs(sup.funcion(o, d, tn)) > 0.1 && num_iteraciones < 100){
+
+		tn = NewtonRaphson(sup, tn, o, d);
+
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
+		
+		if (sup.funcion(o, d, tn) == 0) return tn;
+		else if (sup.funcion(o, d, an)*sup.funcion(o, d, tn) > 0) an = tn;
+		else bn = tn;
+		
+		num_iteraciones++;
+	}
+
+	return tn;
+}
+
+Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
+
+	return normalized( Tupla3f(funcion( (e+t*d) + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( (e+t*d) - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( (e+t*d) - Tupla3f(0.0, EPSILON, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( (e+t*d) - Tupla3f(0.0, 0.0, EPSILON) )) );
+}
+
+double Elipse::funcion(Tupla3f xyz){
+
+	return ((pow(xyz.coo[0],2) / pow(radio0,2)) + (pow(xyz.coo[1],2) / pow(radio1,2)) + (pow(xyz.coo[2],2) / pow(radio2,2)) -1);
+}
+
+
+double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
+
+	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
+}
+
+double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
+
+	return (funcion(o, d, t + EPSILON) + funcion(o, d, t)) / EPSILON;
+}
+\end{lstlisting}
+${ }$\\
+
+
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imagenes/Prueba2.png}
+	\end{center}
+	\caption{Prueba de la implementación de Ray-Marching usando la ecuación implícita de un elipsoide.}
+	\label{fig:etiq_10}
+\end{figure}
+
+
+
+
+
+
+
 
 
 ${ }$\\
@@ -266,17 +481,20 @@ ${ }$\\
 
 La tecnología de crear imágenes realistas y visualmente interesantes de tres
 las formas dimensionales están avanzando en muchos frentes. Uno de ellos es el desarrollo de algoritmos para dibujar superficies curvas directamente desde sus definiciones matemáticas en lugar de dividirlas en grandes cantidades de polígonos. 
+${ }$\\
 
 Superficies cuádricas, por otro lado, son soluciones de ecuaciones de segundo orden.
-
+${ }$\\
 \[
 	ax^2 + bxy + cxz +dx +ey^2 +fyz +gy + hz^2 + iz +j = 0.
 \]
+${ }$\\
 
-Esta clase de superficies incluye formas tales como esferas, conos o hiperboloides de revolución. Como podemos ver las cuadricas son soluciones de ecuaciones implicitas que como hemos dicho son de la forma $F(x, y, z) = 0$.
+Esta clase de superficies incluye formas tales como esferas, conos o hiperboloides de revolución. Como podemos ver las cuádricas son soluciones de ecuaciones implicitas que como hemos dicho son de la forma $F(x, y, z) = 0$.
+${ }$\\
 
 Este documento examina una solución más general al problema de imágenes para tales superficies y describe en detalle su aplicación a una clase de superficies que están estrechamente relacionadas con los cuadrículas pero que tienen una gama más amplia de formas.
-
+${ }$\\
 
 ${ }$\\
 $\textbf{EL MODELO}$

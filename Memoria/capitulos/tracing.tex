@@ -4,6 +4,7 @@ $\textbf{4.1. INTRODUCCIÓN}$
 ${ }$\\
 
 Antes de comenzar con Ray-Marching empezaré implementando un pequeño algoritmo de Ray-Tracing sobre el que mas tarde implementaré el algoritmo Ray-Marching. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Finalmente para comprobar que esta implementación es correcta se creará una escena con un cubo y una esfera.
+${ }$\\
 
 ${ }$\\
 $\textbf{4.2. RAY-TRACING}$
@@ -20,6 +21,7 @@ Los rayos y las superficies serán representadas mediante sus expresiones matem�
 	${ }$\\	
 	
 	En esta primera parte calcularemos la intersección del rayo con unos objetos mas sencillos de forma directa pues sabemos como calcularla. Pero hay casos en los que por la complejidad de la ecuación esto es mas complicado y necesitamos la ayuda de algoritmos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi que veremos mas adelante.
+	${ }$\\
 	
 El color del punto se determina teniendo en cuenta el color de la superficie en dicho punto y, añadiendo la iluminación, también se considerará el ángulo que forma la fuente de iluminación con la normal del objeto en ese punto y el color de la fuente de luz como indica la Ley de Lambert que se verá más adelante.
 	${ }$\\	
@@ -55,6 +57,7 @@ Primero consideraremos el sistema de referencia de visualización el cual está 
 %%% Hacer yo una imagen con el sistema de coordenadas y el rectangulo dividido con los rayos saliendo del punto.
 
 Sobre este rectángulo tomaremos muestras que se corresponderán con los píxeles que ocupa la ventana de visualización. Volvamos a la Figura\ref{fig:etiq_1} e imaginemos que el rectángulo está dividido en tantas filas y columnas como filas-1 y columnas-1 de pixeles necesitamos para crear la imagen. La forma de tomar el valor para estas muestras se llevará a cabo mediante rayos que pasan por $\textbf{o}$ y por las intersecciones de los segmentos que hemos usado para las divisiones que hemos trazado antes sobre el rectángulo (incluyendo los propios segmentos del rectángulo). Las coordenadas de puntos intersección de segmentos dicha se calculan mediante los siguientes cálculos, estas coordenadas están dadas en la base \{$\textbf{u}$, $\textbf{v}$\}
+${ }$\\
 
 
 \[
@@ -64,12 +67,15 @@ Sobre este rectángulo tomaremos muestras que se corresponderán con los píxele
 \[
 	v_j = a_2 + (b_2-a_2) \frac{j}{n_y-1}, \;\;\; 0 \leq j \leq n_y -1.
 \]
+${ }$\\
 
 Entonces los rayos que nos interesan se expresan del siguiente modo en el sistema de referencia de visualización:
+${ }$\\
 
 \[
 	p_{i,j}(t) = (0,0,0) + t(u_i , v_j, -s).
 \]
+${ }$\\
 
 En las coordenadas del espacio (estas son las coordenadas en las que está expresada la ecuación de la superficie), esto se traduce en 
 
@@ -85,8 +91,10 @@ Para poder establecer el punto \textbf{o} de visión y la orientación se calcul
 	\item \textbf{s} : la distancia de \textbf{o} al rectángulo de visión.
 	\item \textbf{a}, \textbf{b} : los que hemos visto con anterioridad, son las esquinas del rectángulo de visión en la base \{$\textbf{u}$, $\textbf{v}$, $\textbf{w}$\}
 \end{itemize}
+${ }$\\
 
 Con estos datos los vectores de la base ortonormal de visión son
+${ }$\\
 	\[
 		w = - \frac{g}{\parallel g \parallel},
 	\]
@@ -97,15 +105,18 @@ Con estos datos los vectores de la base ortonormal de visión son
 	\[
 		v = w \times u.
 	\]
+	${ }$\\
 	
 Si queremos que el rectángulo de visión este centrado con respecto a g hay que asegurarse de que $a_1 = -b_1$ y $a_2 = -b_2$. Además, si no queremos que la imagen resultante se vea estirada en alguno de los ejes \textbf{u} o \textbf{v} debemos asegurarnos de las que divisiones realizadas sobre el rectángulo de visión sean del mismo tamaño tanto para las filas como para las columnas quedando dividido el rectángulo en cuadrados, esto se consigue asegurándose de que
+${ }$\\
 	\[
 		\frac{b_1-a_1}{b_2 - a_2} = \frac{n_x}{n_y}.
 	\]
 	${ }$\\
 
 En el siguiente código la función $Image$ se encarga de devolver la imagen que se ve desde el punto del observador en una matriz de dimensiones iguales a las del tamaño de la ventana donde se muestra la imagen, la función $interposicionObjeto$ y la Ley de Lambert se verán mas adelante en la parte de iluminación. La función $Inicializar$ se encarga de inicializar los objetos de la escena y otras variables necesarias para la visualización.
-%%%[style=Consola]
+${ }$\\
+
 \begin{lstlisting}[style=Consola]
 vector<Superficie *> superficies;
 
@@ -139,7 +150,7 @@ void Inicializar(int x, int y) {
 }
 
 \end{lstlisting}
-
+${ }$\\
 
 
 \begin{lstlisting}[style=Consola]
@@ -175,6 +186,7 @@ Tupla3f direccion;
 ${ }$\\
 
 Cuando hay varios objetos en la escena hay que tener en cuenta cual es el primero que se encuentra el rayo en su recorrido, pues los que encuentre con posterioridad no serán vistos por el observador. Esto es de lo que se encarga la siguiente función.
+${ }$\\
 
 \begin{lstlisting}[style=Consola]
 
@@ -192,8 +204,8 @@ void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 		}
 	}
 }
-
 \end{lstlisting}
+${ }$\\
 
 ${ }$\\
 $\textbf{4.3. INTERSECCIÓN DE RAYOS CON OBJETOS SENCILLOS}$
@@ -232,42 +244,56 @@ Tupla3f Superficie::getColor(){
 }
 
 \end{lstlisting}
+${ }$\\
 
 ${ }$\\
 $\textbf{4.3.1. Intersección rayo-esfera}$
 ${ }$\\
 
 Una esfera con centro en $c = (c_x, c_y, c_z)$ y radio $R>0$ se puede representar mediante la siguiente ecuación:
+${ }$\\
 \[
 	(x-c_x)^2 + (y-c_y)^2 + (z-c_z)^2 = 0,
 \]
+${ }$\\
 también se puede expresar como sigue
+${ }$\\
 \[
 	(p-c)\cdot(p-c) - R^2 = 0,
 \]
+${ }$\\
 donde cualquier punto que cumpla la ecuación está en la esfera. En nuestro caso queremos estudiar la intersección de la superficie y un rayo dado por $p(t) = o + td$. Para encontrar los puntos de intersección del rayo con la esfera evaluamos esta expresión en $p(t)$,
+${ }$\\
 \[
 	(o+td-c)\cdot(o+td-c) - R^2 = 0,
 \]
+${ }$\\
 si desarrollamos un poco, obtenemos
+${ }$\\
 \[
 	(d\cdot d)t^2 + 2d\cdot (o-c)t + (o-c)\cdot(o-c) - R^2 = 0,
 \]
+${ }$\\
 podemos observar que esta es una ecuación del la forma $At^2+Bt+C=0$ de la cual podemos conocer sus raíces, que como ya sabemos son
+${ }$\\
 \[
 	t = \frac{-B\pm \sqrt{B^2-4CA}}{2A},
 \]
+${ }$\\
 aplicando esto a nuestro caso, tenemos
+${ }$\\
 \[
 	t = \frac{-d\cdot (o-c) \pm \sqrt{(d\cdot (o-c))^2 - (d\cdot d)((o-c)\cdot(o-c)-R^2)}}{d\cdot d},
 \]
+${ }$\\
 donde como ya hemos visto $t$ indica el lugar del rayo donde alcanza la superficie.
+${ }$\\
 
 Para saber si el rayo interseca con la superficie se tendrá en cuenta el signo del discriminante $B^2-4CA$. En el caso de que el discriminante sea igual a cero solo habrá una solución. Si fuese positivo el rayo interseca con la superficie en dos puntos (uno de ellos es el punto a través del cual entra en la superficie y el otra por donde sale de la esfera). Por último, si dicho valor es negativo el valor de la raíz será imaginario y no habrá puntos de intersección de la esfera con el rayo.
 	${ }$\\	
 	
 A continuación se muestra el código de la clase Esfera la cual permite la creación de una esfera con centro y radio elegidos. Además contiene un método que nos devuelve la distancia del punto origen $\textbf{o}$, de un rayo pasado como parámetro, al punto de intersección mas cercano de la esfera.
-
+${ }$\\
 
 \begin{lstlisting}[style=Consola]
 class Esfera : public Superficie {
@@ -316,6 +342,7 @@ Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, double t) {
 	return Tupla3f( ((e + t*d)-centro)/radio );
 }
 \end{lstlisting}
+${ }$\\
 
 ${ }$\\
 $\textbf{4.3.2. Inerseccion rayo-caja}$
@@ -325,18 +352,20 @@ Las cajas de esta sección serán representadas mediante las coordenadas de dos 
 	${ }$\\	
 	
 El método al que me refiero considera tres intervalos que se corresponden con cada una de las tres coordenadas, así un punto $(x, y, z)$ que esté dentro del cubo debe cumplir $x \in [x_0, x_1]$, $y \in [y_0, y_1]$ y $z \in [z_0, z_1]$. De este modo, para un rayo dado por $p(t) = o + td$ calcularemos en que intervalo ha de encontrarse $t$ para que el rayo corte la superficie. Para $x \in [x_0, x_1]$,
-
+${ }$\\
 \[
 	x_0 = o_x + t_{x0}d_x
 \]
 \[
 	x_1 = o_x + t_{x1}d_x
 \]
+${ }$\\
 y despejando $t_{xi}$ en cada ecuación obtenemos que el segmento de rayo que está dentro del cubo se corresponde con
-
+${ }$\\
 \[
 	t \in [(x_0-o_x)/d_x, (x_1-o_x)/d_x]
 \]
+${ }$\\
 
 Para definir el intervalo de $t's$ para los que el rayo está en la franja de espacio $[x_0, x_1]$ cuenta si $d_x$ es positivo o negativo, en caso de que sea positivo el intervalo sería el esperado $[t_{x0}, t_{x1}]$, pero en caso de ser negativo sería de la forma $[t_{x1}, t_{x0}]$, por comodidad este intervalo se notará como $[t_{x min}, t_{x max}]$.
 	${ }$\\	
@@ -359,6 +388,7 @@ El proceso seguido anteriormente para el intervalo en $x$, será el seguido para
 
 
 El código que corresponde a la representación computacional del cubo es el que se muestra a continuación:
+${ }$\\
 
 \begin{lstlisting}[style=Consola]
 class Cubo : public Superficie {
@@ -439,31 +469,34 @@ Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
 	else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
 }
 \end{lstlisting}
+${ }$\\
 
 ${ }$\\
 $\textbf{4.4. ILUMINACIÓN}$
 ${ }$\\
 
 La iluminación hace las imágenes más realistas y nos permite apreciar la profundidad de los objetos. En esta sección veremos una implementación de la iluminación sencilla que solo dependerá de la normal de la superficie y la dirección de incidencia de la fuente de iluminación. 
-
+${ }$\\
 
 Como se muestra en la Figura\ref{fig:etiq_5}, el rayo de visión está dirigido hacia el punto iluminado este rayo esta definido por el vector \textbf{d} y a partir de él definimos el vector unidad \textbf{e} el cual tiene la misma dirección de \textbf{d} pero sentido opuesto:
-
+${ }$\\
 
 %%% Hacer una imagen como la del libro pero que sea propia
 
 \[
 	\textbf{e} = - \frac{\textbf{d}}{\|\textbf{d}\|},
 \]
+${ }$\\
 este vector será prescindible a la hora de añadir la iluminación, se utiliza para materiales que cambian su brillo de posición cuando el observador cambia también la suya.
 ${ }$\\
 
 
 El vector \textbf{l} indica la dirección desde la que llega la luz y \textbf{n} el vector normal a la superficie. Con todo esto la Ley de Lambert sería
-
+${ }$\\
 \[
 	L = ER(\textbf{n}\cdot \textbf{l}),
 \]
+${ }$\\
 esta ley nos da el valor del color del pixel habiendo añadido la iluminación. En esta fórmula $E$ es el valor del color de la fuente de luz y $R$ el color del punto de incidencia, el producto de ellos es componente a componente. Debemos observar que $L$ puede ser negativo, cuando esto ocurre podemos tomar dos caminos, uno de los cuales es hacer cero los valores negativos, este es el que se va a usar aquí es el que vamos a usar, y otro consiste en tomar el valor absoluto.
 	${ }$\\	
 
@@ -539,7 +572,7 @@ Tupla3f LuzDireccional::getDireccion() {
 
 
 \end{lstlisting}
-
+${ }$\\
 
 \begin{lstlisting}[style=Consola]
 
@@ -559,6 +592,7 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 
 
 Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando lo objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.
+${ }$\\
 
 \begin{figure}
 	\begin{center}
