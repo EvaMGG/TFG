@@ -1,0 +1,21 @@
+\BOOKMARK [0][-]{chapter.1}{Introducci\363n}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Rigidez, ovaloides y otros conceptos y resultados}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{Ovaloides}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{Superficie r\355gida}{section.1.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Visualizaci\363n de superficies}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Objetivos del trabajo}{}% 6
+\BOOKMARK [0][-]{chapter.3}{Rigidez de ovaloides}{}% 7
+\BOOKMARK [1][-]{section.3.1}{Tres tipos de superficies r\355gidas}{chapter.3}% 8
+\BOOKMARK [0][-]{chapter.4}{Ray-Tracing}{}% 9
+\BOOKMARK [1][-]{section.4.1}{Introducci\363n}{chapter.4}% 10
+\BOOKMARK [1][-]{section.4.2}{Ray-Tracing}{chapter.4}% 11
+\BOOKMARK [1][-]{section.4.3}{Intersecci\363n de rayos con objetos}{chapter.4}% 12
+\BOOKMARK [2][-]{subsection.4.3.1}{Intersecci\363n rayo-esfera}{section.4.3}% 13
+\BOOKMARK [2][-]{subsection.4.3.2}{Intersecci\363n rayo-caja}{section.4.3}% 14
+\BOOKMARK [1][-]{section.4.4}{Iluminaci\363n}{chapter.4}% 15
+\BOOKMARK [0][-]{chapter.5}{Ray-Marching}{}% 16
+\BOOKMARK [1][-]{section.5.1}{Newton-Raphson}{chapter.5}% 17
+\BOOKMARK [1][-]{section.5.2}{Regula-Falsi}{chapter.5}% 18
+\BOOKMARK [1][-]{section.5.3}{Comparaci\363n de m\351todos}{chapter.5}% 19
+\BOOKMARK [1][-]{section.5.4}{Combinaci\363n de los algoritmos de Newton-Raphson y Regula-Falsi}{chapter.5}% 20
+\BOOKMARK [1][-]{section.5.5}{Implementaci\363n y prueba}{chapter.5}% 21

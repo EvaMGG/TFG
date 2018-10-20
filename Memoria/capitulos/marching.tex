@@ -1,4 +1,6 @@
-\chapter*{5. Ray-Marching}
+\chapter{Ray-Marching}
+
+${ }$\\
 
 En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita
 ${ }$\\
@@ -10,10 +12,14 @@ vamos a usar el método de Newton-Raphson y Regula-Falsi de forma combinada ya q
 ${ }$\\
 
 ${ }$\\
-$\textbf{Newton-Raphson}$
+\section{Newton-Raphson}
+%$\textbf{Newton-Raphson}$
 ${ }$\\
 
-\begin{figure}
+Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza tomando una aproximación inicial $x_0$. Para calcular el siguiente valor de la sucesión se toma la recta tangente en el punto $(x_n, f(x_n))$, la intersección de esta recta con el eje de abscisas será el siguiente valor de la sucesión, $x_{n+1}$.
+${ }$\\
+
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=1.0\textwidth]{imagenes/newton.png}
 	\end{center}
@@ -21,14 +27,14 @@ ${ }$\\
 	\label{fig:etiq_7}
 \end{figure}
 
-Como se puede ver en la Figura \ref{fig:etiq_7} el método de Newton-Raphson comienza tomando una aproximación inicial $x_0$. Para calcular el siguiente valor de la sucesión se toma la recta tangente en el punto $(x_n, f(x_n))$, la intersección de esta recta con el eje de abscisas será el siguiente valor de la sucesión, $x_{n+1}$.
-${ }$\\
-
 El algoritmo a seguir es el siguiente:
 
 \begin{itemize}
 	\item Paso 0 : Tomar un $x_0$ inicial.
 	\item Paso 1 : $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+	\begin{itemize}
+		\item Si $f(x_{n+1}) = 0$, hemos terminado.
+	\end{itemize}
 \end{itemize}
 ${ }$\\
 
@@ -49,17 +55,29 @@ ${ }$\\
 ${ }$\\
 
 ${ }$\\
-$\textbf{Regula-Falsi}$
+\section{Regula-Falsi}
+%$\textbf{Regula-Falsi}$
 ${ }$\\
 
 El algoritmo de Regula-Falsi es un refinamiento del método de bisección. Al igual que en el método de bisección partimos de un intervalo inicial $[a_0, b_0]$, teniendo $F(r(a_0))$ y $F(r(b_0))$ signos opuestos(aquí estamos considerando que F es la función implícita $F(x,y,z)$ y $r(t)$ es la ecuación del rayo). Esto nos es de utilidad ya que como dice el Teorema\ref{teo:bolzano} esto nos garantiza que hay una solución dentro de ese intervalo. Este método va calculando intervalos cada vez mas pequeños que incluyen a la solución.
 ${ }$\\
 
 Como se puede ver en la Figura \ref{fig:etiq_8}, gráficamente el procedimiento toma la recta que pasa por los puntos $(a_0, F((a_0)))$ y $(b_0, F((b_0)))$ y toma el punto de intersección de esta con el eje de abscisas. El nuevo intervalo se ajustará dependiendo de que el valor de la función en este nuevo punto sea negativo o positivo poniendose en el lugar de $a_1$ o $b_1$ de tal manera que se siga cumpliendo $F(r(a_1)) \cdot F(r(b_1)) < 0$.
+${ }$\\
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imagenes/regulaF.png}
+	\end{center}
+	\caption{Construcción gráfica del método de Regula-Falsi}
+	\label{fig:etiq_8}
+\end{figure}
+${ }$\\
 
 \begin{teorema}\label{teo:bolzano}
 	$\textbf{(de los ceros de Bolzano)}$ Sea una función continua $f : [a,b] \to \mathbb{R}$ tal que $f(a) \cdot f(b) < 0$, entonces existe al menos un $s \in (a,b)$ tal que $f(s) = 0$.
 \end{teorema}
+${ }$\\
 
 
 
@@ -86,19 +104,12 @@ return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion
 \end{lstlisting}
 ${ }$\\
 
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{imagenes/regulaF.png}
-	\end{center}
-	\caption{Construcción gráfica del método de Regula-Falsi}
-	\label{fig:etiq_8}
-\end{figure}
-
 
 
 
 ${ }$\\
-$\textbf{Comparación de métodos}$
+\section{Comparación de métodos}
+%$\textbf{Comparación de métodos}$
 ${ }$\\
 
 
@@ -266,7 +277,8 @@ ${ }$\\
 
 
 ${ }$\\
-$\textbf{Combinación de algoritmos}$
+\section{Combinación de los algoritmos de Newton-Raphson y Regula-Falsi}
+%$\textbf{Combinación de algoritmos}$
 ${ }$\\
 
 Para la programación de nuestro algoritmo primero calcularemos los extremos del intervalo en los que se mueve $t$ para el rayo $r(t) \equiv o + dt$ serán tales que para un extremo del intervalo la función $F(r(t))$ sea positiva y para el otro extremo la función sea negativa. De esta forma como ya hemos visto nos aseguramos que para algún valor de ese intervalo el rayo corta a la superficie.
@@ -274,6 +286,26 @@ ${ }$\\
 
 Lo siguiente será calcular el siguiente termino de la sucesión mediante el método de Newton-Raphson, en caso de este se salga del intervalo no usaremos este termino y lo volveremos a calcular pero esta vez mediante el algoritmo de Regula-Falsi. Luego con este último termino calculado procederemos como en el método de Regula-Falsi y comprobaremos si $F(r(t))$ se hace positivo o negativo y lo cambiaremos por su correspondiente en el intervalo (formando el nuevo intervalo).
 ${ }$\\
+
+El esquema del algoritmo a seguir es el siguiente:
+
+\begin{itemize}
+	\item Paso 0 : Tomar un intervalo inicial $[a_0, b_0]$ y una aproximación inicial $x_0$ ($x_0$ podría ser uno de los extremos del intervalo).
+	\item Paso 1 : Calcular el siguiente elemento de la sucesión mediante $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$.
+	\begin{itemize}
+		\item Si $f(x_{n+1}) = 0$, hemos terminado.
+		\item Si $x_{n+1}$ esta dentro del intervalo $[a_n, b_n]$:
+		\begin{itemize}
+			\item Si $f(a_n) \cdot f(x_{n+1}) < 0$, $b_n = x_{n+1}$.
+			\item Si $f(b_n) \cdot f(x_{n+1}) < 0$, $a_n = x_{n+1}$.
+		\end{itemize}
+		\item Si $x_{n+1}$ está fuera del intervalo $[a_n, b_n]$ desestimamos $x_{n+1}$ y lo volvemos a calcular mediante $x_{n+1} = \frac{a_n f(b_n) - b_n f(a_n)}{f(b_n) - f(a_n)}$. De nuevo:
+		\begin{itemize}
+			\item Si $f(a_n) \cdot f(x_{n+1}) < 0$, $b_n = x_{n+1}$.
+			\item Si $f(b_n) \cdot f(x_{n+1}) < 0$, $a_n = x_{n+1}$.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
 
 
 
@@ -324,7 +356,8 @@ ${ }$\\
 
 
 ${ }$\\
-$\textbf{IMPLEMENTACIÓN Y PRUEBA}$
+\section{Implementación y prueba}
+%$\textbf{IMPLEMENTACIÓN Y PRUEBA}$
 ${ }$\\
 
 A continuación podemos el código que implementa Newton-Raphson en la función llamada $NewtonRaphson$ y Regula-Falsi en la función llamada $RegulaFalsi$. La combinación de ambos que se ha explicado anteriormente está implementado en la función $interseccion$ que es la que se encarga de conocer si para un rayo dado este corta o no a la superficie e indica en que altura $t$ lo hace.

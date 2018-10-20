@@ -1,17 +1,18 @@
-\chapter*{1. Introducción}
+\chapter{Introducción}
 
 
 ${ }$\\
-$\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y}$
-${ }$\\
-	$\textbf{CONCEPTOS}$
+\section{Rigidez, ovaloides y otros conceptos y resultados}
+%$\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y}$
+%${ }$\\
+%	$\textbf{CONCEPTOS}$
 ${ }$\\
 ${ }$\\
 
 Para llegar al resultado principal que se pretende demostrar primero vamos a ver algunos resultados y definiciones que son necesarios para comprender un poco mejor lo que se quiere mostrar. Algunos de estos resultados no estarán demostrados debido a su extensión o complejidad y a que se alejan del propósito de este trabajo.
 ${ }$\\
 
-En esta primera parte del trabajo vamos a ver que superficies sabemos que son rígidas, como ya veremos estas son las esferas y mas generalmente los ovaloides. Para ello es importante tener en cuenta algunos conceptos y resultados. Como son los siguientes.
+En esta primera parte del trabajo vamos a ver qué superficies sabemos que son rígidas, como ya veremos estas son las esferas y más generalmente los ovaloides. Para ello es importante tener en cuenta algunos conceptos y resultados que veremos en este apartado.
 ${ }$\\
 
 \begin{definicion}
@@ -29,7 +30,7 @@ ${ }$\\
 \end{definicion}
 ${ }$\\
 
-Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que mas intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
+Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
 ${ }$\\
 
 \begin{definicion}\label{def:isom} % label para cuando haga una referencia.
@@ -101,7 +102,8 @@ ${ }$\\
 ${ }$\\
 
 ${ }$\\
-$\textbf{1.1.1. Ovaloides}$
+\subsection{Ovaloides}
+%$\textbf{1.1.1. Ovaloides}$
 ${ }$\\
 
 \begin{definicion}
@@ -131,7 +133,7 @@ ${ }$\\
 	
 	
 	
-		\begin{figure}
+		\begin{figure}[h]
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{imagenes/ellipsoid.png}
 			\end{center}
@@ -162,29 +164,29 @@ ${ }$\\
 ${ }$\\
 
 \begin{ejemplo}
-	Otro ejemplo de ovaloide es el dado por la ecuación $x^4 + y^4 + z^4 = 1$ la gráfica de esta ecuación está representada en la Figura \ref{fig:etiq_11}.
-		\begin{figure}
+	Otro ejemplo de ovaloide es el dado por la ecuación $$ x^4 + y^4 + z^4 = 1 $$ la gráfica de esta ecuación está representada en la Figura \ref{fig:etiq_11}.
+		\begin{figure}[h]
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{imagenes/ovaloide2.png}
 			\end{center}
-			\caption{Ejemplo de ovaloide.}
+			\caption{Ovaloide de ecuación $x^4 + y^4 + z^4 = 1$. Imagen creada en Mathematica}
 			\label{fig:etiq_11}
 		\end{figure}
 \end{ejemplo}
 ${ }$\\
 
-Como vimos en Topología II podemos clasificar las superficies compactas y conexas en los siguientes grupos de homotopías: esfera, suma conexa de toros y suma conexa de botellas de Klein. Como el ovaloide también es compacto y conexo veamos en cuales de estos grupos podemos incluir los ovaloides. Como podemos ver, las esferas son ovaloides, ¿pero, hay ovaloides que no sean homotópicos a la esfera?
+Como vimos en Topología II podemos clasificar las superficies compactas y conexas en los siguientes grupos de homotopías: esfera, suma conexa de toros y suma conexa de botellas de Klein. Como el ovaloide también es compacto y conexo podemos preguntarnos en cuales de estos grupo podemos clasificar los ovaloides. Es fácil observar que las esferas son ovaloides, ¿pero, hay ovaloides que no sean homotópicos a la esfera?
 ${ }$\\
 
-Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según el siguiente corolario que aparece en la bibliografía \cite{ref1}. Recordemos tambien que homeomorfo implica homotopico.
+Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según el siguiente corolario que aparece en la bibliografía \cite{ref1}. Recordemos también que homeomorfo implica homotópico.
 ${ }$\\
 
 \begin{corolario}
-	Si $S$ es una superficie diferenciable de $\mathbb{R}^3$ conexa y compacta con curvatura de Gauss $K \leq 0$ no identicamente $0$, entonces $S$ es homeomorfa a una esfera.
+	Si $S$ es una superficie diferenciable de $\mathbb{R}^3$ conexa y compacta con curvatura de Gauss $K \geq 0$ no idénticamente $0$, entonces $S$ es homeomorfa a una esfera.
 \end{corolario}
 ${ }$\\
 
-Incluso vas a allá con el siguiente resultado.
+Incluso va más a allá con el siguiente resultado.
 ${ }$\\
 
 \begin{teorema}
@@ -192,7 +194,8 @@ ${ }$\\
 \end{teorema}
 ${ }$\\
 
-
+Por tanto, los ovaloides no son ni suma conexa de toros, ni suma conexa de espacios proyectivos.
+${ }$\\
 
 \begin{teorema} \label{teo:hadamard}
 	$\textbf{(Hadamard-Stoker)}$ Sea un ovaloide $S \subset \mathbb{R}^3$ y $\Omega$ su dominio interior. Entonces:
@@ -206,7 +209,8 @@ ${ }$\\
 
 
 ${ }$\\
-$\textbf{1.1.2. Superficie rígida}$
+\subsection{Superficie rígida}
+%$\textbf{1.1.2. Superficie rígida}$
 ${ }$\\
 
 \begin{definicion}
@@ -223,7 +227,7 @@ ${ }$\\
 En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría ya que como se ve en la imagen es diferenciable, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
 ${ }$\\
 
-\begin{figure}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{imagenes/no_rigid}
 	\end{center}
@@ -238,7 +242,8 @@ ${ }$\\
 ${ }$\\
 ${ }$\\
 ${ }$\\
-$\textbf{1.2. RAY-MARCHING EVOLUCIÓN}$
+\section{Visualización de superficies}
+%$\textbf{1.2. RAY-MARCHING EVOLUCIÓN}$
 ${ }$\\
 
 Las ecuaciones paramétricas que definen una superficie podrían ser vistas como una función a la que, pasándole una tupla te devuelven uno de los puntos que está en la superficie. Veamos la siguiente representación:
@@ -264,13 +269,21 @@ ${ }$\\
 
 Several methods exist for rendering implicit surfaces. Indirect methods polygonize the implicit surface to a given tolerance, allowing the use of existing polygon rendering techniques and hardware for interactive inspection [Wyvill et al, 1986; Bloomenthal, 1988]. Although polygonization transforms implicit surfaces into a representation easily rendered and incorporated into graphics systems, polygonizations are typically not guaranteed and may not accurately detect disconnected or detailed sections of the implicit surface. Production ray tracing systems tend to polygonize surfaces, resulting in large time and memory overhead to accurately represent an otherwise simple implicit model.
 
-In an effort to combine speed and accuracy, [Sederberg & Zundel, 1989] developed a direct scan-line method to more accurately render algebraic implicit surfaces at interactive speeds. Ray tracing, on the other hand, is a direct, accurate and elegant method for investigating a much larger variety of implicit surfaces.''
+In an effort to combine speed and accuracy, [Sederberg \& Zundel, 1989] developed a direct scan-line method to more accurately render algebraic implicit surfaces at interactive speeds. Ray tracing, on the other hand, is a direct, accurate and elegant method for investigating a much larger variety of implicit surfaces.''
 ${ }$\\
 
-Ray-marching es una técnica para la visualización de superficies mas complejas dadas en ecuaciones de implicitas que son las de la siguiente forma:
+A lo largo de este capítulo veremos como rayos, $ r : \mathbb{R} \to \mathbb{R}^3$, definidos como
+${ }$\\
+$$ r(t) = o + dt $$
+${ }$\\
+intersectan superficies definidas con ecuaciones implícitas. Si tenemos una superficie dada por $ F : \mathbb{R}^3 \to \mathbb{R} $
+${ }$\\
+$$ F(x,y,z) = 0, $$
+${ }$\\
+obtenemos la intersección con el rayo usando la composición $F \circ r : \mathbb{R} \to \mathbb{R}$, $F \circ r (t) = 0$, cuyas raíces corresponden con las intersecciones del rayo con la superficie.
+${ }$\\
 
-\[
-F(x,y,z) = 0.
-\]
+Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil de calcular directamente, pero hay casos de funciones en los que no se puede calcular directamente despejando variables o no se puede obtener una solución exacta, en estos caso recurrimos a métodos de aproximación de soluciones como son el método de Newton-Raphson y el método de Regula-Falsi.
+${ }$\\
 
-Esta algoritmo usa el método de newton-raphson para aproximar las soluciones de una función para ir aproximandose iterativamente a la superficie. Comienza en el principio del rayo y avanza a lo largo de él la misma cantidad que la distancia de la superficie al último punto tomado.
+Estos métodos parten de una aproximación inicial de la solución y generan una sucesión de términos que converge a la solución.
