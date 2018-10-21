@@ -543,6 +543,32 @@ El siguiente código implementa la fuente de luz que solo tiene como atributos l
 
 
 
+\begin{lstlisting}[style=Consola]
+class Iluminacion{
+private:
+
+	Tupla3f color;
+
+public:
+
+	Iluminacion(Tupla3f col);
+	virtual Tupla3f LeyLambert(Tupla3f objColor, Tupla3f normal, Tupla3f punto);
+	virtual Tupla3f getDireccion(Tupla3f punto)=0;
+};
+
+Iluminacion::Iluminacion(Tupla3f col){
+
+	color = col;
+}
+
+Tupla3f Iluminacion::LeyLambert(Tupla3f objColor, Tupla3f normal, Tupla3f punto) {
+
+	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normal | getDireccion(punto));
+	return L;
+}
+\end{lstlisting}
+${ }$\\
+
 
 \begin{lstlisting}[style=Consola]
 
@@ -596,6 +622,33 @@ bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min
 }
 \end{lstlisting}
 	${ }$\\
+	
+\begin{lstlisting}[style=Consola]
+class LuzPuntual : public Iluminacion {
+
+private:
+
+	Tupla3f posicion;
+	Tupla3f color;
+
+public:
+
+	LuzPuntual(Tupla3f p, Tupla3f c);
+	Tupla3f getDireccion(Tupla3f punto);
+};
+
+LuzPuntual::LuzPuntual(Tupla3f p, Tupla3f c):Iluminacion(c) {
+
+	posicion = p;
+	color = c;
+}
+
+Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
+
+	return normalized(posicion - punto);
+}
+\end{lstlisting}
+${ }$\\
 
 
 Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando lo objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.

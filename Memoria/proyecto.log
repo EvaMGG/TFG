@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.16)  20 OCT 2018 10:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.16)  21 OCT 2018 10:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1100,7 +1100,7 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 80.
 (./portada/portada.tex
 \centeroffset=\skip80
 
-<imagenes/logougr_new.png, id=84, 602.25pt x 595.22375pt>
+<imagenes/logougr_new.png, id=88, 602.25pt x 595.22375pt>
 File: imagenes/logougr_new.png Graphic file (type png)
 
 <use imagenes/logougr_new.png>
@@ -1120,14 +1120,14 @@ Overfull \hbox (24.0pt too wide) in paragraph at lines 9--25
 | $[]$ 
  []
 
-<imagenes/orbitasPeq.png, id=86, 361.35pt x 360.547pt>
+<imagenes/orbitasPeq.png, id=90, 361.35pt x 360.547pt>
 File: imagenes/orbitasPeq.png Graphic file (type png)
 
 <use imagenes/orbitasPeq.png>
 Package pdftex.def Info: imagenes/orbitasPeq.png used on input line 53.
 (pdftex.def)             Requested size: 32.39868pt x 32.32678pt.
 
-<imagenes/logo_etsiit.png, id=87, 501.875pt x 483.8075pt>
+<imagenes/logo_etsiit.png, id=91, 501.875pt x 483.8075pt>
 File: imagenes/logo_etsiit.png Graphic file (type png)
 
 <use imagenes/logo_etsiit.png>
@@ -1794,7 +1794,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 128--131
 
  []
 
-<imagenes/ellipsoid.png, id=198, 401.5pt x 307.1475pt>
+<imagenes/ellipsoid.png, id=202, 401.5pt x 307.1475pt>
 File: imagenes/ellipsoid.png Graphic file (type png)
 
 <use imagenes/ellipsoid.png>
@@ -1843,7 +1843,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 167.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 167.
-[14] <imagenes/ovaloide2.png, id=208, 1026.83624pt x 921.4425pt>
+[14] <imagenes/ovaloide2.png, id=212, 1026.83624pt x 921.4425pt>
 File: imagenes/ovaloide2.png Graphic file (type png)
 
 <use imagenes/ovaloide2.png>
@@ -1984,7 +1984,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 227--229
 
  []
 
-<imagenes/no_rigid.png, id=229, 298.86656pt x 173.89969pt>
+<imagenes/no_rigid.png, id=233, 298.86656pt x 173.89969pt>
 File: imagenes/no_rigid.png Graphic file (type png)
 
 <use imagenes/no_rigid.png>
@@ -3133,7 +3133,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--35
 
  []
 
-<imagenes/camara-estenopeica.jpg, id=377, 435.87843pt x 241.65282pt>
+<imagenes/camara-estenopeica.jpg, id=381, 435.87843pt x 241.65282pt>
 File: imagenes/camara-estenopeica.jpg Graphic file (type jpg)
 
 <use imagenes/camara-estenopeica.jpg>
@@ -3149,7 +3149,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--48
 
  []
 
-<imagenes/Imagen1.jpg, id=379, 548.0475pt x 287.6346pt>
+<imagenes/Imagen1.jpg, id=383, 548.0475pt x 287.6346pt>
 File: imagenes/Imagen1.jpg Graphic file (type jpg)
 
 <use imagenes/Imagen1.jpg>
@@ -3600,7 +3600,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 373--375
 
  []
 
-<imagenes/Imagen2.jpg, id=563, 561.5379pt x 290.2845pt>
+<imagenes/Imagen2.jpg, id=567, 561.5379pt x 290.2845pt>
 File: imagenes/Imagen2.jpg Graphic file (type jpg)
 
 <use imagenes/Imagen2.jpg>
@@ -3783,7 +3783,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 505--509
 
  []
 
-<imagenes/Imagen3.jpg, id=671, 436.7517pt x 327.624pt>
+<imagenes/Imagen3.jpg, id=675, 436.7517pt x 327.624pt>
 File: imagenes/Imagen3.jpg Graphic file (type jpg)
 
 <use imagenes/Imagen3.jpg>
@@ -3832,7 +3832,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 532.
 [54 <./imagenes/Imagen3.jpg>]
-<imagenes/Imagen4.jpg, id=678, 544.1931pt x 371.4678pt>
+<imagenes/Imagen4.jpg, id=682, 544.1931pt x 371.4678pt>
 File: imagenes/Imagen4.jpg Graphic file (type jpg)
 
 <use imagenes/Imagen4.jpg>
@@ -3843,53 +3843,90 @@ Underfull \hbox (badness 10000) in paragraph at lines 541--543
 
  []
 
-LaTeX Info: Redefining \sptext on input line 563.
-LaTeX Info: Redefining \. on input line 563.
-LaTeX Info: Redefining \% on input line 563.
+LaTeX Info: Redefining \sptext on input line 561.
+LaTeX Info: Redefining \. on input line 561.
+LaTeX Info: Redefining \% on input line 561.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 563.
+(babel)             in language  on input line 561.
 [55 <./imagenes/Imagen4.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 582--583
+Underfull \hbox (badness 10000) in paragraph at lines 570--571
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 598--599
+Underfull \hbox (badness 10000) in paragraph at lines 608--609
+
+ []
+
+LaTeX Info: Redefining \sptext on input line 617.
+LaTeX Info: Redefining \. on input line 617.
+LaTeX Info: Redefining \% on input line 617.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 617.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 617.
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 624--625
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 601--603
+Underfull \hbox (badness 10000) in paragraph at lines 651--652
 
  []
 
-<imagenes/prueba.png, id=698, 500.87125pt x 528.97626pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 654--656
+
+ []
+
+<imagenes/prueba.png, id=753, 500.87125pt x 528.97626pt>
 File: imagenes/prueba.png Graphic file (type png)
 
 <use imagenes/prueba.png>
-Package pdftex.def Info: imagenes/prueba.png used on input line 606.
+Package pdftex.def Info: imagenes/prueba.png used on input line 659.
 (pdftex.def)             Requested size: 288.0011pt x 304.17513pt.
 
 
@@ -3923,7 +3960,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [56]
+ [57]
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand >>
@@ -3948,37 +3985,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [57 <./imagenes/prueba.png>]
-LaTeX Info: Redefining \sptext on input line 1.
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 1.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 1.
- [58
-
-]
+ [58 <./imagenes/prueba.png>]
 Cap\'{\i }tulo 5.
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 1.
@@ -4034,7 +4041,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--21
 
  []
 
-<imagenes/newton.png, id=745, 826.08624pt x 476.78125pt>
+<imagenes/newton.png, id=797, 826.08624pt x 476.78125pt>
 File: imagenes/newton.png Graphic file (type png)
 
 <use imagenes/newton.png>
@@ -4068,7 +4075,9 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 34.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 34.
-[59]
+[59
+
+]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 36.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -4149,7 +4158,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--67
 
  []
 
-<imagenes/regulaF.png, id=764, 352.31625pt x 316.18124pt>
+<imagenes/regulaF.png, id=815, 352.31625pt x 316.18124pt>
 File: imagenes/regulaF.png Graphic file (type png)
 
 <use imagenes/regulaF.png>
@@ -4615,7 +4624,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 491--492
 
  []
 
-<imagenes/Prueba2.png, id=967, 500.87125pt x 525.965pt>
+<imagenes/Prueba2.png, id=1017, 500.87125pt x 525.965pt>
 File: imagenes/Prueba2.png Graphic file (type png)
 
 <use imagenes/Prueba2.png>
@@ -5279,15 +5288,9 @@ LaTeX Info: Redefining \% on input line 29.
 )
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 269.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 269.
+Package rerunfilecheck Info: File `proyecto.out' has not changed.
+(rerunfilecheck)             Checksum: 43B21E11D8E2CBD15968DBA9EF236140;1448.
 
-
-Package rerunfilecheck Warning: File `proyecto.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `proyecto.out':
-(rerunfilecheck)             Before: 280FAED20C65C298FD756172A1A2E979;1375
-(rerunfilecheck)             After:  43B21E11D8E2CBD15968DBA9EF236140;1448.
 
 LaTeX Warning: There were undefined references.
 
@@ -5300,10 +5303,10 @@ Package logreq Info: Writing requests to 'proyecto.run.xml'.
  )
 (\end occurred when \iftrue on line 207 was incomplete) 
 Here is how much of TeX's memory you used:
- 15627 strings out of 493029
- 233072 string characters out of 6136233
+ 15675 strings out of 493029
+ 233802 string characters out of 6136233
  647147 words of memory out of 5000000
- 18255 multiletter control sequences out of 15000+600000
+ 18256 multiletter control sequences out of 15000+600000
  26173 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,12n,48p,1629b,3296s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -5331,10 +5334,10 @@ r/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sfti0800.pfb></usr/share/texmf/fonts/type1/public/cm-supe
 r/sfti1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt0800.pfb></usr
 /share/texmf/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on proyecto.pdf (94 pages, 9521858 bytes).
+Output written on proyecto.pdf (94 pages, 9527037 bytes).
 PDF statistics:
- 1312 PDF objects out of 1440 (max. 8388607)
- 1157 compressed objects within 12 object streams
- 634 named destinations out of 1000 (max. 500000)
- 236 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1373 PDF objects out of 1440 (max. 8388607)
+ 1217 compressed objects within 13 object streams
+ 681 named destinations out of 1000 (max. 500000)
+ 244 words of extra memory for PDF output out of 10000 (max. 10000000)
 
