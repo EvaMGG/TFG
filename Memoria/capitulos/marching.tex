@@ -1,4 +1,4 @@
-\chapter{Ray-Marching}
+\chapter{Cálculo de intersecciones rayo-superficie mediante métodos iterativos}
 
 ${ }$\\
 
@@ -10,6 +10,162 @@ ${ }$\\
 ${ }$\\
 vamos a usar el método de Newton-Raphson y Regula-Falsi de forma combinada ya que cada uno tiene unas ventajas e inconvenientes que justifican el uso de ambos. Mientras Newton-Raphson no garantiza que se llegue a una aproximación de la solución y la sucesión que genera puede divergir como se verá mas adelante, el método de Regula-Falsi asegura la convergencia de la solución.Sin embargo, el método de Newton-Raphson converge mas rápido que Regula-Falsi.
 ${ }$\\
+
+Para programar esta segunda parte tuve que hacer algunos cambios y mejoras en el código que ya tenía, entre las modificaciones se puede encontrar una nueva clase llamada $Rayo$ con la se representarán los rayos para hacer la lectura del código un poco mas intuitiva. Las modificaciones son las que se muestran a continuación:
+
+
+\begin{lstlisting}[style=Consola]
+class Rayo{
+	
+private :
+	
+	Tupla3f origen, direccion;
+	
+public :
+	
+	Rayo(Tupla3f o, Tupla3f d);
+	Tupla3f puntoRayo(double t);
+	Tupla3f getOrigen();
+	Tupla3f getDireccion();
+};
+	
+Rayo::Rayo(Tupla3f o, Tupla3f d){
+
+	origen = o;
+	direccion = d;
+}
+	
+Tupla3f Rayo::puntoRayo(double t){
+
+	return origen + t*direccion;
+}
+	
+Tupla3f Rayo::getOrigen(){
+
+	return origen;
+}
+	
+Tupla3f Rayo::getDireccion(){
+
+	return direccion;
+}
+\end{lstlisting}
+${ }$\\
+
+
+
+\begin{lstlisting}[style=Consola]
+class Superficie {
+
+private :
+
+	Tupla3f color;
+
+	void intervaloInicial(Superficie &sup, Rayo rayo, double &t1, double &t2);
+	double RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo);
+	double NewtonRaphson(Superficie &sup, double tn, Rayo rayo);
+	double derivada(Rayo rayo, double t);
+
+public :
+
+	Superficie(Tupla3f col);
+	Superficie(const Superficie &sup);
+	virtual double interseccion(Superficie &sup, Rayo rayo);
+	virtual Tupla3f normal(Tupla3f xyz);
+	virtual Tupla3f getColor();
+	virtual double funcion(Tupla3f xyz) = 0;
+};
+
+Superficie::Superficie(Tupla3f col){
+
+	color = col;
+}
+
+Superficie::Superficie(const Superficie &sup){
+
+	color = sup.color;
+}
+
+
+Tupla3f Superficie::getColor(){
+
+	return color;
+}
+
+double Superficie::interseccion(Superficie &sup, Rayo rayo){
+
+	double an, bn, tn;
+	int num_iteraciones = 0;
+
+	intervaloInicial(sup, rayo, an, bn);
+
+	tn = an;
+
+	if (sup.funcion(rayo.puntoRayo(an)) == 0) return an;
+	else if (sup.funcion(rayo.puntoRayo(bn)) == 0) return bn;
+	else if (an == bn) return -1;
+
+	while (abs(sup.funcion(rayo.puntoRayo(tn))) > 0.1 && num_iteraciones < 100){
+	
+		tn = NewtonRaphson(sup, tn, rayo);
+
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
+
+		if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
+		else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
+		else bn = tn;
+		
+		num_iteraciones++;
+	}
+
+	return tn;
+}
+
+void Superficie::intervaloInicial(Superficie &sup, Rayo rayo, double &t1, double &t2){
+
+	t1 = 0;
+	double incremento = 0.1;
+	
+	while ( (sup.funcion(rayo.puntoRayo(t1)) * sup.funcion(rayo.puntoRayo(t1+ incremento)) > 0) && t1 < 2) t1 = t1 + incremento;
+	
+	for (int i = 0; i < 3; i++){
+	
+		t2 = 0;
+		
+		while ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 && t2 < 2){
+			t2 = t2 + incremento;
+		}
+		
+		if ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 ) break;
+		else incremento = incremento / 3;
+	}
+}
+
+double Superficie::RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo){
+
+	if (sup.funcion(rayo.puntoRayo(an)) == sup.funcion(rayo.puntoRayo(bn))) cout << "notANumber" << endl;
+	
+	return ( ( (an*sup.funcion(rayo.puntoRayo(bn))) - (bn*sup.funcion(rayo.puntoRayo(an))) ) / ( sup.funcion(rayo.puntoRayo(bn)) - sup.funcion(rayo.puntoRayo(an)) ) );
+}
+
+double Superficie::NewtonRaphson(Superficie &sup, double tn, Rayo rayo){
+
+	return tn - (sup.funcion(rayo.puntoRayo(tn))/sup.derivada(rayo, tn));
+}
+
+Tupla3f Superficie::normal(Tupla3f xyz){
+
+	return normalized( Tupla3f(funcion( xyz + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( xyz - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( xyz + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( xyz - Tupla3f(0.0, EPSILON, 0.0) ), funcion( xyz + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( xyz - Tupla3f(0.0, 0.0, EPSILON) )) );
+}
+
+double Superficie::derivada(Rayo rayo, double t){
+
+	return (funcion(rayo.puntoRayo(t + EPSILON)) + funcion(rayo.puntoRayo(t))) / EPSILON;
+}
+\end{lstlisting}
+${ }$\\
+
+
 
 ${ }$\\
 \section{Newton-Raphson}
@@ -310,30 +466,31 @@ El esquema del algoritmo a seguir es el siguiente:
 
 
 \begin{lstlisting}[style=Consola]
-double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
+double Superficie::interseccion(Superficie &sup, Rayo rayo){
+
 	double an, bn, tn;
 	int num_iteraciones = 0;
 
-	intervaloInicial(sup, o, d, an,bn);
+	intervaloInicial(sup, rayo, an, bn);
 	tn = an;
-	
-	if (sup.funcion(o, d, an) == 0) return an;
-	else if (sup.funcion(o, d, bn) == 0) return bn;
+
+	if (sup.funcion(rayo.puntoRayo(an)) == 0) return an;
+	else if (sup.funcion(rayo.puntoRayo(bn)) == 0) return bn;
 	else if (an == bn) return -1;
 
-	while (abs(sup.funcion(o, d, tn)) > 0.1 && num_iteraciones < 100){
-	
-		tn = NewtonRaphson(sup, tn, o, d);
-		
-		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
-		
-		if (sup.funcion(o, d, tn) == 0) return tn;
-		else if (sup.funcion(o, d, an)*sup.funcion(o, d, tn) > 0) an = tn;
+	while (abs(sup.funcion(rayo.puntoRayo(tn))) > 0.1 && num_iteraciones < 100){
+
+		tn = NewtonRaphson(sup, tn, rayo);
+
+		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
+
+		if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
+		else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
 		else bn = tn;
-		
+
 		num_iteraciones++;
 	}
-	
+
 	return tn;
 }
 \end{lstlisting}
@@ -366,32 +523,20 @@ ${ }$\\
 \begin{lstlisting}[style=Consola]
 
 class Elipse : public Superficie{
-	
+
 private:
 
 	double radio0, radio1, radio2;
-	
-	
-	void intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2);
-	
-	double RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d);
-	
-	double NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d);
-	
+
 public :
-	
+
 	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
 	Elipse(const Elipse &eli);
-	double interseccion(Superficie &sup, Tupla3f o, Tupla3f d);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 	double funcion(Tupla3f xyz);
-	double funcion(Tupla3f o, Tupla3f d, double t);
-	double derivada(Tupla3f o, Tupla3f d, double t);
 };
-\end{lstlisting}
-${ }$\\
 
-\begin{lstlisting}[style=Consola]
+
+
 Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
 
 	radio0 = rad0;
@@ -406,93 +551,17 @@ Elipse::Elipse(const Elipse &eli):Superficie(eli){
 	radio2 = eli.radio2;
 }
 
-
-
-void Elipse::intervaloInicial(Superficie &sup, Tupla3f o, Tupla3f d, double &t1, double &t2){
-
-	t1 = 0;
-	double incremento = 0.1;
-	
-	while ( (sup.funcion(o, d, t1) * sup.funcion(o, d, t1+ incremento) > 0) && t1 < 2) t1 = t1 + incremento;
-	
-	for (int i = 0; i < 3; i++){
-	
-		t2 = 0;
-		while ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 && t2 < 2){
-		
-			t2 = t2 + incremento;
-		}
-
-		if ( sup.funcion(o, d, t2) * sup.funcion(o, d, t1) > 0 ) break;
-		else incremento = incremento / 3;
-	}
-}
-
-double Elipse::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
-
-return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
-}
-
-double Elipse::NewtonRaphson(Superficie &sup, double tn, Tupla3f o, Tupla3f d){
-
-	return tn - (sup.funcion(o, d, tn)/sup.derivada(o, d, tn));
-}
-
-double Elipse::interseccion(Superficie &sup, Tupla3f o, Tupla3f d){
-
-	double an, bn, tn;
-	int num_iteraciones = 0;
-
-	intervaloInicial(sup, o, d, an,bn);
-	
-	tn = an;
-	
-	if (sup.funcion(o, d, an) == 0) return an;
-	else if (sup.funcion(o, d, bn) == 0) return bn;
-	else if (an == bn) return -1;
-
-	while (abs(sup.funcion(o, d, tn)) > 0.1 && num_iteraciones < 100){
-
-		tn = NewtonRaphson(sup, tn, o, d);
-
-		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, o, d);
-		
-		if (sup.funcion(o, d, tn) == 0) return tn;
-		else if (sup.funcion(o, d, an)*sup.funcion(o, d, tn) > 0) an = tn;
-		else bn = tn;
-		
-		num_iteraciones++;
-	}
-
-	return tn;
-}
-
-Tupla3f Elipse::normal(Tupla3f e, Tupla3f d, double t){
-
-	return normalized( Tupla3f(funcion( (e+t*d) + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( (e+t*d) - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( (e+t*d) - Tupla3f(0.0, EPSILON, 0.0) ), funcion( (e+t*d) + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( (e+t*d) - Tupla3f(0.0, 0.0, EPSILON) )) );
-}
-
 double Elipse::funcion(Tupla3f xyz){
 
 	return ((pow(xyz.coo[0],2) / pow(radio0,2)) + (pow(xyz.coo[1],2) / pow(radio1,2)) + (pow(xyz.coo[2],2) / pow(radio2,2)) -1);
-}
-
-
-double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
-
-	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
-}
-
-double Elipse::derivada(Tupla3f o, Tupla3f d, double t){
-
-	return (funcion(o, d, t + EPSILON) + funcion(o, d, t)) / EPSILON;
 }
 \end{lstlisting}
 ${ }$\\
 
 
 
-\begin{figure}
+
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{imagenes/Prueba2.png}
 	\end{center}
@@ -501,20 +570,10 @@ ${ }$\\
 \end{figure}
 
 
-
-
-
-
-
-
-
 ${ }$\\
-$\textbf{INTRODUCCIÓN}$
+\subsection{Otros ejemplos de ovaloides}
 ${ }$\\
 
-La tecnología de crear imágenes realistas y visualmente interesantes de tres
-las formas dimensionales están avanzando en muchos frentes. Uno de ellos es el desarrollo de algoritmos para dibujar superficies curvas directamente desde sus definiciones matemáticas en lugar de dividirlas en grandes cantidades de polígonos. 
-${ }$\\
 
 Superficies cuádricas, por otro lado, son soluciones de ecuaciones de segundo orden.
 ${ }$\\
@@ -523,365 +582,73 @@ ${ }$\\
 \]
 ${ }$\\
 
-Esta clase de superficies incluye formas tales como esferas, conos o hiperboloides de revolución. Como podemos ver las cuádricas son soluciones de ecuaciones implicitas que como hemos dicho son de la forma $F(x, y, z) = 0$.
-${ }$\\
-
-Este documento examina una solución más general al problema de imágenes para tales superficies y describe en detalle su aplicación a una clase de superficies que están estrechamente relacionadas con los cuadrículas pero que tienen una gama más amplia de formas.
-${ }$\\
-
-${ }$\\
-$\textbf{EL MODELO}$
-${ }$\\
-
-El problema que motivó este documento es el familiar en los gráficos por computadora de mostrar modelos moleculares. Esto se hace con mayor frecuencia con un modelo de bola y bastón o un modelo de esfera llenadora de espacio. En cualquier caso, el modelo consiste en una colección posiblemente interseccionada de dos formas básicas: esferas y cilindros. Para dibujar una imagen del modelo, las esferas y los cilindros se pueden dividir fácilmente en polígonos y pasar a un algoritmo convencional de representación de polígonos. Alternativamente, se puede emplear cualquiera de varios algoritmos de superficie curva, y, de hecho, se han formulado varios algoritmos de propósito especial [6, 8, 9] para manejar eficientemente solo estas dos formas para la visualización rápida de estructuras moleculares grandes.
-
-En interés tanto de la variedad artística como de la precisión científica, se buscó un nuevo modelo que se separe del molde de bola y adhesivo / relleno de espacio. Se deseaba hacer que los enlaces entre los átomos se parecieran más a los que se muestran en la Figura 1. Esto es, de hecho, más parecido a lo que podría parecer una nube de densidad de electrones real para un enlace covalente. Además, a los efectos de la animación, este vínculo debe estirarse y contraerse de una manera agradable, ya que vibra, rompiendo a medida que un átomo se aleja por completo de la molécula. Esto se ilustra en la Figura 2.
-
-Un enfoque convencional podría ser modelar dicha forma a través de las superficies bicúbicas o cuádricas ya familiares. Esto es moderadamente factible para un enlace aislado pero se vuelve difícil para moléculas más elaboradas con varios enlaces superpuestos (por ejemplo, estructuras de anillo). Además, los cambios topológicos que deben ocurrir cuando se rompe un enlace son difíciles de manejar de manera automatizada. Por estas razones, se utilizó un modelo matemático básico que es similar en forma a una simulación real de mapas de densidad de electrones. La mecánica cuántica representa el electrón en un átomo como una función de densidad de la ubicación espacial. Una función de muestra para un átomo de hidrógeno es
-
-\[
-	D(x, y, z) = exp(-ar)
-\]
-donde $r = \sqrt{(x-x_1)^2 + (y-y_1)^2 + (z-z_1)^2}$ y $(x_1, y_1, z_1)$ la localización del átomo.
-
-Podemos representar esta función para una colección de átomos sumando la contribución de cada átomo por separado.
-\[
-	D(x, y, z) = \sum_{i} b_i exp(-a_i r_i)
-\]
-donde $r_i$ es la distancia de $(x,y,z)$ al centro del átomo $i$.
-
-Una superficie se puede definir como aquellos puntos donde esta función de densidad es igual a una cantidad umbral:
-\[
-	F ( x, y, z) = D ( x, y, z) - T.
-\]
-
-Tenga en cuenta que todos los puntos dentro de la superficie tienen densidades de electrones mayores que T. A los efectos de la eficiencia computacional, la función realmente implementada fue de forma similar:
-\[
-	D(x, y, z) = \sum_{i} b_i exp(-a_i r^{2}_{i})
-\]
-Esto no requiere tomar una raíz cuadrada. El término exponencial es simple
-Golpe gaussiano centrado en ri, con altura bi y desviación estándar ai. Ajustando los parámetros ai y bi, se pueden lograr diferentes efectos para la misma disposición de átomos. Estos efectos alteran el "blobbiness" del objeto. De hecho, para fines de modelado, es más útil para un diseñador especificar estos dos parámetros en términos del radio del átomo en aislamiento y un parámetro de blobbiness. El radio de un átomo aislado Ri se encuentra al establecer
-\[
-	T = b_i exp(-a_i R^{2}_{i}) = exp (-a_i R^{2}_{i} + ln (b_i))
-\]
-entonces el ai puede ser elegido para ser
-\[
-	a_i = - \frac{ln(T/b_i)}{R^{2}_{i}}
-\]
-Podemos definir el parámetro blobbiness para ser
-\[
-	B_i = ln(T/b_i)
-\]
-de modo que (resolviendo para bi)
-\[
-	b_i = T exp(-B_i)
-\]
-La contribución de densidad neta de un átomo en términos de los dos parámetros que definen la forma Ri y Bi es
-\[
-	D_i(x,y,z) = T \; exp ( \frac{B_i}{R^{2}_{i}}r^{2}_{i} -B_i)
-\]
-Tenga en cuenta que Bi debe ser negativo para garantizar que la función de densidad vaya a cero a medida que ri va al infinito.
-
-Como hay un factor de T en cada átomo contribuyente, el valor del umbral ahora es irrelevante; podemos establecerlo en algún valor canónico como 1. Uno puede obtener el mismo efecto que cambiar el umbral ajustando los factores de escala, bi, de los términos individuales (es decir, ajustando los parámetros de blobbiness Bi). Sin embargo, para mayor claridad, generalmente escribimos el umbral como T, en el entendimiento de que T = 1. Un valor de umbral canónico de 1 es particularmente conveniente ya que su logaritmo es 0. La superficie definida por un átomo aislado, definida por el ajuste Di = T, es entonces una superficie cuádrica convencional. Esto se ve tomando el logaritmo de ambos lados de la ecuación anterior, produciendo 0 = (Bi / R2i) r2i - Bi. En la Figura 3 se muestra una imagen de muestra que muestra un rango de tales parámetros.
-
-${ }$\\
-$\textbf{EL ALGORITMO DE RENDERIZADO}$
-${ }$\\
-
-Las superficies definidas algebraicamente son intrínsecamente adecuadas para los algoritmos de conversión de trama. La estructura general de dicho algoritmo es sencilla: para cada ubicación de píxeles (xs, ys) la ecuación algebraica de definición se reduce a una ecuación univariante en z. Las soluciones a esta ecuación (si las hay) producen la profundidad z de la superficie en ese píxel. En el caso de las superficies cuádricas más comunes, esta solución es fácil de obtener. En el caso de las superficies más generales que se describen aquí, la solución debe obtenerse numéricamente. La parte importante del algoritmo descrito aquí es una técnica para acelerar este cálculo.
-
-${ }$\\
-$\textbf{Algoritmo básico}$
-${ }$\\
-
-Para un píxel particular, el cuadrado de la distancia desde el centro del átomo i, Pi, a un punto en el rayo de visión, $z \overline{R}$, se reduce a un polinomio cuadrático en z.
-\[
-	r^{2}_{i} = (z\overline{R} - \overline{P}_i)\cdot(z\overline{R} - \overline{P}_i) = z^2(\overline{R} \cdot \overline{R}) - 2 z (\overline{R} \cdot \overline{P}_i) + (\overline{P}_i \cdot \overline{P}_i)
-\]
-Esta expresión es algebraicamente correcta, pero desafortunadamente es susceptible de un error de redondeo. La razón para esto se puede ver en la Figura 4.
-
-La función puede ser una parábola bastante estrecha centrada posiblemente bastante atrás en el eje z. Si bien los valores comúnmente encontrados para los coeficientes de esta ecuación no presentan por sí mismos problemas, la solución de la ecuación requiere tomar diferencias de sus productos. Esto puede exceder fácilmente la precisión de la aritmética de precisión simple. Para evitar la necesidad de una aritmética de precisión múltiple, adoptamos una representación más geométricamente significativa
-\[
-	r^{2}_{i} = (\overline{R} \cdot \overline{R})(z - z^{2}_{mi}) + M_i
-\]
-donde
-\[
-	z_{mi} = (\overline{R} \cdot \overline{P}_i)/(\overline{R} \cdot \overline{R}) \;\;\;\;\;\; y \;\;\;\;\;\; M_i = (z_{mi} \overline{R} - \overline{P}_i) \cdot (z_{mi} \overline{R} - \overline{P}_i)
-\]
-Aquí, zmi es la distancia z del mínimo local, Mi, de ri. Cada término en la función de densidad es, por lo tanto, una función de bache gaussiana de z centrada en zmi ,. La función total es la suma de varios de estos golpes. El valor de profundidad z visible es la primera ubicación donde esta función excede el valor T. Esto se muestra en la Figura 5.
-
-Si solo se ve un átomo, la profundidad z se puede encontrar analíticamente estableciendo el término de densidad para ese átomo igual al valor umbral de 1.
-\[
-	T = 1 = exp ( -a_i r^{2}_{i} - B_i)
-\]
-Tomando el logaritmo de ambos lados y sustituyendo nuestra fórmula por r2i,
-\[
-	0 = a_i [(\overline{R} \cdot \overline{R})(z-z^{2}_{mi}) + M_i] + B_i.
-\]
-Resolviendo z (nótese que la raíz cuadrada negativa se toma para obtener la solución más cercana al ojo),
-\[
-	z = z_{im} - \sqrt{\frac{a_i M_i + B_i}{-a_i (\overline{R} \cdot \overline{R})}}.
-\]
-
-${ }$\\
-$\textbf{Solución iterativa}$
-${ }$\\
-
-Si hay más de un átomo, una solución analítica no es factible y debemos recurrir a métodos numéricos. Dos métodos populares para la solución iterativa de tales ecuaciones son Newton iteration y "regula falsi".
-
-La iteración de Newton funciona comenzando con una suposición inicial y refinándola al aproximar la función D con una línea recta tangente a la función en ese punto. La solución de esta ecuación lineal produce una nueva suposición, $z_new$.
-\[
-	z_{new} = z - \frac{D(z) - T}{D'(z)}
-\]
-Los derivados se obtienen fácilmente a partir de la forma funcional.
-\[
-	\frac{dD}{dz} = D' = \sum_{i} -2 a_i (\overline{R} \cdot \overline{R}) (z - z_{mi}) exp(-a_i r^{2}_{i} - B_i)
-\]
-Tenga en cuenta que este cálculo utiliza muchos cálculos en común con el cálculo de D, por lo que la evaluación de D y D 'es relativamente económica.
-
-Regula falsi comienza con dos conjeturas iniciales que se sabe que entre corchetes la solución: Zn, donde D (zn) <T, y zf, donde D (zf)> T. Genera una nueva suposición dibujando una línea entre (z ,, D (zn)) y (zf, D (zf)) y resolver para T.
-\[
-	z_{new} = \frac{z_n (D(z_f) - T) - z_f ( D(z_n) - T)}{D(z_f) - D(z_n)}
-\]
-El valor real de $D (z_new)$ se calcula. Si $D (z_new) <T$ entonces $z_new$ reemplaza a zn. De lo contrario, reemplaza zf. Por lo tanto, el rango entre zn y zf se contrae continuamente alrededor de la solución correcta.
-
-Si la conjetura inicial es lo suficientemente cercana a la solución real, la iteración de Newton converge rápidamente. Si no está cerca, sin embargo, divergerá. Se garantiza que Regula falsi converge pero lo hace más lentamente. Por lo tanto, hemos adoptado una solución híbrida. Un valor para $z_new$ se calcula mediante la iteración de Newton. Si este valor está fuera del rango (Zn, Zf), entonces el valor se vuelve a calcular a partir de la fórmula regula falsi. Este proceso se repite hasta que el valor de $| D (z_new) - T |$ es menor que alguna tolerancia de error t.
-
-Para generar el primer rango inicial de suposiciones, dependemos de algunas heurísticas basadas en nuestro conocimiento de la forma funcional. Esperamos que la solución esté en o cerca de las soluciones a las protuberancias atómicas individuales (Figura 6) o al máximo local de una protuberancia si no supera el valor umbral T (Figura 7).
-
-Por lo tanto, hacemos una lista de posibles valores iniciales de estimación z y los ordenamos en orden ascendente de z. La lista ordenada se escanea de adelante hacia atrás y, para cada elemento, se calcula el valor real de la función (es decir, la suma de todas las contribuciones de átomos). Si esto es menor que el valor umbral, se supone que el máximo local de D cerca de aquí no alcanza el umbral y se evalúa el siguiente elemento de la lista. Si excede el valor umbral, esa z se usa como el valor inicial de zf y el elemento de la lista anterior se usa como el valor inicial de zn. Ver la Figura 8.
-
-${ }$\\
-$\textbf{Cálculos de intensidad}$
-${ }$\\
-
-Cuando se encuentra una solución z, se sustituye en eq. (*) para obtener las ubicaciones xey del punto visible en la superficie en el espacio de visualización. Para calcular una intensidad, es necesario encontrar la superficie normal en este punto. Esto se puede encontrar tomando el gradiente de la función de definición de superficie, F.
-\[
-	N = \left[ {\begin{array}{ccc}
-		\frac{\partial F}{\partial x}, & \frac{\partial F}{\partial y}, & \frac{\partial F}{\partial z} \\
-		\end{array} } \right]
-\]
-Para la función que estamos usando aquí, esto se hace fácilmente. Por ejemplo, el componente x será
-\[
-	\frac{dF}{dx} = D' = \sum_{i} -2 a_i (x - x_i) exp(-a_i r^{2}_{i} - B_i)
-\]
-Finalmente, podemos permitir que las propiedades reflectantes de la superficie (como el color) varíen sobre la superficie mezclándolas de acuerdo con las contribuciones de cada átomo. Esto se hace tomando una suma ponderada de la propiedad superficial de cada átomo, el peso elegido como el valor de Di de ese átomo. (Recuerde que estas suman el valor umbral de 1.0.) Alternativamente, como en la facilidad de los diagramas que se muestran aquí, podemos encontrar el átomo con el valor más alto de Di en el punto visible y usar sus propiedades de superficie.
-
-${ }$\\
-$\textbf{Optimizando el algoritmo}$
-${ }$\\
-
-Para las imágenes que contienen más de unos pocos átomos (hasta 4000 en algunas de las imágenes requeridas para este proyecto), la suma de la función D sobre todos los átomos está computacionalmente fuera de la cuestión. Afortunadamente, para cualquier píxel dado, la mayoría de los átomos están lo suficientemente lejos del rayo de escaneo, por lo que su contribución a la función D es insignificante. Por lo tanto, podemos economizar considerablemente utilizando en los cálculos solo los átomos que están "cerca" del rayo de exploración. El término "cerca" tiene un significado preciso al encerrar cada átomo en una esfera definida por
-\[
-	D_i (x,y,z) = tT,
-\]
-donde el valor t es la misma tolerancia de error utilizada como criterio de convergencia. Si el rayo de escaneo se cruza con esta esfera, debe haber puntos a lo largo de ella donde la contribución a D sea lo suficientemente grande como para importar. Si, por otro lado, el rayo escaneado está separado de la esfera circundante, entonces todos los puntos en él contribuyen menos que el error introducido por las condiciones de terminación de la solución numérica. El átomo puede omitirse.
-
-El valor de la tolerancia al error, por supuesto, determina la calidad de la imagen. Una tolerancia mayor será más rápida pero la imagen tendrá un poco de ruido agregado. La Figura 9 muestra los resultados obtenidos con diferentes valores de t. El halo alrededor de cada ejemplo indica los píxeles cubiertos por las esferas de los átomos. Los errores en la superficie comienzan a ser aparentes con t = 0.03. Aparecen inicialmente como un pliegue a través del resalte en la parte superior de la forma.
-
-El proceso de mantener una lista de átomos "cercanos" durante la renderización es similar al de mantener una lista de polígonos potencialmente visibles en algoritmos de representación de polígonos más convencionales (o quizás, de manera más adecuada, mantener una lista de esferas visibles en un dibujo de esferas) programa).
-
-Comenzamos con el bucle externo (y). Para inicializar el ciclo, las esferas circundantes de todos los átomos se proyectan en el espacio de la pantalla y se calculan los valores y máximos y mínimos visibles. Las matemáticas exactas para esto se dan en la siguiente sección. La lista de átomos se ordena en mínimo y, formando la lista "y-enter". Durante el ciclo de exploración y, mantenemos una lista adicional de "y activados" de todos los átomos cuya esfera envolvente incluye el plano de exploración actual. Las adiciones y eliminaciones de esta lista se realizan de forma incremental cada vez a través del ciclo. Es decir, cada vez que $y_s$ se incrementa, se examina el elemento superior en la lista y-enter. Si ahora está por encima de los nuevos $y_s$, se mueve a la lista y-active y se examina el siguiente elemento en la lista y-enter. Cuando la parte superior de la lista y-enter está debajo de los nuevos $y_s$, sabemos que todos los átomos que ingresaron se han agregado. Ahora examine la lista activa para las eliminaciones. El $y_min$ de cada átomo en la lista y-active se prueba contra los nuevos $y_s$, y si está por encima de él, el elemento se elimina. Ver la Figura 10.
-
-Dentro del bucle $ y $ hay un bucle $ x $ que recorre la pantalla. Aquí mantenemos una lista x-active con los candidatos provenientes de la lista y-active. Esto se hace de una manera exactamente análoga al ciclo y. Para cada elemento en la lista y-active, la esfera circundante se proyecta en la pantalla y se calcula el valor x máximo y mínimo. La lista y-active se ordena en $x_ {min}$ y se convierte en la lista x-enter. Dado que la lista y-active es de hecho idéntica a la lista x-enter, siempre se mantiene ordenada en x, desde la línea de exploración hasta la línea de exploración. Todas las adiciones se combinan en la lista utilizando un tipo de intercambio. A medida que el escaneo avanza de izquierda a derecha, se examina la lista x-enter para ingresar átomos y agregarlos a la lista x-active. La lista x-active se analiza en busca de átomos que salen. Vea la Figura 11.
-
-En este punto tenemos, para un píxel dado, una lista de todos los átomos cuya esfera circundante intersecta el rayo de escaneo actual a través de ese píxel. Esta lista representa un sacrificio significativo de la totalidad de los átomos a solo aquellos que son relevantes para el píxel actual. Sin embargo, hay un nivel más de sacrificio disponible. Esto está en la dirección z. En la Sección 3.3 describimos la técnica para encontrar un punto inicial para la solución iterativa como un escaneo de adelante hacia atrás a través de una lista ordenada en z de posibles puntos de solución. Si, antes de este zscan, calculamos los valores Zmin / Zmax de las intersecciones de las esferas circundantes con el rayo escaneado, podemos mantener una lista z-active a medida que progresa zscan. En este caso, los valores de z examinados para las pruebas de entrada / salida no son valores enteros equiespaciados como en los casos xey. En su lugar, se toman uno a la vez de la lista z potencial. Sin embargo, esto no altera el principio básico. Ver la Figura 12.
-
-Cuando ejecutamos el ciclo de iteración, la suma del Di se tomará solo para aquellos átomos lo suficientemente cercanos a la conjetura inicial como para importar. Por ejemplo, para la imagen que contiene más de 4000 átomos (Figura 13), había como máximo 6 átomos en la lista z-activa para la iteración y usualmente mucho menos.
-
-
-${ }$\\
-$\textbf{Cálculo del rango en x, y, z}$
-${ }$\\
-
-En esta sección, indicamos explícitamente cómo calcular las extensiones x, y y z de la esfera circundante de un átomo. Tales esferas adjuntas están definidas, como se describe en la Sección 3.5, por la ecuación
-\[
-	tT = D_i = exp (-a_i r^{2}_{i} - B_i)
-\]
-Tomando el logaritmo (y recordando que T = 1), transformamos esto en la ecuación para una superficie cuádrica
-\[
-	0 = a_i r^{2}_{i} + (B_i + ln(t))
-\]
-Para calcular $z_ {min} / z_ {max}$ para la prueba de rango de zscan, sustituimos la expresión por r2i en términos de z:
-\[
-	0 = a_i [(\overline{R} \cdot \overline{R})(z-z_{mi})^2 + M_i] + (B_i + ln(t))
-\]
-y resolviendo para z:
-\[
-	z_{min} = z_{mi} - D_z \;\;\;\;\;\;\; y \;\;\;\;\;\;\; z_{min} = z_{mi} - D_z
-\]
-donde
-\[
-	D_z = \sqrt{\frac{a_i M_i + B_i + ln(t)}{-a_i(\overline{R} \cdot \overline{R})}}
-\]
-Habrá dos raíces en esto siempre que la expresión bajo el radical sea positiva. La curva definida al establecer esto igual a cero definirá la proyección de los contornos de la silueta de la esfera circundante en la pantalla:
-\[
-	a_i M_i + B_i + ln(t) = 0
-\]
-Sustituyendo la definición de Mi y $z_ {mi}$ podemos transformar esto en
-\[
-	\Delta (\overline{R} \cdot \overline{R}) - (\overline{R} \cdot \overline{P}_i)^2 = 0
-\]
-donde $\Delta = (\overline{P}_i \cdot \overline{P}_i) + \frac{B_i + ln(t)}{a_i}$.
-
-Recordando que $R = (x_z, y_z, 1)$ obtenemos
-
-\[
-	\Delta (x^{2}_{z} + y^{2}_{z} + 1) - (x_z x_i + y_z y_i + z_i)^2 = 0.
-\]
-
-Ahora para una línea de escaneo particular, $y_z$ es constante. Luego tenemos una ecuación cuadrática en $x_z$ cuyas soluciones dan el rango en $x_z$ para esa línea de escaneo.
-\[
-	x^{2}_{z} (\Delta - x^{2}_{i}) + x_z (-2 x_i (y_z y_i + z_i)) + (\Delta (y^{2}_{z} + 1) - (y_z y_i + z_i)^2) = 0.
-\]
-Las soluciones a esta ecuación $(x_ {z \; min}, x_ {z \; max})$ aún se deben convertir a coordenadas de píxel $(x_ {s \; min}, x_ {s \; max})$ por referencia a eq . (*)
-
-La ecuación anterior tendrá dos raíces en todos los valores de $ y_z $ para los cuales su discriminante es positivo. Los valores de $ y_z $ para los que este discriminante se convierte en cero, por lo tanto, arrojan el máximo y mínimo $ y_z $ para los cuales la esfera que los contiene es visible.
-\[
-	4 x^{2}_{i}(y_z y_i + z_i)^2 - 4(\Delta - x^{2}_{i})(\Delta (y^{2}_{z} +1) - (y_z y_i + z_i)^2 ) = 0.
-\]
-De nuevo, las dos soluciones para $ y_z $ de esta ecuación se deben convertir a coordenadas de píxeles mediante eq. (*)
-
-En los casos x e y, el rango de píxeles para la esfera circundante debe intersecarse con el rango de píxeles de la pantalla. Esto significa que estamos realizando un recorte en el espacio de la pantalla. Si el rango de la esfera está completamente fuera de la pantalla, puede eliminarse por completo.
-
-${ }$\\
-$\textbf{Sincronización}$
-${ }$\\
-
-El algoritmo de renderizado, al hacer algunas formas bastante interesantes, no es terriblemente rápido. En un esfuerzo por ver dónde se gasta el tiempo dentro del algoritmo, fue instrumentado para medir el tiempo. La Tabla 1 muestra los resultados para los cálculos implicados en la generación de la Figura 14, que contiene 64 átomos. Nuevamente, el halo alrededor de la molécula representa las esferas de los átomos e indica el rango de píxeles sobre el que se realizan los cálculos.
-
-Tenga en cuenta que aunque las rutinas $y_ {scan}$ y $x_ {scan}$ tardan bastante tiempo (ya que tienen que ocuparse de listas activas más grandes), su contribución neta al tiempo de ejecución es pequeña ya que solo se llaman una vez por imagen y una vez por línea de exploración potencialmente ocupada, respectivamente. La rutina z calc es donde se calculan los valores de $z_ {mi}$, $M_i$, etc., para todos los átomos en la lista z-active. Esto es lo que toma la mayor parte del tiempo. Parte de la razón para esto no es tanto la cantidad de veces interrumpidas en la rutina como la gran cantidad de veces que se llama. Se llama una vez para cada píxel cubierto por cualquier esfera circundante, mientras que la rutina de iteración y sombreado se llama una vez por cada píxel ocupado.
-
-También presentamos histogramas de los tamaños de las listas activas para cada uno de los escaneos anidados. Cada contenedor del histograma cuenta el número de veces que un tamaño determinado de la lista activa se pasa a la rutina. Tenga en cuenta que, debido al proceso de eliminación selectiva, las rutinas de iteración y sombreado generalmente se llamaban con listas activas de longitud 3 o inferior. Ver la Figura 15
-
-
-${ }$\\
-$\textbf{Modelado jerárquico}$
-${ }$\\
-
-La implementación de este algoritmo se realizó en un PDP-11, que permite un espacio de direcciones limitado para los programas de usuario. No hay suficiente memoria de usuario para un programa que hace tanto el modelado como la representación para sistemas de átomos del tamaño deseado. En consecuencia, el proceso se divide en dos programas que se comunican a través de un archivo temporal. Este archivo es, de hecho, solo la lista y-enter ordenada en $y_{max}$ para el volumen adjunto de cada átomo. Un programa de modelado de propósito general acepta comandos que controlan los parámetros de posicionamiento y blobbiness de átomos, iluminación global, parámetros de visualización, etc. Luego escribe la lista y-enter en el archivo atemporary. El programa de renderizado luego lee en este archivo, átomo por átomo, a medida que el escaneo avanza por la pantalla. Esto libera el programa de renderizado de cualquier restricción sobre el número total de átomos visibles. Solo necesita leer un átomo antes que él en el archivo y-enter list para poder saber cuándo el próximo átomo ingresará en la lista y-active. Internamente, solo mantiene la lista y activa y, por lo tanto, tiene restricciones solo en la cantidad máxima de átomos visibles en cualquier línea de escaneo. (Esta técnica también ha sido utilizada por el autor en programas de representación de polígonos y programas de representación de parches bicúbicos, las listas en esos casos son de polígonos o parches).
-
-Todavía hay algunos límites en la cantidad máxima de átomos que puede mantener el programa de modelado. Estos se pueden relajar insertando un módulo de clasificación separado entre el modelador y el renderizador. El modelador no necesita poder almacenar todos los átomos en una escena. Simplemente se ocupa de la interpretación de la línea de comandos, el establecimiento de parámetros y la transformación de átomos para visualizar el espacio. Escribe la lista de átomos tal como la lee de un archivo de definición de molécula. El clasificador es un pequeño programa con una gran matriz. Lee el archivo y-enter list, ordena los datos y los vuelve a escribir.
-
-Para los propósitos del modelado de moléculas polimerizadas grandes (como ADN) se empleó un esquema de modelado jerárquico alternativo. Los polímeros están formados por una gran colección de algunos módulos básicos. Para el ADN, estos módulos son los cuatro nucleótidos y unos pocos radicales libres utilizados para simular el proceso de replicación. Cada módulo se modela como un cuerpo rígido en una posición y orientación arbitrarias. La definición de un módulo enumera sus átomos constituyentes y el radio de una esfera circundante para todo el módulo. Cuando se va a crear una imagen, los módulos se ordenan primero en un orden basado en el mínimo $ y_s $ de sus esferas adjuntas. A continuación, se realiza un escaneo en la dirección y para generar la lista completa de y-enter de átomos directamente en orden ordenado. Para cada nuevo valor de $ y_s $, se examina la lista del módulo y para ver si alguno de los módulos se ha activado. Cuando un módulo se activa, se expande en sus átomos constituyentes que luego se transforman en espacio de visualización de acuerdo con la orientación y posición del módulo. Estos átomos se agregan a un conjunto candidato y-enter. Cuando se hayan expandido todos los módulos recientemente activados, se examinará el grupo y-enter pool candidato. Cualquier átomo que haya sido realmente visible en la línea de exploración se escribe en el archivo y-enter. La ventaja de este proceso es que el grupo candidato y-enter nunca llega a ser muy grande y, por lo tanto, puede manejar grandes estructuras.
-
-${ }$\\
-$\textbf{Extensiones}$
-${ }$\\
-
-El algoritmo inicial fue ideado para una tarea de propósito especial. Examinamos aquí algunas generalizaciones simples del proceso para dar una gama más amplia de formas que se pueden modelar.
-
-${ }$\\
-$\textbf{Método 1}$
-${ }$\\
-
-Una extensión obvia de las formas definidas hasta ahora es proporcionar formas primitivas no esféricas. Recuerde que la ecuación de definición original consistía en términos
-
-\[
-	exp(-a_i r^{2}_{i} - B_i).
-\]
-
-El exponente de e es solo un cuadric de caso especial:
-\[
-	-a_i r^{2}_{i} - B_i = -a_i((x - x_i)^2 + (y - y_i)^2 + (z - z_i)^2) - B_i
-\]
-\[
-	(xyz1)(-a_i)  \left( {\begin{array}{cccc}
-		1 & 0 & 0 & -x_i \\
-		0 & 1 & 0 & -y_i \\
-		0 & 0 & 1 & -z_i \\
-		-x_i & -y_i & -z_i & P\\
-		\end{array} } \right) \left( {\begin{array}{cccc}
-		x \\
-		y \\
-		z \\
-		1 \\
-		\end{array} } \right),
-\]
-donde,
-\[
-	P = x^{2}_{i} + y^{2}_{i} + z^{2}_{i} + \frac{B_i}{a_i}.
-\]
-
-Al permitir cuadrics generales aquí, podemos tener elipsoides, cilindros, planos, etc., como primitivas de modelado. Esto se hace comenzando con una esfera de unidad canónica en el origen definido por
-\[
-	0 = (xyz1) \left( {\begin{array}{cccc}
-		-B_i & 0 & 0 & 0 \\
-		0 & -B_i & 0 & 0 \\
-		0 & 0 & -B_i & 0 \\
-		0 & 0 & 0 & -B_i \\
-		\end{array} } \right) \left( {\begin{array}{cccc}
-		x \\
-		y \\
-		z \\
-		1 \\
-		\end{array} } \right),
-\]
-
-Esto se escala, gira y traduce a la ubicación deseada mediante las técnicas de transformación estándar para cuadrículas [1], es decir, multiplicar a la izquierda por el inverso de la matriz de transformación y a la derecha por la transposición de la inversa.
-
-\[
-	Q' = T^{-1}QT^{-1t}
-\]
-donde $T$ es una matriz de transformación tal que $(x' \; y' \; z' \; w) = (x \; y \; z \; w)T$.
-
-Esta expresión se elige para preservar la relación:
-
-\[
-	if \; (x\;y\;z\;w)Q(x\;y\;z\;w)^{t} = 0
-\]
-\[
-	then \; (x'\;y'\;z'\;w')Q(x'\;y'\;z'\;w')^{t} = 0
-\]
-
-El lector puede verificar que escalando la matriz por $ R_i $ y traduciéndola a $ (x_i, y_i, z_i) $ uno obtiene solo la formulación de caso especial que utilizamos anteriormente para las esferas puras. La generalización de la mayoría de las otras ecuaciones en la discusión anterior se puede realizar haciendo los siguientes reemplazos:
-\[
-	a_i(\overline{R} \cdot \overline{R}) \;\;\;\;\; \to \;\;\;\;\; \overline{R}Q'\overline{R}^t
-\]
-\[
-	a_i(\overline{P}_i \cdot \overline{R}) \;\;\;\;\; \to \;\;\;\;\; \overline{R}Q'\overline{W}^t
-\]
-\[
-	a_i(\overline{P}_i \cdot \overline{P}_i) \;\;\;\;\; \to \;\;\;\;\; \overline{W}Q'\overline{W}^t
-\]
-donde
-\[
-	Q' = \;\; transformed \;\; (4x4) \;\; quadric \;\; matrix
-\]
-\[
-	W = (0\;0\;0\;1)
-\]
-\[
-	W = (x_z\;y_z\;1\;0)
-\]
-Una imagen de muestra aparece en la Figura 16.
-
-Para formas de extensión infinita, como cilindros, el cálculo de los valores máximo / mínimo en $ x_s $ o $ y_s $ puede producir un rango infinito. Esto ocurre cuando no hay soluciones para el rango que determina las ecuaciones cuadráticas de la Sección 3.6. Para manejar estas situaciones correctamente, debemos recordar que estamos resolviendo estas ecuaciones no tanto para encontrar sus ceros sino para encontrar la región donde el polinomio cuadrático es positivo (ya que su raíz cuadrada es necesaria más adelante). En el caso general, esto puede producir un tramo finito (para elipsoides), un tramo infinito (el eje de un cilindro) o dos tramos semiinfinitos (hiperboloides). Con el cuidado apropiado al examinar el polinomio, estos casos se pueden distinguir fácilmente.
-
-${ }$\\
-$\textbf{Método 2 : Volumenes negativos}$
-${ }$\\
-
-Otra extensión es permitir valores negativos para $ b_i $. Esto efectivamente da volúmenes negativos. No son visibles por sí mismos, pero cuando se colocan cerca de objetos normales hacen abolladuras. Esto se debe a que sus contribuciones de densidad se restan de la suma. Una imagen de muestra aparece en la Figura 17.
-
-De hecho, con algunos ajustes al algoritmo, debería ser posible permitir valores complejos para el $b_i$. Esto sería útil para simulaciones moleculares ya que las funciones de onda cuántica son en realidad funciones complejas. Por lo tanto, podríamos representar orbitales antienlazantes.
-
-${ }$\\
-$\textbf{Método 3 : Hiperelipsoides}$
-${ }$\\
-
-Se puede proporcionar una forma de superficie más general al permitir exponentes que no sean 2 en los términos del exponente.
-
-${ }$\\
-$\textbf{Método 4 : Otras funciones de impacto}$
-${ }$\\
-
-La extensión final considerada aquí implica alteraciones en la función exponencial. Podemos usar cualquier forma que tenga la misma forma general. De hecho, la implementación del algoritmo aquí utiliza un procedimiento de búsqueda de tablas con interpolación para una evaluación rápida de la función exponencial. Al colocar diferentes valores en la tabla, podemos cambiar fácilmente la forma de la función de relieve. Se debe tener cuidado de no derrotar a la heurística para la selección de conjeturas iniciales para la solución numérica. Básicamente, la función debe ser igual a 1 en f (0) y aumentar monótonamente sobre el rango utilizado.
-
-${ }$\\
-$\textbf{CONCLUSIÓN}$
-${ }$\\
-
-Hemos presentado un algoritmo que simula y representa simultáneamente una clase de superficies que tienen una apariencia visual interesante y que debería resultar útil para una variedad de aplicaciones. Algunas extensiones simples de este proceso muestran la promesa de generar otras formas interesantes.
-
-Todos los algoritmos de síntesis de imágenes de escaneo de trama deben abordar el problema de anti-aliasing (por ejemplo, muestreo de área). Los algoritmos basados en superficies algebraicas están bastante arraigados en el muestreo puntual. Esto crea problemas principalmente en los bordes de la silueta ya que el cuerpo principal de la forma de la superficie no tiene altas frecuencias para alias. No se ha intentado ningún alisado explícito en las imágenes presentadas aquí. Este sería un tema fructífero para futuras investigaciones.
+\begin{lstlisting}[style=Consola]
+class OvaloidePrueba : public Superficie{
+
+private:
+
+
+public :
+
+	OvaloidePrueba(Tupla3f c);
+	double funcion(Tupla3f xyz);
+};
+
+OvaloidePrueba::OvaloidePrueba(Tupla3f c):Superficie(c){
+
+}
+
+double OvaloidePrueba::funcion(Tupla3f xyz){
+
+	return (pow(xyz.coo[0],4) + pow(xyz.coo[1],4) + pow(xyz.coo[2],4) -1);
+}
+\end{lstlisting}
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imagenes/Ovaloid.png}
+	\end{center}
+	\caption{Ovaloide de ecuación $x^4 + y^4 + z^4 = 1$.}
+	\label{fig:etiq_12}
+\end{figure}
+
+
+
+\begin{lstlisting}[style=Consola]
+class Cuadrica : public Superficie{
+
+private:
+
+	double a, b, c, d, e, f, g, h, i, j;
+
+public :
+
+	Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f c);
+	double funcion(Tupla3f xyz);
+};
+
+
+
+Cuadrica::Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f col):Superficie(col){
+	a = ac;
+	b = bc;
+	c = cc;
+	d = dc;
+	e = ec;
+	f = fc;
+	g = gc;
+	h = hc;
+	i = ic;
+	j = jc;
+}
+
+double Cuadrica::funcion(Tupla3f xyz){
+
+	return (a*pow(xyz.coo[0],2) + b*(xyz.coo[0]*xyz.coo[1]) + c*(xyz.coo[0]*xyz.coo[2]) +d*xyz.coo[0] +e*pow(xyz.coo[1],2) +f*(xyz.coo[1]*xyz.coo[2]) +g*xyz.coo[2] + h*pow(xyz.coo[2],2) + i*xyz.coo[2] +j);
+}
+\end{lstlisting}
+
+
+
+
+

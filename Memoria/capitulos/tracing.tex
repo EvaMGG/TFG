@@ -1,20 +1,20 @@
-\chapter{Ray-Tracing}
+\chapter{Primeros pasos}
 
 ${ }$\\
 \section{Introducción}
 %$\textbf{4.1. INTRODUCCIÓN}$
 ${ }$\\
 
-Antes de comenzar con Ray-Marching empezaré implementando un pequeño algoritmo de Ray-Tracing sobre el que mas tarde implementaré el algoritmo Ray-Marching. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Finalmente para comprobar que esta implementación es correcta se creará una escena con un cubo y una esfera.
+Antes de explicar el algoritmo con el que se obtendrá la imagen de superficies definidas con ecuaciones implícitas empezaré implementando el sistema de rayos, cámara, etc, lo cual servirá de base para después generalizar a superficies mas complejas dadas en sus ecuaciones implícitas. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Finalmente para comprobar que esta implementación es correcta se creará una escena con un cubo y una esfera.
 ${ }$\\
 
 ${ }$\\
-\section{Ray-Tracing}
+\section{Rayos y cámara e imagen}
 %$\textbf{4.2. RAY-TRACING}$
 ${ }$\\
 %%%Explicar Ray-Tracing con alguna imagen
 
-Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Para tratar con vectores necesitaremos una clase que en mi caso se llama \textbf{Tupla3f} y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escala, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
+Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Para tratar con vectores necesitaremos una clase que en mi caso se llama \textbf{Tupla3f} y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escalar, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
 	${ }$\\	
 	
 El color de cada pixel se representará mediante una tupla de tres valores \textbf{double} que se corresponderán los colores rojo, azul y verde (esta representación codificación del color se llama RGB). El valor \textbf{double} que irá de 0.0 a 1.0 indicará la cantidad de ese color.
@@ -538,13 +538,14 @@ También puede ocurrir que por razones de precisión finita haya puntos que se o
 	\label{fig:etiq_6}
 \end{figure}
 
-El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto.
+El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto para hacer que ese punto se vea sombreado.
 	${ }$\\
 
 
 
 \begin{lstlisting}[style=Consola]
 class Iluminacion{
+
 private:
 
 	Tupla3f color;
@@ -564,6 +565,7 @@ Iluminacion::Iluminacion(Tupla3f col){
 Tupla3f Iluminacion::LeyLambert(Tupla3f objColor, Tupla3f normal, Tupla3f punto) {
 
 	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normal | getDireccion(punto));
+
 	return L;
 }
 \end{lstlisting}
@@ -572,33 +574,24 @@ ${ }$\\
 
 \begin{lstlisting}[style=Consola]
 
-class LuzDireccional{
+class LuzDireccional : public Iluminacion {
 
 private:
 
 	Tupla3f direccion;
-	Tupla3f color;
 
 public:
 
 	LuzDireccional(Tupla3f d, Tupla3f c);
-	Tupla3f LeyLambert(Tupla3f objColor, Tupla3f normal);
-	Tupla3f getDireccion();
+	Tupla3f getDireccion(Tupla3f punto);
 };
 
-LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c) {
+LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c):Iluminacion(c) {
 
 	direccion = d;
-	color = c;
 }
 
-Tupla3f LuzDireccional::LeyLambert(Tupla3f objColor, Tupla3f normal) {
-
-	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normalized(normal) | normalized(direccion));
-	return L;
-}
-
-Tupla3f LuzDireccional::getDireccion() {
+Tupla3f LuzDireccional::getDireccion(Tupla3f punto) {
 
 	return direccion;
 }
@@ -609,20 +602,24 @@ ${ }$\\
 
 \begin{lstlisting}[style=Consola]
 
-bool interposicionSuperficie(Tupla3f direccion, double min_inter, int indice_min){
+bool interposicionSuperficie(Rayo rayo, double min_inter, int indice_min){
 
 	bool inter = false;
 	int k=0;
 
 	while ( (k < (int)superficies.size()) && !inter) {
-		if ( ((superficies[k])->interseccion(*(superficies[k]),  e + min_inter*direccion, luz.getDireccion() ) >= 0.0) && (k!= indice_min) )  inter = true;
+
+		if ( ((superficies[k])->interseccion(*(superficies[k]),  Rayo(rayo.puntoRayo(min_inter), fuentesLuz[0]->getDireccion(rayo.puntoRayo(min_inter))) ) >= 0.0) && (k!= indice_min) )  inter = true;
 		k++;
 	}
+	
 	return inter;
 }
 \end{lstlisting}
 	${ }$\\
 	
+Adicionalmente, la clase luz puntual, la cual almacena el punto donde está la fuente de luz y desde la que salen los rayos de luz.
+
 \begin{lstlisting}[style=Consola]
 class LuzPuntual : public Iluminacion {
 

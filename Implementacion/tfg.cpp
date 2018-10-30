@@ -79,11 +79,9 @@ public :
 	Superficie(Tupla3f col);
 	Superficie(const Superficie &sup);
 	virtual double interseccion(Superficie &sup, Rayo rayo);
-	virtual Tupla3f normal(Rayo rayo, double t);
+	virtual Tupla3f normal(Tupla3f xyz);
 	virtual Tupla3f getColor();
 	virtual double funcion(Tupla3f xyz) = 0;
-	virtual double funcion(Rayo rayo, double t) = 0;
-
 };
 
 Superficie::Superficie(Tupla3f col){
@@ -105,18 +103,18 @@ double Superficie::interseccion(Superficie &sup, Rayo rayo){
 	// 1. Intervalo inicial (mediante algun método heurístico)
 	intervaloInicial(sup, rayo, an, bn);
 	tn = an;
-	if (sup.funcion(rayo, an) == 0) return an;
-	else if (sup.funcion(rayo, bn) == 0) return bn;
+	if (sup.funcion(rayo.puntoRayo(an)) == 0) return an;
+	else if (sup.funcion(rayo.puntoRayo(bn)) == 0) return bn;
 	else if (an == bn) return -1;
 	// 2. Hasta que se cumpla el criterio de parada
-	while (abs(sup.funcion(rayo, tn)) > 0.1 && num_iteraciones < 100){
+	while (abs(sup.funcion(rayo.puntoRayo(tn))) > 0.1 && num_iteraciones < 100){
 		// 2.1. Calcular siguiente valor de la sucesión mediante Newton-Raphson
 		tn = NewtonRaphson(sup, tn, rayo);
 		// 2.2. Si se sale del intervalo eludir Newton-Raphson y calcular mediante Regula-Falsi
 		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
 		// 2.3. Si tn es cero, hemos terminado, sino cambiar el valor de la sucesión por el extremo correspondiente del intervalo
-		if (sup.funcion(rayo, tn) == 0) return tn;
-		else if (sup.funcion(rayo, an)*sup.funcion(rayo, tn) > 0) an = tn;
+		if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
+		else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
 		else bn = tn;
 		num_iteraciones++;
 	}
@@ -127,32 +125,32 @@ double Superficie::interseccion(Superficie &sup, Rayo rayo){
 void Superficie::intervaloInicial(Superficie &sup, Rayo rayo, double &t1, double &t2){
 	t1 = 0;
 	double incremento = 0.1;
-	while ( (sup.funcion(rayo, t1) * sup.funcion(rayo, t1+ incremento) > 0) && t1 < 2) t1 = t1 + incremento;
+	while ( (sup.funcion(rayo.puntoRayo(t1)) * sup.funcion(rayo.puntoRayo(t1+ incremento)) > 0) && t1 < 2) t1 = t1 + incremento;
 	for (int i = 0; i < 3; i++){
 		t2 = 0;
-		while ( sup.funcion(rayo, t2) * sup.funcion(rayo, t1) > 0 && t2 < 2){
+		while ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 && t2 < 2){
 			t2 = t2 + incremento;
 		}
-		if ( sup.funcion(rayo, t2) * sup.funcion(rayo, t1) > 0 ) break;
+		if ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 ) break;
 		else incremento = incremento / 3;
 	}
 }
 
 double Superficie::RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo){
-	if (sup.funcion(rayo, an) == sup.funcion(rayo, bn)) cout << "notANumber" << endl;
-	return ( ( (an*sup.funcion(rayo,bn)) - (bn*sup.funcion(rayo,an)) ) / ( sup.funcion(rayo,bn) - sup.funcion(rayo,an) ) );
+	if (sup.funcion(rayo.puntoRayo(an)) == sup.funcion(rayo.puntoRayo(bn))) cout << "notANumber" << endl;
+	return ( ( (an*sup.funcion(rayo.puntoRayo(bn))) - (bn*sup.funcion(rayo.puntoRayo(an))) ) / ( sup.funcion(rayo.puntoRayo(bn)) - sup.funcion(rayo.puntoRayo(an)) ) );
 }
 
 double Superficie::NewtonRaphson(Superficie &sup, double tn, Rayo rayo){
-	return tn - (sup.funcion(rayo, tn)/sup.derivada(rayo, tn));
+	return tn - (sup.funcion(rayo.puntoRayo(tn))/sup.derivada(rayo, tn));
 }
 
-Tupla3f Superficie::normal(Rayo rayo, double t){
-	return normalized( Tupla3f(funcion( rayo.puntoRayo(t) + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( rayo.puntoRayo(t) - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( rayo.puntoRayo(t) + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( rayo.puntoRayo(t) - Tupla3f(0.0, EPSILON, 0.0) ), funcion( rayo.puntoRayo(t) + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( rayo.puntoRayo(t) - Tupla3f(0.0, 0.0, EPSILON) )) );
+Tupla3f Superficie::normal(Tupla3f xyz){
+	return normalized( Tupla3f(funcion( xyz + Tupla3f(EPSILON, 0.0, 0.0) ) - funcion( xyz - Tupla3f(EPSILON, 0.0, 0.0) ), funcion( xyz + Tupla3f(0.0, EPSILON, 0.0) ) - funcion( xyz - Tupla3f(0.0, EPSILON, 0.0) ), funcion( xyz + Tupla3f(0.0, 0.0, EPSILON) ) - funcion( xyz - Tupla3f(0.0, 0.0, EPSILON) )) );
 }
 
 double Superficie::derivada(Rayo rayo, double t){
-	return (funcion(rayo, t + EPSILON) + funcion(rayo, t)) / EPSILON;
+	return (funcion(rayo.puntoRayo(t + EPSILON)) + funcion(rayo.puntoRayo(t))) / EPSILON;
 }
 
 
@@ -171,7 +169,6 @@ public :
 
 	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
 	Elipse(const Elipse &eli);
-	double funcion(Rayo rayo, double t);
 	double funcion(Tupla3f xyz);
 };
 
@@ -194,194 +191,64 @@ double Elipse::funcion(Tupla3f xyz){
 }
 
 
-double Elipse::funcion(Rayo rayo, double t){
-	return ((pow(rayo.puntoRayo(t).coo[0],2) / pow(radio0,2)) + (pow(rayo.puntoRayo(t).coo[1],2) / pow(radio1,2)) + (pow(rayo.puntoRayo(t).coo[2],2) / pow(radio2,2)) -1);
-}
 
 
 
-/*class OvaloidePrueba : public Superficie{
+class OvaloidePrueba : public Superficie{
 
 private:
 
 
 public :
 
-	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
-	Elipse(const Elipse &eli);
-	double funcion(Tupla3f o, Tupla3f d, double t);
+	OvaloidePrueba(Tupla3f c);
 	double funcion(Tupla3f xyz);
 };
 
 
 
-Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
-	radio0 = rad0;
-	radio1 = rad1;
-	radio2 = rad2;
+OvaloidePrueba::OvaloidePrueba(Tupla3f c):Superficie(c){
+
 }
 
-Elipse::Elipse(const Elipse &eli):Superficie(eli){
-	radio0 = eli.radio0;
-	radio1 = eli.radio1;
-	radio2 = eli.radio2;
-}
-
-double Elipse::funcion(Tupla3f xyz){
-	return ((pow(xyz.coo[0],2) / pow(radio0,2)) + (pow(xyz.coo[1],2) / pow(radio1,2)) + (pow(xyz.coo[2],2) / pow(radio2,2)) -1);
+double OvaloidePrueba::funcion(Tupla3f xyz){
+	return (pow(xyz.coo[0],4) + pow(xyz.coo[1],4) + pow(xyz.coo[2],4) -3);
 }
 
 
-double Elipse::funcion(Tupla3f o, Tupla3f d, double t){
-	return ((pow(o.coo[0]+ d.coo[0]*t,2) / pow(radio0,2)) + (pow(o.coo[1]+ d.coo[1]*t,2) / pow(radio1,2)) + (pow(o.coo[2]+ d.coo[2]*t,2) / pow(radio2,2)) -1);
-}*/
 
+class Cuadrica : public Superficie{
 
+private:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*class Esfera : public Superficie {
-
-private :
-
-	Tupla3f centro;
-	double radio;
+	double a, b, c, d, e, f, g, h, i, j;
 
 public :
 
-	Esfera(Tupla3f c, double r, Tupla3f col);
-	Esfera(const Esfera &sph);
-	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
-
+	Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f c);
+	double funcion(Tupla3f xyz);
 };
 
 
-Esfera::Esfera(Tupla3f c, double r, Tupla3f col):Superficie(col) {
-	centro = c;
-	radio = r;
+
+Cuadrica::Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f col):Superficie(col){
+	a = ac;
+	b = bc;
+	c = cc;
+	d = dc;
+	e = ec;
+	f = fc;
+	g = gc;
+	h = hc;
+	i = ic;
+	j = jc;
+}
+
+double Cuadrica::funcion(Tupla3f xyz){
+	return (a*pow(xyz.coo[0],2) + b*(xyz.coo[0]*xyz.coo[1]) + c*(xyz.coo[0]*xyz.coo[2]) +d*xyz.coo[0] +e*pow(xyz.coo[1],2) +f*(xyz.coo[1]*xyz.coo[2]) +g*xyz.coo[2] + h*pow(xyz.coo[2],2) + i*xyz.coo[2] +j);
 }
 
 
-Esfera::Esfera(const Esfera &sph): Superficie(sph) {
-	centro = sph.centro;
-	radio = sph.radio;
-}
-
-
-double Esfera::interseccion(Tupla3f o, Tupla3f d){
-	double interseccion = -1;
-
-	double discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
-
-	if (discriminante > 0) {
-		
-
-		double t0 = ( ( -(d|(o-centro)) + sqrt( discriminante ) ) / ( d|d ) );
-		double t1 = ( ( -(d|(o-centro)) - sqrt( discriminante ) ) / ( d|d ) );
-
-		if (t0 > 0) interseccion = t0;
-		if (t0 > t1 && t1>0) interseccion = t1;
-	}
-	return interseccion;
-}
-
-
-Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, double t) {
-	return normalized(Tupla3f( ((e + t*d)-centro)/radio ));
-}*/
-
-
-
-/*class Cubo : public Superficie {
-
-private :
-
-	Tupla3f esquina1, esquina2;
-
-public :
-
-	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3);
-	Cubo(const Cubo &squ);
-	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
-
-};
-
-Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Superficie(e3) {
-	esquina1 = e1;
-	esquina2 = e2;
-}
-
-Cubo::Cubo(const Cubo &squ):Superficie(squ) {
-	esquina1 = squ.esquina1;
-	esquina2 = squ.esquina2;
-}
-
-double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
-	double tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
-
-
-	if (direccion.coo[0] > 0) {
-		tx_min = (esquina1.coo[0] - origen.coo[0])/direccion.coo[0];
-		tx_max = (esquina2.coo[0] - origen.coo[0])/direccion.coo[0];
-	}
-	else {
-		tx_min = (esquina2.coo[0] - origen.coo[0])/direccion.coo[0];
-		tx_max = (esquina1.coo[0] - origen.coo[0])/direccion.coo[0];
-	}
-
-	if (direccion.coo[1] > 0) {
-		ty_min = (esquina1.coo[1] - origen.coo[1])/direccion.coo[1];
-		ty_max = (esquina2.coo[1] - origen.coo[1])/direccion.coo[1];
-	}
-	else {
-		ty_min = (esquina2.coo[1] - origen.coo[1])/direccion.coo[1];
-		ty_max = (esquina1.coo[1] - origen.coo[1])/direccion.coo[1];
-	}
-
-	if (direccion.coo[2] > 0) {
-		tz_min = (esquina1.coo[2] - origen.coo[2])/direccion.coo[2];
-		tz_max = (esquina2.coo[2] - origen.coo[2])/direccion.coo[2];
-	}
-	else {
-		tz_min = (esquina2.coo[2] - origen.coo[2])/direccion.coo[2];
-		tz_max = (esquina1.coo[2] - origen.coo[2])/direccion.coo[2];
-	}
-
-	if (tx_min > ty_min) t0 = tx_min;
-	else t0 = ty_min;
-	if (tz_min > t0) t0 = tz_min;
-
-	if (tx_max < ty_max) t1 = tx_max;
-	else t1 = ty_max;
-	if (tz_max < t1) t1 = tz_max;
-
-
-	if (t0 < t1) return t0;
-	else return -1;
-}
-
-
-Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
-	if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
-	else if ( abs((e+t*d).coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
-	else if ( abs((e+t*d).coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
-	else if ( abs((e+t*d).coo[0] - esquina1.coo[0]) <= 0.01 ) return Tupla3f(-1,0,0);
-	else if ( abs((e+t*d).coo[1] - esquina1.coo[1]) <= 0.01 ) return Tupla3f(0,-1,0);
-	else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
-}*/
 
 
 
@@ -471,7 +338,15 @@ void Inicializar(int x, int y) {
 	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
 	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));*/
 
-	superficies.push_back(new Elipse(2, 1.6, 1.3, Tupla3f(0.5, 0.1, 0.1)));
+	//superficies.push_back(new Elipse(2, 1.6, 1.3, Tupla3f(0.5, 0.1, 0.1)));
+	superficies.push_back(new OvaloidePrueba(Tupla3f(0.1, 0.3, 0.2)));
+
+	//cono
+	//superficies.push_back(new Cuadrica(0.5,0.0,0.0,0.0,-0.5,0.0,0.0,0.5,0.0,0.0, Tupla3f(0.5, 0.1, 0.1)));
+
+	//hiperboloide de una hoja
+	//superficies.push_back(new Cuadrica(0.5,0.0,0.0,0.0,-0.5,0.0,0.0,-0.5,0.0,-0.5, Tupla3f(0.5, 0.1, 0.1)));
+
 	fuentesLuz.push_back(new LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1)));
 	fuentesLuz.push_back(new LuzPuntual(Tupla3f(-2,-2,2), Tupla3f(1, 1, 1)));
 
@@ -548,7 +423,7 @@ Tupla3f* Image(int x, int y){
 				primeraInterseccion(rayo, int_ant, indice_min);
 
 				if (int_ant >= 0) {
-					image[i*y +j] = fuentesLuz[0]->LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(rayo, int_ant), rayo.puntoRayo(int_ant));
+					image[i*y +j] = fuentesLuz[0]->LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(rayo.puntoRayo(int_ant)), rayo.puntoRayo(int_ant));
 
 					if (interposicionSuperficie(rayo, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
 				}

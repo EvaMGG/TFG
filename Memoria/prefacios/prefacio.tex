@@ -43,7 +43,165 @@ Eva María González García\\
 \vspace{0.7cm}
 \noindent{\textbf{Abstract}}\\
 
-Write here the abstract in English.
+
+Seeing surfaces as figures which bend smoothly in Euclidean space have no corners or edges and do not intersect themselves, we can define intuitively surfaces like a subset of $\mathbb{R}^3$ such that each of its points has a neighbourhood similar to a piece of a plane which bends smoothly and without self-intersections when bent. We can see others definitions of surfaces but this is with which we are going to work.
+${ }$\\
+
+In this project we want to talk about the rigidity of surfaces, more cocretely the rigidity of the ovaloids. In this way, we will see the main theorem of this project, the theorem of ovaloid rigidity by Cohn-Vossen. For which we will need to know the notion of rigid movement, isometry, rigidity, curvature, first and second fundamental form... After, we will program a computational visualization algorithm with which we will be able to visualize surfaces expressed in implicit equations and we will visualize some examples of ovaloids.
+${ }$\\
+
+In previous results, we could see that we could have a sence of the shape near of a given point  studying the curvatures of all the curves which pass through this point in order to know how the surface bends in space. But we also saw that all of the curvatures of these curves are given by a quadratic form on the tangent plane takes. This quadratic form of which we speak is called as the second fundamental form. This quacratic form can be seen as a diagonalizable matrix, since it is an endomorphism of a Euclidean vector space, which alows us to define the two principal curvatures which are calculated as the eigenvalues of this matrix. This principal curvatures could be called as the maximum and the minimum curvature in a given point.
+${ }$\\
+
+To know how the shape of the surface is in a neighbourhood near of a given point the Gauss map $N : S \to \mathbb{S}^2$ is used to know how the normal vector of a surface varies when we move from a point to points close to it. In this case of the surfaces, the variation will be controlled by the differential of the Gauss map $(dN)_p : T_p S \to T_p S$.
+${ }$\\
+
+From the endomorphism $(dN)_p$ of $T_pS$, $p \in S$, we could define a bilinear form $\sigma_p$:
+
+$$ \sigma_p : T_pS \times T_pS \to \mathbb{R}, \;\;\;\; p \in S, $$
+$$ \sigma_p(v,w) = - \langle (dN)_p(v), w \rangle, \;\;\;\; v,w \in T_pS. $$
+And we called this form as the second fundamental form of the surface $S$ at the point $p$.
+${ }$\\
+
+An ovaloid is a surface such that its Gauss map is always positive, so its second fundamental form is always positive.
+${ }$\\
+
+
+
+HASTA AQUI EL RESUMEN
+${ }$\\
+
+
+
+
+In fact, the statement that this Gauss curvature does not depend on the way in which the surface bends in $\mathbb{R}^3$, but only on its first fundamental form—that is, it could be computed by two-dimensional geometers unable to fly over the surface—is the contents of the famous Theorema Egregium that one can find in the Disquisitiones.
+${ }$\\
+
+
+
+
+
+
+
+
+
+
+Seeing surfaces as figures which bend smoothly in Euclidean space have no corners or edges and do not intersect themselves, we can define intuitively surfaces like a subset of $\mathbb{R}^3$ such that each of its points has a neighbourhood similar to a piece of a plane which bends smoothly and without self-intersections when bent. We can see others definitions of surfaces but this is with which we are going to work.
+${ }$\\
+
+We intend to find, as we did in the case of curves with curvature and torsion, some functions or another type of objects which, in some sense, control their shape.
+${ }$\\
+
+He thought of a surface, in order to study its shape near a given point, as lots of curves passing through this point. In this way, in order to know how the surface bends in space, they restricted themselves to studying the geometrical behaviour of all these curves.
+${ }$\\
+
+EULER already checked that the curvatures of all the plane curves resulting from intersections of a given surface with all the planes containing its normal line at a point are not organized in an anarchic way, but indeed only two of these sections are needed to know the curvatures of all of them.
+${ }$\\
+
+More precisely, Jean Baptiste Meusnier pointed out that all these curvatures are exactly—in modern language—the values that a quadratic form on the tangent plane takes.This is the second fundamental form of the surface at the given point.
+${ }$\\
+
+Gauss, following some previous papers by EuLER, was the first geometer who went beyond the results of the French school, when he pointed out that it is more convenient to think of surfaces as two-dimensional objects, that is, as pieces of the plane subjected to some deformations. In his book on surfaces cited earlier, he retrieves and makes full sense of the two most famous objects associated with the study of surfaces: the Gauss map. In fact, the statement that this Gauss curvature does not depend on the way in which the surface bends in $\mathbb{R}^3$, but only on its first fundamental form—that is, it could be computed by two-dimensional geometers unable to fly over the surface—is the contents of the famous Theorema Egregium that one can find in the Disquisitiones.
+${ }$\\
+
+Sophie Germain A776-1831), who had been led to define the so-called mean curvature—an extrinsic curvature depending strongly on the way in which the surface is immersed in M3—by the study of some elasticity problems. Even if we recognize the fundamental importance of the discovery of the intrinsic character of the Gauss curvature and its influence in the later birth of Riemannian geometry, from the point of view of the geometry of submanifolds, it is possible that Sophie Germain were right on her part because, at least, problems concerning the mean curvature are much more interesting and difficult to solve than those relative to the Gauss curvature.
+${ }$\\
+
+We intend now to find out how the tangent plane of a surface varies when we move from a point to points close to it. This task is considerably easier if we focus on how the normal direction to the surface changes.
+${ }$\\
+
+Then, let $S$ be a surface and $N$ a unit normal field on S. Since $|N(p)|^2 = 1$ for all $p \in S$, if $\mathbb{S}^2$ represents, as usually, the sphere centred at the origin of $\mathbb{R}^3$ with radius 1, we have $N(S) \subset \mathbb{S}^2$ and, consequently, each unit normal field $N$ on $S$ can be thought of as a differentiable map $N : S \to \mathbb{S}^2$ of the surface into the unit sphere $\mathbb{S}^2$. This map taking each point on the surface to a unit vector orthogonal to the surface at this point will be called a Gauss map on $S$.
+${ }$\\
+
+By analogy with the case of curves, we expect that the variation of the Gauss map N on the surface S when we move in a neighbourhood of a given point will give us some information about the shape of the surface near this point. In this case, the variation will no longer be controlled by a unique function—like the curvature in the case of curves—but by the differential $(dN)_p : T_P S \to T_{N(p)} \mathbb{S}^2$. But—see Example 2.53—the tangent plane to the sphere $\mathbb{S}^2$ at the point $N(p)$ is the orthogonal complement of the vector $N(p)$, that is, $T_{N(p)} \mathbb{S}^2 = T_P S$. It follows that the differential of a Gauss map at each point of a surface is an endomorphism of the tangent plane at this point. Furthermore, an endomorphism of a two-dimensional vector space has only two associated invariants, namely, its determinant and its trace. We are led in a natural way to consider the following two functions defined on the surface:
+${ }$\\
+
+$$ K(p) = det(dN)_p $$
+$$ H(p) = - \frac{1}{2} trace(dN)_p $$
+with $p \in S$,
+which are, respectively, the Gauss curvature and the mean curvature of the surface at this point. It is clear that, since we are in a two-dimensional context, the Gauss curvature K does not change its sign when we reverse the orientation of the surface and, so, it can also be globally defined on non-orientable surfaces. Instead, the mean curvature H depends on the orientation chosen on the surface and changes its sign when we reverse it. Gradually, in this chapter and in the following ones, we will give different geometrical meanings to these two functions defined on surfaces of $\mathbb{R}^3$.
+${ }$\\
+
+From the endomorphism $(dN)_p$ of $T_pS$, $p \in S$, and since we dispose on the vector plane $T_pS$ of the Euclidean scalar product, we may define a bilinear form $\sigma_p$:
+
+$$ \sigma_p : T_pS \times T_pS \to \mathbb{R}, \;\;\;\; p \in S, $$
+$$ \sigma_p(v,w) = - \langle (dN)_p(v), w \rangle, \;\;\;\; v,w \in T_pS. $$
+This is the so-called second fundamental form of the surface $S$ at the point
+$p$.
+${ }$\\
+
+One of the most important features of an endomorphism of a Euclidean vector space, arising from being self-adjoint, is the fact that it can be diagonalized. In this way, as a consequence of Lemma 3.18, we may establish the following definition. For each point p of the surface S, the endomorphism $-(dN)_p$ has two real eigenvalues that we will denote by $k_1(p)$ and $k_2(p)$ and that we will suppose to be ordered so that $k_1(p) \leq k_2(p)$. They will be called the principal curvatures of S at the point p and, since they are the roots of the characteristic polynomial of $-(dN)_p$. Associated to these two eigenvalues of the endomorphism $-(dN)_p$ we have the corresponding eigenspaces, which are two orthogonal lines when $k_1(p) \neq k_2(p)$. In this case, we will call the corresponding directions of these two tangent lines the principal directions of $S$ at the point p.
+${ }$\\
+${ }$\\
+
+3.4. Normal sections
+${ }$\\
+
+We will work at a fixed point $p$ of an orientable surface S on which we have chosen a Gauss map $N : S \to \mathbb{S}^2$. For each direction $v \in T_pS$ tangent to $S$ at $p$, we consider the plane $P_v$ passing through the point $p$ and having as a direction plane the plane spanned in $\mathbb{R}^3$ by the vectors $N(p)$ and $v$. In this way, $\{P_v | v \in T_pS\}$ is the pencil of planes whose axis is the normal line of the surface $S$ at the point $p$. Each plane in this pencil cuts the surface at the point $p$ transversely. Indeed, $p \in S \cap P_v$ for all $v \in T_pS$ and, if the equality $T_pS = T_pP_v = span \{N(p),v\}$ holds, then we would have $N(p) \in T_pS$, which is impossible. Theorem 2.67 to this particular situation, we see that, for each $v \in T_pS$, the intersection $S \cap P_v$, near the point $p$, is the trace of a regular curve. This intersection is usually known as the normal section of the surface $S$ at the point $p$ corresponding to the direction $v$; see Figure 3.3.
+${ }$\\
+
+This geometrical interpretation of the second fundamental form can be viewed as a reformulation in modern language of the so-called Euler theorem, generalized later by Meusnier, that is, the discovering of the fact that the curvatures of the infinitely many normal sections of a surface at a given point are not a random set of numbers, but they are organized as the values taken by a second degree polynomical function in two variables, that is, of a quadratic form.
+${ }$\\
+
+Proposition 3.26 interprets the values taken by the second fundamental form in terms of curvatures of normal sections. This interpretation, together with the comparison result of plane curves contained in Exercise (8) at the end of Chapter 1, allows us to give a geometrical meaning to the sign that the second fundamental form takes for a given direction. We have in fact the following.
+${ }$\\
+
+\begin{itemize}
+	\item If $v \in T_pS$ is a tangent direction at a point p of an oriented surface S, with Gauss map $N$, and $\sigma_p(v,v) > 0$, the corresponding normal section $S \cap P_v$ lies locally on the side of the—affine—tangent plane towards which the normal vector $N(p)$ points and, furthermore, touches this plane only at $p$.
+	\item If the normal section $S \cap P_v$ of a surface $S$ at a point $p$ corresponding to a tangent direction $v \in T_pS$ has a neighbourhood of the point $p$ lying on the side of the tangent plane towards which the normal vector $N(p)$ points, then $\sigma_p(v,v) > 0$.
+\end{itemize}
+${ }$\\
+
+Of course, the analogous assertions for the case of a negative sign are valid too. It is a matter of elementary linear algebra that the sign of a quadratic form defined on a real vector plane is mainly controlled by its determinant. In the particular case of the second fundamental form op of $S$ at the point $p$, this determinant is, according to (3.5), the Gauss curvature $K(p)$. When this curvature is positive, $\sigma_p$ must be definite—positive or negative. This is why the points of a surface with positive Gauss curvature will be called elliptic points. We now give a consequence of what we pointed out earlier.
+
+All the normal sections at an elliptic point of a surface lie on the same side of the tangent plane at this point.
+${ }$\\
+
+Notice that this assertion is not enough to infer that some neighbourhood of the given point is entirely on a side of the tangent plane. However, this is also true, as will be proved in Proposition 3.38. On the contrary, when $K(p) < 0$ at a point p G S, the second fundamental form ap is not semi-definite, that is, it is a Lorentz scalar product on TpS. Then, the points of a surface with negative Gauss curvature will be called hyperbolic points. In this case, the two principal curvatures of S at p have different signs: $k_1(p) < 0$ and $k_2(p) > 0$ and, so, the normal sections corresponding to the respective principal directions lie on different sides of the tangent plane. Therefore we obtain the following statement, which will also be improved in the following section:
+
+Each neighbourhood of a hyperbolic point of a surface intersects the two open half-spaces determined by the tangent plane at this point; see Figure 3.4.
+${ }$\\
+
+The points $p \in S$ of the surface where the Gauss curvature vanishes will be called parabolic when $\sigma_p \neq 0$ and planar when $\sigma_p = 0$.
+${ }$\\
+
+Bearing in mind that the eigenvalues of a bilinear symmetric form —or of a quadratic form— on a two-dimensional Euclidean vector space can be obtained as the maximum and the minimum values taken by the form on the circle of unit vectors, the principal curvatures and directions of the surface $S$ at a point $p \in S$, defined in Section 3.3, can be characterized as follows:
+
+If $k_1(p) = k_2(p)$, all the normal sections of $S$ at $p$ have the same curvature. Otherwise, the principal directions of $S$ at $p$ correspond to the two normal sections of maximum and minimum curvature and, so, they are orthogonal.
+${ }$\\
+
+For this reason, the points of a surface where the two principal curvatures coincide or, equivalently, according to (3.6), where the equality $K = H^2$ holds, are called umbilical points. This is clearly equivalent to the fact that the second fundamental form is proportional to the first fundamental form —the Euclidean scalar product— at the point, and that the differential of the Gauss map at this point is a similarity. In short, from an umbilical point, the surface is seen to bend in the same way along any direction. When all the points of a surface $S$ share this property, we will say that $S$ is a totally umbilical surface. Examples 3.19 and 3.20 show that planes and spheres and, hence, any open subset of them, are totally umbilical surfaces. The following result says that, in fact, we cannot expect to find more examples.
+${ }$\\
+
+In Section 3.4, we obtained a certain interpretation of the second fundamental form by considering the surface as consisting locally of a pencil of regular curves passing through a given point. Now, we will change our point of view and think of the surface as a two-dimensional object. In this way, another useful geometrical interpretation of this quadratic form associated to each point of the surface will be seen.
+${ }$\\
+
+We defined, on the tangent plane of the surface at any of its points, a quadratic form, namely the second fundamental form, enclosing, as we have begun to see, non-trivial information about the geometry of the surface near the point. In the case of curves, this role was played by the curvature and the torsion functions. They both appeared naturally as differentiable functions. However, until now, we have not said anything about the way in which the second fundamental form —or the curvatures arising from it— depend on the points of the surface. We proceed in this section with the study of this dependence and some of its consequences.
+${ }$\\
+
+Our first goal in this chapter will be to prove that a connected compact surface separates Euclidean space into exactly two domains.
+${ }$\\
+
+We will proceed by showing that compact surfaces in Euclidean space—for the case of simple plane curves, see Chapter 9—have special neighbourhoods, whose existence will be very useful for proving their so-called global properties. An example of this kind of result already appeared in the Liebmann and Jellett results in Corollaries 3.49 and 3.48. By the term global we mean that we have taken out some information on the whole of the surface -for instance, topological information- from data relative to the diverse classes of curvature or another local object -geometrical data- which indicates how the surface bends near a point.
+${ }$\\
+
+Let S be a surface. Since $\mathbb{R}^3$ is a metric space, the neighbourhoods easiest to construct for $S$ are the so-called metric neighbourhoods: for each $\delta > 0$, we represent by $B_{\delta}(S)$ the set of the points of the space whose distance to $S$ is less than $\delta$, that is,
+$$ B_{\delta}(S) = {p \in \mathbb{R}^3 | dist (p, S) < \delta}, $$
+where $dist(p, S) = inf_{q \in S} |p - q|$. It is clear that $B_{\delta}(S)$ is an open neighbourhood of the surface $S$ for each $S > 0$. A first observation is that these neighbourhoods consist of segments of normal lines with length $2\delta$ centred at the points of the surface, at least when it is closed as a subset of $\mathbb{R}^3$.
+${ }$\\
+
+This geometrical description of the metric neighbourhoods of a closed surface suggests that, if we get all the involved segments of normal lines not to intersect each other, then we will able to assert that these neighbourhoods are topological products of the surface and an open interval of $\mathbb{R}$. It seems that it could be done if the radius is small enough. In any case, we should be able to control, at the same time, all the normal lines of the surface. For an orientable surface $S$, not necessarily closed, this can be done by means of the map $F:S \times \mathbb{R} \to \mathbb{R}^3$ given by
+$$ F(p,t) = p + tN(p), \;\;\; \forall (p,t) \in S \times \mathbb{R} $$
+${ }$\\
+
+
+
+
+
+ME HE QUEDADO EN LA PÁGINA 121
+
+
+
 
 Definición intuitiva de superficie de montiel y ros pag 34.
 
