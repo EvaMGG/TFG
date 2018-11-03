@@ -10,6 +10,16 @@
 
 %Dicho esto, dos superficies son isométricas si existe una isometría que nos lleva una superficie en la otra.
 
+${ }$\\
+
+En este capítulo vamos a ver la relación entre movimientos rígidos e isometrías, la rigidez de la esfera y el teorema Egregium Gauss que es usado para demostrar la rigidez de la esfera, y finalmente veremos una demostración del teorema de rigidez de ovaloides que utiliza la Fórmula integral de Herglotz la cual construiremos.
+${ }$\\
+
+
+	${ }$\\
+\section{Movimientos rígidos e isometrías}
+	${ }$\\
+
 En los siguientes dos resultados veremos que dado un movimiento rígido, su restricción a una superficie es una isometría entre superficies que conserva la segunda forma fundamental y después veremos su reciproco, que dada una isometría entre superficies que conserva la segunda forma fundamental esta isometría se puede extender a un movimiento rígido del espacio $\mathbb{R}^3$.
 ${ }$\\
 
@@ -27,9 +37,9 @@ ${ }$\\
 	${ }$%\\
 	\begin{enumerate}
 		\item Por ser $ \Phi : \mathbb{R}^3 \to \mathbb{R}^3 $ un movimiento rígido, es de la forma F(x) = Ax+b $\forall x \in \mathbb{R}^3$, con A una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$.
-		
+		${ }$\\
 		A partir de aquí es fácil comprobar que $S'$ es una superficie. Tomando X una parametrización de $S$ basta con ver que $F\circ X$ es una parametrización de $S'$ y $f = \Phi_{\mid_{S}} : S \to S'$ es difeomorfismo.
-		
+		${ }$\\
 		
 		\item Tenemos que para todo $p \in S$ y $\forall u, v \in T_p S$
 		
@@ -69,37 +79,44 @@ ${ }$\\
 	${ }$\\
 	
 	Partimos de que $f$ es isometría y como S y $S'$ son compactas $\exists$ $\varepsilon > 0$ tal que $N_\varepsilon(S)$ y $N_\varepsilon(S')$ son entornos tubulares. Definimos la aplicación $\Phi$ de la siguiente forma:
+	${ }$\\
 	\[
 	\Phi : N_\varepsilon(S) \longrightarrow N_\varepsilon(S')
 	\]
 	\[
 	x = p + tN(p) \longmapsto f(p) + tN'(f(p))
 	\]
+	${ }$\\
 	donde $t \in (-\varepsilon, \varepsilon)$. Entonces, $\Phi$ es biyectiva y diferenciable con inversa
+	${ }$\\
 	\[
 	f^{-1}(q) + tN(f^{-1}(q)) \longleftarrow q + tN'(q).
 	\]
+	${ }$\\
 	Por tanto $\Phi$ es un difeomorfismo de $N_\varepsilon(S)$ sobre $N_\varepsilon(S')$.
 	
 	${ }$\\	
 	
 	Vamos a calcular $d\Phi_{p+tN(p)}$, para ello tomamos una curva en el entorno tubular definida del siguiente modo,
+	${ }$\\
 	\[
 	\beta(s) = \alpha(s) + tN(\alpha(s))
 	\]
+	${ }$\\
 	donde $\alpha(S)$ es una curva contenida en S que cumple que $\alpha(0) = p$ y $\alpha'(0) = v$. Dicha curva en $s = 0$ pasa por el punto $\beta(0) = p + tN(p)$  con vector tangente $\beta'(0) = v + tdN_p(v)$. La curva así definida nos permite dar la siguiente expresión de la diferencial de $\Phi$:
+	${ }$\\
 	\[
 	d\Phi_{(p + tN(p))}(v + tdN_p(v)) = \frac{d}{ds}_{\arrowvert_0} \Phi(\alpha(s) + tN(\alpha(s))
 	\]
 	\[
 	= \frac{d}{ds}_{\arrowvert_0} (f(\alpha(s)) + tN'(f(\alpha(s)))) = df_p(v) + tdN'_{f(p)}(df_p(v)).
 	\]
-	
 	%Tomando las direcciones principales ${e_1, e_2} \in T_p S$ tenemos que $dN_p(e_i) = -\lambda_ie_i$ y podemos expresar la diferencial de $\Phi$ en función de $f$ del siguiente modo:
 	
 	${ }$\\	
 	
 	Tomando las direcciones principales ${e_1, e_2} \in T_p S$ tenemos que $dN_p(e_i) = -\lambda_ie_i$ y las dos siguientes igualdades:
+	${ }$\\
 	\[
 	d\Phi_{p + tN(p)}((1 - t\lambda_i)e_i) = df_p(e_i) + tdN'_{f(p)}(df_p(e_i)),
 	\]
@@ -107,13 +124,17 @@ ${ }$\\
 	\[
 	d\Phi_{p + tN(p)}((1 - t\lambda_i)e_i) = (1 - t\lambda_i)d\Phi_{p + tN(p)}(e_i).
 	\]
+	${ }$\\
 	
 	Esto nos da una expresión de la diferencial de $\Phi$ en función de $f$,
+	${ }$\\
 	\[
 	d\Phi_{p + tN(p)}(e_i) = \frac{1}{1 - t\lambda_i} \{df_p(e_i) + tdN'_{f(p)}(df_p(e_i))\}.
 	\]
+	${ }$\\
 	
 	Para comprobar que es isometría calculamos el producto escalar
+	${ }$\\
 	\[
 	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = 
 	\]
@@ -126,6 +147,7 @@ ${ }$\\
 	\[
 	+ \langle df_p(e_j), tdN'_{f(p)}(df_p(e_j)) \rangle + \langle tdN'_{f(p)}(df_p(e_i)), tdN'{f(p)}(df_p(e_j)) \rangle \}.
 	\]
+	${ }$\\
 	
 	Como f es isometría $\langle df_p(e_i), df_p(e_j) \rangle = \langle e_i, e_j \rangle = \delta_{ij}$ y
 	\[
@@ -138,33 +160,44 @@ ${ }$\\
 	${ }$\\	
 	
 	Usando que f conserva la segunda forma fundamental llegamos a
+	${ }$\\
 	\[
 	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - t\sigma_p(e_i, e_j) - 
 	\]
 	\[
 	t\sigma_p(e_j, e_i) + t^2 \langle dN_p(e_i), dN_p(e_j) \rangle \} = \frac{1}{(1 - t\lambda_i)(1 - t\lambda_j)}\{\delta_{ij} - 2t(\lambda_i + \lambda_j)\delta_{ij} + t^2\lambda_i\lambda_j\delta_{ij}\}.
 	\]
+	${ }$\\
 	
 	Finalmente, sacando $\delta_{ij}$ como factor común y descomponiendo en producto de polinomios
+	${ }$\\
 	\[
 	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \frac{(1 - t\lambda_i)(1 - t\lambda_j)}{(1 - t\lambda_i)(1 - t\lambda_j)}\delta_{ij} = \delta_{ij} = \langle e_i, e_j \rangle.
 	\]
+	${ }$\\
 	
 	Resumiendo, acabamos de ver que
+	${ }$\\
 	\[
 	\langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(e_j) \rangle = \langle e_i, e_j\rangle.
 	\]
+	${ }$\\
 	
 	Tomamos ahora la curva $\alpha(s) = p + (t + s)N(p)$, con ella tenemos que
+	${ }$\\
 	\[
 	d\Phi_{p + tN(p)}(N(p)) = \frac{d}{ds}\arrowvert_0\Phi(p + (t + s)N(p)) = \frac{d}{ds}\arrowvert_0(f(p) + (t + s)N'(f(p)) = N'(f(p))
 	\]
+	${ }$\\
 	y ya podemos determinar que
+	${ }$\\
 	\[
 	 \langle d\Phi_{p + tN(p)}(e_i), d\Phi_{p + tN(p)}(N(p)) \rangle = \langle d\Phi_{p + tN(p)}(e_i), N'(f(p)) \rangle = 0 = \langle e_i, N(p) \rangle.
 	\]
+	${ }$\\
 	
 	Por tanto, $\Phi$ es isometría de $N_\varepsilon(S)$ sobre $N_\varepsilon(S')$ y para ver que esto se traduce en un movimiento rígido haremos uso del siguiente resultado.
+	${ }$\\
 	
 	\begin{teorema}
 		Sean O y $O'$ dos subconjuntos abiertos de $\mathbb{R}^3$ y $F : O \to O'$ una isometría. Entonces $F$ se puede extender a un movimiento rígido de $\mathbb{R}^3$.
@@ -172,34 +205,50 @@ ${ }$\\
 	
 	\begin{proof}
 		Tenemos que
+		${ }$\\
 		\[
 		\langle dF_x(u), dF_x(v) \rangle = \langle u, v \rangle , x \in O, u,v \in \mathbb{R}^3
 		\]
+		${ }$\\
 		por ser $F$ isometría de un abierto de $\mathbb{R}^3$ en otro abierto de $\mathbb{R}^3$, y tomando que u,v son vectores de la base canónica de $\mathbb{R}^3$ se obtiene la siguiente igualdad
+		${ }$\\
 		\[
 		\langle \frac{\partial F}{\partial x_i}, \frac{\partial F}{\partial x_j} \rangle = \delta_{ij} \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3
 		\]
+		${ }$\\
  		donde $x_1, x_2, x_3$ son las coordenadas de $\mathbb{R}^3$. Si derivamos con respecto a $x_k$ siendo k = 1, 2, 3, se obtenemos
+ 		${ }$\\
 		\[
 		\langle\frac{\partial^2 F}{\partial x_i \partial x_k}, \frac{\partial F}{\partial x_j} \rangle + \langle \frac{\partial^2 F}{\partial x_j \partial x_k}, \frac{\partial F}{\partial x_i} \rangle = 0 \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3.
 		\]
+		${ }$\\
+		
 		Defiendo $G_{ijk}$ como
+		${ }$\\
 		\[
 		G_{ijk} = \langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle
 		\]
+		${ }$\\
 		este es simétrico en los i, j por el lema de Schwarz y antisimétrico tanto en los i, k como en los j, k por la igualdad que le precede. Ahora podemos operar como sigue
+		${ }$\\
 		\[
 		G_{ijk} = -G_{ikj} = -G_{kij} = G_{kji} = G_{jki} = -G_{jik} = -G_{ijk}
 		\]
+		${ }$\\
 		para determinar que en $O$
+		${ }$\\
 		\[
 		\langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle \equiv 0
 		\]
+		${ }$\\
 		para cada i, j, k = 1, 2, 3. Pero, como se vió al principio, las derivadas parciales $\partial F / \partial x_1$, $\partial F / \partial x_2$ y $\partial F / \partial x_3$ forman una base ortonormal de $\mathbb{R}^3$ en cada punto de $O$, por consiguiente
+		${ }$\\
 		\[
 		\frac{\partial^2 F}{\partial x_i \partial x_j} \equiv 0
-		\] en $O$, para cada  i, j = 1, 2, 3. Dicho esto y teniendo en cuenta  que $F$ es de la forma $F(x_1, x_2, x_3) = (F_1(x_1, x_2, x_3), F_2(x_1, x_2, x_3), F_3(x_1, x_2, x_3))$, sabemos que
-		
+		\]
+		${ }$\\
+		en $O$, para cada  i, j = 1, 2, 3. Dicho esto y teniendo en cuenta  que $F$ es de la forma $F(x_1, x_2, x_3) = (F_1(x_1, x_2, x_3), F_2(x_1, x_2, x_3), F_3(x_1, x_2, x_3))$, sabemos que
+		${ }$\\
 		\[
 		F_1(x_1, x_2, x_3) = a_{00}x_1 + a_{01}x_2 + a_{02}x_3 + b_1
 		\]
@@ -231,66 +280,83 @@ ${ }$\\
 \end{ejemplo}
 ${ }$\\
 
+
+	${ }$\\
+\section{Teorema Egregium de Gauss y rigidez de la esfera}
+	${ }$\\
+
+El siguiente resultado, conocido como Teorema Egregium de Gauss, nos muestra que la curvatura queda invariante mediante isometrías. Y de él podemos deducir que la curvatura de Gauss no depende de la forma en que la superficie se dobla en $\mathbb{R}^3$. Es también una pieza clave en la demostración de la rigidez de la esfera.
+${ }$\\
+
 \begin{teorema} \label{teo:egre}
 	$\textbf{(Teorema Egregium)}$ Sean $f : S \to S'$ una isometría local entre dos superficies y $K$ y $K'$ sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
 \end{teorema}
 
 \begin{proof}
-	${ }$\\
+${ }$\\
+
 	Tomemos una parametrización $X : U \to S$, entonces $X_u, X_v$ nos dan una base del plano tangente y $N^X = \frac{X_u \wedge X_v}{|X_u \wedge X_v|} : U \to \mathbb{R}^3$.
+	${ }$\\
 	
 	Antes de la demostración del teorema probaremos que la siguiente igualdad es cierta en las condiciones que se especifican:
+	${ }$\\
+	
 	\begin{lema}
 		Sean un abierto de $U$ de $\mathbb{R}^3$ y una aplicación $X : U \to S$ diferenciable como lo son las parametrizaciones de una superficie. Si llamamos $K$ a la curvatura de Gauss de $S$ se cumple la siguiente igualdad en los puntos de $U$,
 		\[
-			\langle ({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u \rangle = (K \circ F)(|X_u|^2|X_v|^2 - \langle X_u, X_v \rangle ^2),
+			\langle ({X}^{T}_{vv})_u - ({X}^{T}_{uv})_v, X_u \rangle = (K \circ F)(|X_u|^2|X_v|^2 - \langle X_u, X_v \rangle ^2),
 		\]
-		donde el superíndice T indica que te toma la parte del vector que está en el plano tangente a la superficie.
+		donde el superíndice T indica que se toma la parte del vector que está en el plano tangente a la superficie.
 	\end{lema}
 	\begin{proof}
 		\[
-			X_{uv} = {X^T}_{uv} + \langle X_{uv}, N^X \rangle N^X = {X^T}_{uv} + (\langle X_u,N^X \rangle_v - \langle X_u, {N^X}_v \rangle )N^X,
+			X_{uv} = {X}^{T}_{uv} + \langle X_{uv}, N^X \rangle N^X = {X}^{T}_{uv} + (\langle X_u,N^X \rangle_v - \langle X_u, N^{X}_{v} \rangle )N^X,
 		\]
 		\[
-			X_{vv} = {X^T}_{vv} + \langle X_{vv}, N^{X} \rangle N^X = {X^T}_{vv} + (\langle X_v,N^X \rangle _v - \langle X_v, N^{X}_{v}\rangle )N^X.
+			X_{vv} = X^{T}_{vv} + \langle X_{vv}, N^{X} \rangle N^X = X^{T}_{vv} + (\langle X_v,N^X \rangle _v - \langle X_v, N^{X}_{v}\rangle )N^X.
 		\]
+		${ }$\\
 		
 		Despejando en ambas igualdades
-		
+		${ }$\\
 		\[
-			{X^T}_{uv} = X_{uv} + \langle X_u, N^{X}_{v} \rangle N^X,
+			X^{T}_{uv} = X_{uv} + \langle X_u, N^{X}_{v} \rangle N^X,
 		\]
 		\[
-			{X^T}_{vv} = X_{vv} + \langle X_v, N^{X}_{v} \rangle N^X.
+			X^{T}_{vv} = X_{vv} + \langle X_v, N^{X}_{v} \rangle N^X.
 		\]
+		${ }$\\
 		
 		Derivando en $v$ y en $u$ respectivamente
-		
+		${ }$\\
 		\[
-			({X^T}_{uv})_v = X_{uvv} + \langle X_u, N^{X}_{v} \rangle _v N^X + \langle X_u, N^{X}_{v} \rangle N^{X}_{v},
+			(X^{T}_{uv})_v = X_{uvv} + \langle X_u, N^{X}_{v} \rangle _v N^X + \langle X_u, N^{X}_{v} \rangle N^{X}_{v},
 		\]
 		\[
-			({X^T}_{vv})_u = X_{vvu} + \langle X_v, {N^X}_v\rangle _u N^X + \langle X_v, {N^X}_v \rangle {N^X}_u.
+			(X^{T}_{vv})_u = X_{vvu} + \langle X_v, N^{X}_{v}\rangle _u N^X + \langle X_v, N^{X}_{v} \rangle N^{X}_{u}.
 		\]
+		${ }$\\
 		
 		Hacemos el producto escalar de estas dos últimas expresiones por $X_u$ y las restamos
+		${ }$\\
 		
 		\[
-			\langle ({X^T}_{uv})_v, X_u \rangle = \langle X_{uvv}, X_u \rangle + \langle X_u, {N^X}_v \rangle ^2,
+			\langle (X^{T}_{uv})_v, X_u \rangle = \langle X_{uvv}, X_u \rangle + \langle X_u, N^{X}_v \rangle ^2,
 		\]
 		\[
-			\langle ({X^T}_{vv})_u, X_u \rangle = \langle X_{vvu}, X_u \rangle + \langle X_v, {N^X}_v \rangle \langle {N^X}_u, X_u \rangle ,
+			\langle (X^{T}_{vv})_u, X_u \rangle = \langle X_{vvu}, X_u \rangle + \langle X_v, N^{X}_{v} \rangle \langle N^{X}_{u}, X_u \rangle ,
 		\]
 	${ }$\\	
 		\[
-			\langle ({X^T}_{vv})_u, X_u \rangle - \langle ({X^T}_{uv})_v, X_u \rangle = \langle X_v, {N^X}_v \rangle \langle {N^X}_u, X_u \rangle - \langle X_u, {N^X}_v \rangle ^2
+			\langle (X^{T}_{vv})_u, X_u \rangle - \langle (X^{T}_{uv})_v, X_u \rangle = \langle X_v, N^{X}_{v} \rangle \langle N^{X}_{u}, X_u \rangle - \langle X_u, N^{X}_{v} \rangle ^2
 		\]
 		\[
 			= eg - f^2.
 		\]
+		${ }$\\
 		
 		Donde,
-		
+		${ }$\\
 		\[
 			e = \sigma(X_u, X_u) = - \langle dN(X_u), X_u \rangle = - \langle d(N\circ X)(\frac{\partial}{\partial u} ), X_u \rangle =
 		\]
@@ -303,35 +369,39 @@ ${ }$\\
 		\]
 		
 		Por tanto, usando que la curvatura de Gauss es
-		
+		${ }$\\
 		\[
 			K \circ X = \frac{eg - f^2}{|X_u|^2|X_v|^2 - \langle X_u, X_v\rangle ^2}
 		\]
+		${ }$\\
 		obtenemos el resultado.
 
 	\end{proof}
 	
 	
 	Para la demostración del Tª Egregium aplicamos el lema demostrado anteriormente a la parametrización $X$, teniendo así
-	
+	${ }$\\
 	\[
-		\langle ({X^T}_{vv})_u - ({X^T}_{uv})_v, X_u \rangle = (K \circ F)(EG - F^2),
+		\langle (X^{T}_{vv})_u - (X^{T}_{uv})_{v}, X_u \rangle = (K \circ F)(EG - F^2),
 	\]
+	${ }$\\
 	
-	Tambien tenemos que $X' = f \circ X$ es una parametrización de la superficie $S'$. Aplicando el lema a la segunda superficie tenemos
-	
+	También tenemos que $X' = f \circ X$ es una parametrización de la superficie $S'$. Aplicando el lema a la segunda superficie tenemos
+	${ }$\\
 	\[
-		\langle ({X'^T}_{vv})_u - ({X'^T}_{uv})_v, X'_u \rangle = (K' \circ F')(E'G' - F'^2),
+		\langle ({X'}^{T}_{vv})_u - ({X'^T}_{uv})_v, X'_u \rangle = (K' \circ F')(E'G' - F'^2),
 	\]
+	${ }$\\
 	
 	Por otro lado, calculando las derivadas parciales de $X'$ mediante la regla de la cadena, tenemos
-	
+	${ }$\\
 	\[
-		X'_u = (df)_X(X_u) \;\;\;\;\;\; y \;\;\;\;\;\; X'_v = (df)_X(X_v).
+		{X'}_{u} = (df)_X(X_u) \;\;\;\;\;\; y \;\;\;\;\;\; X'_v = (df)_X(X_v).
 	\]
+	${ }$\\
 	
 	Usando que f es isometría local, tenemos
-	
+	${ }$\\
 	\[
 		E' = |X'_u|^2 = |(df)_X(X_u)|^2 = |X_u|^2 = E
 	\]
@@ -343,9 +413,10 @@ ${ }$\\
 	\[
 		F' = \langle X'_u, X'_v \rangle = \langle (df)_X(X_u), (df)_X(X_v) \rangle = \langle X_u, X_v \rangle = F
 	\]
+	${ }$\\
 	
 	Derivando $E$ y $G$ con respecto a $u$ y $v$, tenemos
-	
+	${ }$\\
 	\[
 		\langle X_{uv}, X_u \rangle = \langle X'_{uv}, X'_u \rangle \;\;\;\;\;\;  \;\;\;\;\;\; \langle X_{uu}, X_u \rangle = \langle X'_{uu}, X'_u \rangle,
 	\]
@@ -353,9 +424,10 @@ ${ }$\\
 	\[
 		\langle X_{vu}, X_v \rangle = \langle X'_{vu}, X'_v \rangle \;\;\;\;\;\;  \;\;\;\;\;\; \langle X_{vv}, X_v \rangle = \langle X'_{vv}, X'_v \rangle.
 	\]
+	${ }$\\
 	
-	Derivando tambien $F$ con respecto a $u$ y $v$, obtenemos
-	
+	Derivando también $F$ con respecto a $u$ y $v$, obtenemos
+	${ }$\\
 	\[
 		\langle X_{uu}, X_v \rangle + \langle X_u, X_{vu} \rangle = \langle X'_{uu}, X'_v \rangle + \langle X'_u, X'_{vu} \rangle
 	\]
@@ -371,41 +443,47 @@ ${ }$\\
 	\[
 		\to \langle X_u, X_{vv} \rangle = \langle X'_u, X'_{vv} \rangle
 	\]
+	${ }$\\
 	
 	Considerando
 	
 	\[
-		{X^T}_{vv} = AX_u + BX_v
+		X^{T}_{vv} = AX_u + BX_v
 	\]
 	
 	\[
-		\langle X_{vv}, X_u \rangle = A|X_u|^2 + B \langle X_u, X_v \rangle \;\;\;\;\;\; \rangle X_{vv}, X_v \langle = A \langle X_u, X_v \rangle + B|X_v|^2
+		\langle X_{vv}, X_u \rangle = A|X_u|^2 + B \langle X_u, X_v \rangle \;\;\;\;\;\; \langle X_{vv}, X_v \rangle = A \langle X_u, X_v \rangle + B|X_v|^2
 	\]
 	
 	\[
-		{X'^T}_{vv} = A'X'_u + B'X'_v
+		{X'}^{T}_{vv} = A'X'_u + B'X'_v
 	\]
 	
 	\[
 		\langle X'_{vv}, X'_u \rangle = A'|X'_u|^2 + B'\langle X'_u, X'_v \rangle \;\;\;\;\;\; \langle X'_{vv}, X'_v \rangle = A' \langle X'_u, X'_v \rangle + B'|X'_v|^2
 	\]
+	${ }$\\
 	obtenemos que
-	
+	${ }$\\
 	\[
 		A = A' \;\;\;\;\;\; y \;\;\;\;\;\; B = B',
 	\]
+	${ }$\\
 	de aquí seguimos que
-	
+	${ }$\\
 	\[
 		(df)_X(X^{T}_{vv}) = A(df)_X(X_u) + B(df)_X(X_v) = AX'_u + BX'_v = X^{'T}_{vv},
 	\]
+	${ }$\\
 	análogamente tenemos
+	${ }$\\
 	\[
 		(df)_X(X^{T}_{uv}) = X^{'T}_{uv}.
 	\]
+	${ }$\\
 	
 	Finalmente comprobamos que
-	
+	${ }$\\
 	\[
 		\langle (X'^{T}_{vv})_u, X'_u \rangle = \langle (X'^{T}_{vv}), X'_u \rangle _u - \langle (X'^{T}_{vv}), X'_{uu} \rangle
 	\]
@@ -417,21 +495,26 @@ ${ }$\\
 	\[
 		= \langle X^{T}_{vv}, X_u \rangle _u - \langle X^{T}_{vv}, X_{uu} \rangle = \langle (X^{T}_{vv})_u, X_u \rangle
 	\]
+	${ }$\\
 	por un procedimiento análogo, tenemos que
-	
+	${ }$\\
 	\[
 		\langle (X'^{T}_{uv})_v, X'_u \rangle = \langle (X^{T}_{uv})_u, X_u \rangle.
 	\]
 	${ }$\\	
 	
 	Entonces,
-	
+	${ }$\\
 	\[
 		K \circ X = K' \circ X' = K' \circ f \circ X,
 	\]
+	${ }$\\
 	de donde se desprende que   $\;\; K = K' \circ f$.
 	
 \end{proof}
+${ }$\\
+
+Vamos a ver en el siguiente resultado que la esfera en una superficie rígida.
 ${ }$\\
 
 \begin{teorema}
@@ -439,6 +522,8 @@ ${ }$\\
 \end{teorema}
 
 \begin{proof}
+	${ }$\\
+	
 	Por ser $f$ isometría local es también homomorfismo local y por tanto una aplicación abierta. Por tanto, su imagen $f(\mathbb{S}^2(r))$ es un abierto de $S$. Además, $f$ es cerrada por ser una aplicación continua de un compacto en un Hausdorff. Así que $S$ es cerrado y abierto y por la hipótesis es conexo.
 		${ }$\\
 		
@@ -449,22 +534,30 @@ ${ }$\\
 		${ }$\\
 		
 	Hemos llegado a la conclusión de que $f$ es una aplicación entre dos esferas del mismo radio. Y además sabemos que el normal exterior a una esfera viene dado por:
+	${ }$\\
 	\[
 		N(p) = \frac{1}{r} (p - p_0),  \;\;\;  \forall p \in \mathbb{S}^2(r)
 	\]
+	${ }$\\
 	donde $p_0$ es el centro de la esfera y $r$ el radio. Por tanto, tenemos
+	${ }$\\
 	\[
 		(dN)_p (v) = \frac{1}{r} v,  \;\;\;  \forall v \in T_p \mathbb{S}^2(r)
 	\]
+	${ }$\\
 	y por tanto, la segunda forma fundamental viene dada por
+	${ }$\\
 	\[
 		\sigma_p (v, w) = - \frac{1}{r} \langle v, w \rangle,  \;\;\;  \forall v, w \in T_p \mathbb{S}^2(r).
 	\]
+	${ }$\\
 	
 	Finalmente, si tomamos $U \subset \mathbb{S}^2(r)$ es conexo y abierto, y $f: U \to  S$ es una isometría local,
+	${ }$\\
 	\[
 		\sigma_{f(p)}'((df)_p(u), (df)_p(v)) = \frac{1}{r} \langle (df)_p(u), (df)_p(v) \rangle = \frac{1}{r} \langle u, v \rangle = \sigma_p (u,v),
 	\]
+	${ }$\\
 	y aplicando el Teorema fundamental de la teoría local de superficies \ref{teo:rig2} deducimos que $f$ es la restricción de un movimiento rígido.
 	
 	
@@ -474,16 +567,28 @@ ${ }$\\
 	${ }$\\
 %Como acabamos de ver la rigidez es una propiedad de las esferas, aunque no es exclusiva para las esferas sino para mas superficies entre ellas los ovaloides (como veremos mas adelante). Sin embargo, hay superficies que no tienen esta propiedad de rigidez como se puede observar en el ejemplo que se muestra en la Figura \ref{fig:etiq_2}
 
+
+
+
+
+
+
+	${ }$\\
+\section{Integral de Herglotz y rigidez de ovaloides}
+	${ }$\\
+	
 Supongamos ahora dos superficies $S$ y $S'$ orientables  y $f : S \to S'$ una isometría entre ellas. Si $V : S \to \mathbb{R}^3$ es un campo diferenciable de vectores tangentes a la superficie $S$, entonces definimos otro campo tangente a $S$ por
-
-	\[
-		W(p) = A(f)_p(V(p)), \;\;\; p \in S.
-	\]
+${ }$\\
+\[
+	W(p) = A(f)_p(V(p)), \;\;\; p \in S.
+\]
+${ }$\\
 Donde $A(f)_p : T_p S \to T_p S$ para $p \in S$ se define como el endomorfismo lineal
-
-	\[
-		A(f)_p = -(df)^{-1}_{p} \circ (dN')_{f(p)} \circ (df)_p
-	\]
+${ }$\\
+\[
+	A(f)_p = -(df)^{-1}_{p} \circ (dN')_{f(p)} \circ (df)_p
+\]
+${ }$\\
 y $N'$ es la aplicación de Gauss de $S'$.
 ${ }$\\
 
@@ -507,6 +612,7 @@ ${ }$\\
 	
 	\begin{proposicion}
 		Sea $X : U \subset \mathbb{R}^2 \to S$ una parametrización de S, la aplicación lineal $dN_X : T_X S \to T_X S$ viene dada en la base $\{X_u, X_v \}$ como
+		${ }$\\
 		\[
 			dN_X = - \left( {\begin{array}{cc}
 						E & F \\
@@ -517,12 +623,16 @@ ${ }$\\
 						f & g \\
 					\end{array} } \right)
 		\]
+		${ }$\\
 		y por tanto la curvatura media esta dada por
+		${ }$\\
 		\[
 			H \circ X = \frac{eG + gE -2fF}{2(GE-F^2)}.
 		\]
+		${ }$\\
 		
 		Además, fijando un punto $p \in S$ se puede encontrar una parametrización con $(0,0) \in U$ tal que:
+		
 		\begin{enumerate}
 			\item $\{X_u(0,0), X_v(0,0) \}$ es una base ortonormal de $T_p S$.
 			\item Las derivadas de $E$, $G$, y $F$ respecto de $u$ y $v$ se anulan en (0,0).
@@ -537,7 +647,7 @@ ${ }$\\
 	${ }$\\
 	
 	(1)  Sea $X : U \subset \mathbb{R}^2 \to S$ una parametrización de $S$ sabemos que $X' = f \circ X$ es una parametrización de $S'$ definida también en $U$. Además, debido a que $df_X(X_u) = X'_{u}$ y $df_X(X_v) = X'_{v}$ se tiene que $df_X$ y $(df_X)^{-1}$ son la identidad cuando están definidas en las bases $\{X_u, X_v \}$ y $\{X'_{u}, X'_{v} \}$. Es por eso, que la aplicación lineal $A(f)^X = A(f)_X = -(df)^{-1}_{X} \circ (dN')_{X'} \circ (df)_X$ en la base $\{X_u, X_v \}$ viene dada por la matriz $-(dN')_{X'}$ en la base $\{X'_{u}, X'_{v} \}$ por
-	
+	${ }$\\
 	\[
 		A(f)_X = \left( {\begin{array}{cc}
 			E' & F' \\
@@ -551,7 +661,7 @@ ${ }$\\
 	${ }$\\
 	
 	Si $V^X = V \circ X$ y $W^X = W \circ X$, entonces $V^X = aX_u + bX_v$, para $a,b$ definidas en $U$. Por tanto, $W^X = mX_u + nX_v$, donde
-	
+	${ }$\\
 	\[
 		\left( {\begin{array}{c}
 			m \\
@@ -571,19 +681,21 @@ ${ }$\\
 			b \\
 			\end{array} } \right).
 	\]
+	${ }$\\
 	De aquí se deduce que $m$ y $n$ son diferenciables y por lo tanto $W^X$ también lo es.
 	${ }$\\
 	
 	(2)  Sea $p \in S$, entonces
-	
+	${ }$\\
 	\[
 		(div W)(p) = \sum_{i=1}^{2}\langle dW_p(e_i), e_i \rangle,
 	\]
+	${ }$\\
 	donde $\{e_1, e_2\}$ es una base ortonormal de $T_p S$.
 	${ }$\\
 	
 	Tomamos $X'$ una parametrización de $S'$ alrededor de $f(p)$, con $X'(0,0) = f(p)$, la cual cumpla las propiedades de la proposición anterior. Si tomamos $X = f^{-1} \circ X'$ se pueden usar las expresiones de $m$ y $n$ que hemos visto y ya que $f$ es isometría la parametrización $X$ cumple las propiedades 1 y 2 de la proposición. La proposición anterior también nos permite tomar $e_1 = X_u(0,0)$ y $e_2 = X_v(0,0)$. Por tanto, se tiene que
-	
+	${ }$\\
 		\begin{eqnarray*}
 		(\hbox{div}\,W)(p)&=&\langle W^X_u,X_u\rangle(0,0)+\langle W^X_v,X_v\rangle(0,0)\\
 		&=&\langle m_uX_u+mX_{uu}+n_uX_v+nX_{vu},X_u\rangle(0,0)\\
@@ -601,21 +713,25 @@ ${ }$\\
 	\[
 		n = \frac{1}{E'G' - F'^2} (-F'(ae' + bf') + G'(af' + bg')).
 	\]
+	${ }$\\
 	
 	Así, derivando las dos expresiones anteriores y aplicando en el resultado el apartado 4 de la proposición, llegamos a que
+	${ }$\\
 	\begin{eqnarray*}
 		(\hbox{div}\,W)(p)&=&(ae'+bf')_u(0,0)+(af'+bg')_v(0,0)\\
 		&=& a_ue'(0,0)+ae'_u(0,0)+bf'_u(0,0)+af'_v(0,0)+b_vg'(0,0)+bg'_v(0,0)\\
 		&=& (a_ue'+b_vg')(0,0)+a(e'_u+g'_u)(0,0)+b(e'_v+g'_v)(0,0).
 	\end{eqnarray*}
+	${ }$\\
 	
 	Usando 3 de la proposición, se tiene
+	${ }$\\
 	\[
 		(H' \circ X')_u (0,0) = \frac{(e'_{u} + g'_{u})(0,0)}{2}, \;\;\; (H' \circ X')_v (0,0) = \frac{(e'_{v} + g'_{v})(0,0)}{2},
 	\]
 	${ }$\\
 	de donde finalmente se puede concluir
-	
+	${ }$\\
 	\begin{eqnarray*}
 		(\hbox{div}\,W)(p)&=& \langle V^X_u,X_u\rangle(0,0) \lambda'_1(f(p))+\langle V^X_v,X_v\rangle(0,0) \lambda'_2(f(p))\\ &+& 2\langle V^X,X_u\rangle(0,0)(H'\circ X')_u(0,0)+2\langle V^X,X_v\rangle(0,0)(H'\circ X')_v(0,0)\\
 		&=&\sum_{i=1}^2\langle dV_p(e_i),e_i\rangle\lambda'_i(f(p))+2\sum_{i=1}^2\langle V(p),e_i\rangle d(H'\circ f)_p(e_i)\\
@@ -624,9 +740,12 @@ ${ }$\\
 \end{proof}
 ${ }$\\
 
+Todo lo que acabamos de ver hace mas fácil de construir y comprender la Fómula integral de Herglotz \ref{teo:herglotz} la cual se usará mas adelante para demostrar el Teorema de rigidez de ovaloides de Cohn-Vossen \ref{teo:cohn}.
+${ }$\\
+
 \begin{teorema}\label{teo:herglotz}
 	$\textbf{(Fórmula integral de Herglotz)}$ Sea $S$ y$S'$ dos superficies compactas, $f: S \to S'$ una isometría y $H'$ la curvatura media de $S'$, se cumple la siguiente fórmula integral
-	
+	${ }$\\
 	\[
 		2 \int_S H' \circ f = \int_S \langle p, N(p) \rangle [traza(dN)_p \;\; traza \; A(f)_p] \; dp.
 	\]
@@ -637,83 +756,110 @@ ${ }$\\
 \begin{proof}
 	${ }$\\
 	
-Del apartado 2) del lema anterior  \ref{lem:lema1} y usando el primer apartado del teorema de la divergencia para superficies \ref{teo:divergencia}
-
+Del apartado 2) del Lema \ref{lem:lema1} y usando el primer apartado del teorema de la divergencia para superficies \ref{teo:divergencia}, tenemos
+${ }$\\
 \[
 	2 \int_S \langle \nabla (H' \circ f)(p), V(p) \rangle + \int_S \sum_{i=1}^{2} \lambda'_{i}(f(p)) \langle dV_p(e_i), e_i \rangle = \int_S (div W)(p) = 
 \]
 \[
 	= -2 \int_S \langle W, N \rangle H = -2 \int \langle mX_u + nX_v, N \rangle H = 0
 \]
+${ }$\\
 
 Tomando ahora el campo $V : S \to \mathbb{R}^3$ definido de la siguiente forma
+${ }$\\
 \[
 	V(p) = P^T = p - \langle p, N(p) \rangle N(p) \;\;\; p \in S,
 \]
+${ }$\\
 siendo N la aplicación de Gauss de la superficie S. Derivando y haciendo el tangente obtenemos
+${ }$\\
 \[
 	(dV)_p(v)^T = v - \langle p, N(p) \rangle (dN)_p(v) -N(\langle p, N(p) \rangle N(p),
 \]
+${ }$\\
 de aquí y teniendo en cuenta que $N$ es perpendicular a $X_u$ y $X_v$, se tiene que
+${ }$\\
 \[
 	\sum^{2}_{i=1} \langle dV_p (e_i), e_i \rangle (K_{i}' \circ f)(p) = \sum^{2}_{i=1} \{ 1 - \langle p, N(p) \rangle \langle dN_p(e_i), e_i \rangle \} (K_{i}' \circ f)(p) = 
 \]
 \[
 	2 (H' \circ f)(p) - \langle p, N(p) \rangle Traza (dN)_p A(f)_p
 \]
+${ }$\\
 y por la proposición anterior obtenemos
+${ }$\\
 \[
 	2 \int_S \langle \Delta (H' \circ f)_p, p \rangle \; dp = -2 \int_S (H' \circ f)(p) \; dp + \int_S \langle p, N(p) \rangle Traza (dN)_p A(f)_p \; dp
 \]
+${ }$\\
+que como es igual a cero nos da como resultado la Fórmula integral de Herglotz.
 \end{proof}
 ${ }$\\
 
 
 
+En el teorema de la rigidez de ovaloides tenemos como hipótesis que la superficie resultante de aplicar la isometría, $S'$, es también un ovaloide. Esto es debido al teorema Egregium de Gauss. Como estamos aplicando una isometría a un ovaloide, cuya propiedad es la de que su curvatura de Gauss es siempre mayor que cero, y la curvatura se mantiene invariante por isometrías, entonces la superficie resutante tiene curvatura positiva en todos sus puntos y por tanto es un ovaloide.
+${ }$\\
 
-
-
-\begin{teorema}
+\begin{teorema} \label{teo:cohn}
 	$\textbf{(Rigidez de Cohn-Vossen)}$ Sean $S$ y $S'$ ovaloides. Entonces, cualquier isometría $f : S \to S'$ es restricción de un movimiento rígido.
 \end{teorema}
 
 \begin{proof}
-	Como la aplicación f es un difeomorfismo, con ella podemos contruir el siguiente endomorfismo simétrico
+	${ }$\\
+	
+	Como la aplicación f es un difeomorfismo, con ella podemos construir el siguiente endomorfismo simétrico
+	${ }$\\
 	\[
 		A(f)_p = -(df)^{-1}_{p} \circ (dN')_{f(p)} \circ (df)_p, \;\;\; p \in S
 	\]
+	${ }$\\
 	este endormorfismo tiene traza $2(H' \circ f)$ y determinante $K' \circ f$. Ahora podemos usar el Teorema Egregium de Gauss, ya que f es isometría local, obteniendo
-	
+	${ }$\\
 	\[
 		det A(f) = K' \circ f = K.
 	\]
+	${ }$\\
 	Además por la fórmula de Minkowski tenemos
+	${ }$\\
 	\[
 		2 \int_S H = -2 \int_S \langle p, N(p) \rangle K(p) dp
 	\]
 	\[
 		= - \int_S \langle p, N(p) \rangle det(dN)_p dp - \int_S \langle p, N(p) \rangle det A(f)_p dp.
 	\]
+	${ }$\\
 	y restando por la fórmula integral de Herglotz que era
+	${ }$\\
 	\[
 		2 \int_S H' \circ f = \int_S \langle p, N(p) \rangle [traza(dN)_p trazaA(f)_p - traza(dN)_p A(f)_p] dp,
 	\]
+	${ }$\\
 	obtenemos
+	${ }$\\
 	\[
 		2 \int_S (H' \circ f - H)(p) dp = \int_S \langle p, N(p) \rangle det[A(f)_p + (dN)_p] dp,
 	\]
-	ya que: $$traza(dN)_p trazaA(f)_p - traza(dN)_p A(f)_p + det(dN)_p + det A(f)_p = det[A(f)_p + (dN)_p]$$ como podemos ver en el siguiente lema ya que $(dN)_p$ y $A(f)_p$ son dos endomorfismos autoadjuntos.
+	${ }$\\
+	ya que:
+	${ }$\\
+	$$traza(dN)_p trazaA(f)_p - traza(dN)_p A(f)_p + det(dN)_p + det A(f)_p =$$
+	$$ det[A(f)_p + (dN)_p] $$
+	${ }$\\
+	como podemos ver en el siguiente lema ya que $(dN)_p$ y $A(f)_p$ son dos endomorfismos autoadjuntos.
 ${ }$\\
 
 	\begin{lema}
-		Sean $\Phi$ y $\Psi$ dos endormorfismos autoadjuntos de un plano vectorial euclídeo. Entonces, $traza \Phi traza\Psi - traza \Phi \circ \Psi + det \Phi + det \Psi = det (\Phi + \Psi)$
+		Sean $\Phi$ y $\Psi$ dos endormorfismos autoadjuntos de un plano vectorial euclídeo. Entonces, $traza \; \Phi \; traza \; \Psi - traza \; \Phi \circ \Psi + det \; \Phi + det \; \Psi = det \; (\Phi + \Psi)$
 	\end{lema}
 	
 	\begin{proof}
 		Como $\Phi$ es autoadjunto en un espacio de dimensión finita, entonces existe una base ortonormal de $V$, un plano vectorial euclídeo donde $\Phi$ está definido, que lo diagonaliza.
+		${ }$\\
 		
 		Pongamos que $\lambda_1$ y $\lambda_2$ son sus valores propios, al ser $\Psi$ también autoadjunto, podemos expresar $\Phi$ y $\Psi$ matricialmente como sigue
-		
+		${ }$\\
 		\[
 			\Phi = \left( {\begin{array}{cc}
 				\lambda_1 & 0 \\
@@ -725,25 +871,32 @@ ${ }$\\
 				b & c \\
 				\end{array} } \right), \;\;\;\;\; a, b,c \in \mathbb{R}.
 		\]
+		${ }$\\
 		
 		Se prueba el resultado haciendo los debidos cálculos con las matrices de $\Phi$ y $\Psi$ que acabamos de mostrar.
 	\end{proof}
+	${ }$\\
 	
-	Una vez tenemos todo esto queremos probar que $f$ es restricción de un movimiento rígido comprobando que se conservan las segundas formas fundamentales lo cual es equivalente a probar que $(dN')_{f(p)} \circ (df)_p = (df)_p \circ (dN)_p$, esto se obtiene cuando
+	Una vez tenemos todo esto queremos probar que $f$ es restricción de un movimiento rígido comprobando que se conservan las segundas formas fundamentales lo cual es equivalente a probar que $(dN')_{f(p)} \circ (df)_p = (df)_p \circ (dN)_p$ (como vimos en la demostración del apartado 3) del Teorema \ref{prop:rig1}), esto se obtiene cuando
+	${ }$\\
 	\[
 		2\int_S (H' \circ f - H)(p) dp = 0,
 	\]
+	${ }$\\
 	ya que entonces $A(f)_p = -(dN)_p$ en todo $p \in S$.
+	${ }$\\
 	
-	Vamos probar que se anula viendo primero que tiene que ser mayor o igual a 0 y después veremos que también debe ser menor o igual a 0.
-	
+	Vamos a probar que se anula viendo primero que tiene que ser mayor o igual a 0 y después veremos que también debe ser menor o igual a 0.
+	${ }$\\
 	\[
 		\int_S (H' \circ f - H)(p) \; dp = \int_S \langle p, N(p) \rangle det[A(f)_p + (dN)_p] \; dp \geq 0,
 	\]
+	${ }$\\
 	ya que como se ve en la siguiente observación la función soporte es negativa y como veremos el lema que sigue a esta observación, el determinante de $A(f)_p + (dN)_p$ es menor o igual que cero. 
 ${ }$\\
 
 	Antes de aplicar el lema\ref{lem:lema2}, como la hipótesis nos pide que una de ellas (en este caso $(dN)_p$) sea definida negativa, queremos asegurarnos de que $(dN)_p$ es siempre definida negativa. Esta cuestión surge al pensar que $det \; -(dN)_p$, la curvatura de Gauss, es siempre positiva por ser un ovaloide. Por tanto, $(dN)_p$ puede ser definida positiva o negativa. Pero nos cabe pensar, ¿puede ser definida negativa (que es lo que queremos) en un punto dado y cambiar a definida positiva en algún otro punto?. Nunca pueden haber dos puntos $p_1$ y $p_2$ donde cualquiera de las curvaturas principales de $S$ tenga signos opuestos, ya que si esto ocurriera, como las curvaturas principales son continuas, habría algún punto en el que se anulasen y el determinante fuese cero. Pero esto no ocurre por que $S$ es un ovaloide y su curvatura de Gauss es siempre mayor que cero.
+	${ }$\\
 	
 	\begin{observacion}
 		Si $p \in S$, del apartado 2) de el teorema \ref{teo:hadamard} de Hadamard-Stocker se deduce
@@ -751,46 +904,63 @@ ${ }$\\
 			h_p (q) = \langle p - q, N(p \rangle) \geq 0, \;\;\;\;\;\; \forall q \in \Omega,
 		\]
 		ya que la igualdad se cumple cuando $q = p$.
+		${ }$\\
 		
 		Por tanto, la función soporte de S asociada al normal interior es siempre negativa.
 	\end{observacion}
+	${ }$\\
 	
 	\begin{lema} \label{lem:lema2}
 		Sean $\Phi$ y $\Psi$ dos endomorfismos autoadjuntos de un plano vectorial euclídeo siendo el primero definido positivo y el segundo definido negativo y $det \; \Phi = det \; \Psi$. Entonces, $det \; (\Phi + \Psi) \leq 0$ y la igualdad se da si y solo si $\Phi = - \Psi$.
 	\end{lema}
 	\begin{proof}
 		Si suponemos que $det \; (\Phi + \Psi) > 0$, entonces el endomorfismo $\Phi + \Psi$ sería definido. Supongamos ahora que es definido positivo, y tomemos una base $\{ e_1, e_2 \}$ que diagonaliza a $\Phi$. De esta manera, ya que $\Phi + \Psi$ es definida positiva, tenemos
+		${ }$\\
 		\[
 				\langle \Phi(e_i), e_i \rangle + \langle \Psi(e_i), e_i \rangle > 0, \;\;\;\; i = 1, 2.
 		\]
+		${ }$\\
+		
 		Pasando $\Psi$ al otro lado de la desigualdad quedaría $\langle \Phi(e_i), e_i \rangle  > -\langle \Psi(e_i), e_i \rangle$ y al ser $\Psi$ definida negativa se cumple la primera de las siguientes desigualdades
+		${ }$\\
 		$$
 			det \Phi = \langle \Phi(e_1), e_1 \rangle \langle \Phi(e_2), e_2 \rangle > \langle \Psi(e_1), e_1 \rangle \langle \Psi(e_2), e_2 \rangle \geq $$
 			$$ \langle \Psi(e_1), e_1 \rangle \langle \Psi(e_2), e_2 \rangle - \langle \Psi(e_1), e_2 \rangle^2 = det \Psi
 		$$
+		${ }$\\
 		lo que contradice nuestra hipótesis. Por lo que concluimos que $ det \; (\Phi + \Psi) \leq 0$.
+		${ }$\\
 		
-		Para comprobar que la igualdad solo ocurre si y solo si $\Phi = -\Psi$
-		
-		Por lo que acabamos de ver, si $det \; (\Phi + \Psi) = 0$, entonces habría por lo menos un vector no nulo en el núcleo de $\Phi + \Psi$,de este modo
+		Para comprobar que la igualdad solo ocurre si y solo si $\Phi = -\Psi$. Por lo que acabamos de ver, si $det \; (\Phi + \Psi) = 0$, entonces habría por lo menos un vector no nulo en el núcleo de $\Phi + \Psi$,de este modo
+		${ }$\\
 		\[
 			\Phi(u_1) + \Psi(u_1) = 0 \;\;\;\; y \;\;\;\; \Phi(u_2) + \Psi(u_2) = \lambda u_2, \;\; \lambda \in \mathbb{R}.
 		\]
+		${ }$\\
+		
 		De la primera igualdad se puede deducir
+		${ }$\\
 		$$ \langle \Phi(u_1), u_1 \rangle = - \langle \Psi(u_1), u_1 \rangle \;\;\;\; and \;\;\;\; \langle \Phi(u_1), u_2 \rangle = - \langle \Psi(u_1), u_2 \rangle, $$
+		${ }$\\
 		por lo que,
+		${ }$\\
 		$$ \langle \Phi(u_1),u_1\rangle \langle \Phi(u_2),u_2\rangle - \langle \Phi(u_1),u_2\rangle^2 =  -\langle \Psi(u_1),u_1\rangle \langle \Phi(u_2),u_2\rangle - \langle \Psi(u_1),u_2\rangle^2 = $$ $$ \langle \Psi(u_1),u_1\rangle \langle \Psi(u_2),u_2\rangle -\langle \Psi(u_1),u_2\rangle^2, $$
+		${ }$\\
 		de donde extraemos que $ \langle \Phi(u_2),u_2\rangle = -\langle \Psi(u_2),u_2\rangle $
+		${ }$\\
 		
 		Por lo que $\lambda$ tendría que ser igual a $0$ y en este caso $\Phi = -\Psi$
 		
 	\end{proof}
 	
 	Finalmente, para la otra desigualdad tomamos $f^{-1}$ siendo su dominio $S'$ y tenemos
+	${ }$\\
 	\[
 		\int_{S'} (H \circ f^{-1} - H')(p) \; dp \geq 0,
 	\]
+	${ }$\\
 	a lo cual aplicamos la fórmula del cambio de variable para $f$ cuyo jacobiano tiene determinante igual a 1 por ser isometría, llegando así a
+	${ }$\\
 	\[
 		\int_S (H - H' \circ f) (p) \; dp \geq 0
 	\]
@@ -799,7 +969,6 @@ ${ }$\\
 
 
 
-${ }$\\
-\section{Tres tipos de superficies rígidas}
-%$\textbf{3.1. TRES TIPOS DE SUPERFICIES RÍGIDAS}$
-${ }$\\
+%${ }$\\
+%\section{Tres tipos de superficies rígidas}
+%${ }$\\

@@ -3,9 +3,6 @@
 
 ${ }$\\
 \section{Rigidez, ovaloides y otros conceptos y resultados}
-%$\textbf{1.1. RIGIDEZ, OVALOIDES Y OTROS RESULTADOS Y}$
-%${ }$\\
-%	$\textbf{CONCEPTOS}$
 ${ }$\\
 ${ }$\\
 
@@ -224,8 +221,10 @@ ${ }$\\
 
 
 %%% VOLVER A MIRAR ESTE PARRAFO PARA CORREGIRLO
-En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría ya que como se ve en la imagen es diferenciable, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
+En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
 ${ }$\\
+
+%Como acabamos de ver la rigidez es una propiedad de las esferas, aunque no es exclusiva para las esferas sino para mas superficies entre ellas los ovaloides (como veremos mas adelante). Sin embargo, hay superficies que no tienen esta propiedad de rigidez como se puede observar en el ejemplo que se muestra en la Figura \ref{fig:etiq_2}
 
 \begin{figure}[h]
 	\begin{center}
@@ -243,7 +242,6 @@ ${ }$\\
 ${ }$\\
 ${ }$\\
 \section{Visualización de superficies}
-%$\textbf{1.2. RAY-MARCHING EVOLUCIÓN}$
 ${ }$\\
 
 Las ecuaciones paramétricas que definen una superficie podrían ser vistas como una función a la que, pasándole una tupla te devuelven uno de los puntos que está en la superficie. Veamos la siguiente representación:
@@ -264,6 +262,7 @@ donde $x = (x_1, x_2, x_3)$. La segunda definición en forma implícita de la es
 ${ }$\\
 
 ¿Cual de las representaciones anterior podría ser mejor que la otra? En el artículo \ref{JHart} se puede leer lo siguiente:
+${ }$\\
 
 ``A comparison of geometric versus algebraic representations of quadric surfaces preferred the geometric representation [Goldman, 1983]. The parameters of a geometric representation are coordinate-independent, and are more robust and intuitive than algebraic coefficients. Distance-based functions like (2) are one method for representing implicit surfaces geometrically.
 
@@ -283,7 +282,7 @@ ${ }$\\
 obtenemos la intersección con el rayo usando la composición $F \circ r : \mathbb{R} \to \mathbb{R}$, $F \circ r (t) = 0$, cuyas raíces corresponden con las intersecciones del rayo con la superficie.
 ${ }$\\
 
-Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil de calcular directamente, pero hay casos de funciones en los que no se puede calcular directamente despejando variables o no se puede obtener una solución exacta, en estos caso recurrimos a métodos de aproximación de soluciones como son el método de Newton-Raphson y el método de Regula-Falsi.
+Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil de calcular directamente, pero hay casos de funciones en los que no se puede calcular directamente despejando variables, en estos caso recurrimos a métodos de aproximación de soluciones como son el método de Newton-Raphson y el método de Regula-Falsi.
 ${ }$\\
 
 Estos métodos parten de una aproximación inicial de la solución y generan una sucesión de términos que converge a la solución.
