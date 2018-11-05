@@ -2,14 +2,22 @@
 
 
 ${ }$\\
-\section{Rigidez, ovaloides y otros conceptos y resultados}
+\section{Rigidez, ovaloides y otros conceptos y resultados previos}
 ${ }$\\
 ${ }$\\
 
-Para llegar al resultado principal que se pretende demostrar primero vamos a ver algunos resultados y definiciones que son necesarios para comprender un poco mejor lo que se quiere mostrar. Algunos de estos resultados no estarán demostrados debido a su extensión o complejidad y a que se alejan del propósito de este trabajo.
+
+Para llegar al resultado principal que se pretende demostrar primero vamos a ver algunos resultados y definiciones que son necesarios para comprender un poco mejor lo que se quiere mostrar. Algunos de estos resultados no estarán demostrados debido a que se alejan del propósito de este trabajo.
 ${ }$\\
 
-En esta primera parte del trabajo vamos a ver qué superficies sabemos que son rígidas, como ya veremos estas son las esferas y más generalmente los ovaloides. Para ello es importante tener en cuenta algunos conceptos y resultados que veremos en este apartado.
+
+
+${ }$\\
+\subsection{Preliminares}
+${ }$\\
+
+
+La definición de superficie que aquí se va a tratar es la de aquella que es un subconjunto de $\mathbb{R}^3$ tal que para cada uno de sus puntos existe un entorno que lo contiene y es similar a una pieza de plano que se dobla suavemente y sin intersecciones cuando es doblado en $\mathbb{R}^3$. La definición formal es la siguiente:
 ${ }$\\
 
 \begin{definicion}
@@ -22,13 +30,14 @@ ${ }$\\
 \end{definicion}
 ${ }$\\
 
+Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
+${ }$\\
+
 \begin{definicion}
 	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a las aplicaciones de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
 \end{definicion}
 ${ }$\\
 
-Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
-${ }$\\
 
 \begin{definicion}\label{def:isom} % label para cuando haga una referencia.
 	Dadas dos superficies S y $S'$ y dada una aplicación $f : S \longrightarrow S'$, diremos que $f$ es una \underline{\textbf{isometría}} si es un difeomorfismo y además conserva la primera forma fundamental, esto es, $\forall p \in S$ y $\forall u,v \in T_p S$ $\langle df_p(u), df_p(v)\rangle = \langle u, v\rangle$.
@@ -65,24 +74,6 @@ ${ }$\\
 \end{proof}
 ${ }$\\
 
-
-\begin{teorema}
-	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : R_1 \to R_2$ un difeomorfismo, siendo $R_1$, $R_2$ de dos superficies orientables, y sea $\Phi : R_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
-	\[
-	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
-	\]
-\end{teorema}
-${ }$\\
-
-\begin{teorema}\label{teo:divergencia}
-	$\textbf{(Teorema de la divergencia sobre superficies)}$ Sea una superficie compacta $S$ y un campo diferenciable de vectores $V : S \to \mathbb{R}^3$. Entonces:
-	\begin{enumerate}
-		\item $\int_S div V = -2 \int_S \langle V, N \rangle H$,
-		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
-	\end{enumerate}
-\end{teorema}
-${ }$\\
-
 \begin{teorema} \label{teo:hil-lie}
 	$\textbf{(Teorema de Hilbert-Liebmann)}$ La única superficie conexa y compacta con curvatura constate es la esfera.
 \end{teorema}
@@ -99,8 +90,119 @@ ${ }$\\
 ${ }$\\
 
 ${ }$\\
+\subsection{Normal y segunda forma fundamental}
+${ }$\\
+
+Al igual que se hacía con las curvas para conocer como es su forma cerca de un punto, con las superficies se pretendió encontrar una herramienta que nos ayudara a conocer la forma de esta superficie. En un inicio esto se intentó resolver teniendo en cuenta todas las curvas que pasan por un punto dado de una superficie y calculando su curvatura. Pero mas adelante, se descubrió que todas estas curvaturas podían ser representadas mediante una forma cuadrática que esta definida sobre el espacio tangente y a la que se le dio el nombre de \textbf{segunda forma fundamental}.
+${ }$\\
+
+Para ver como la superficie se dobla en el espacio se estudio como cambiaba el plano tangente a la superficie de un punto a otro cercano. Esta tarea es mas fácil si usamos el vector normal a la superficie.
+${ }$\\
+
+El normal $N$ a una superficie $S$ cumple que $|N(p)|^2 = 1$ para todo $p \in S$. Por tanto, tenemos que $N(S) \subset \mathbb{S}^2$ y $N : S \to \mathbb{S}^2$ conocida como la función de Gauss. De esta modo la diferencial del normal sería $(dN)_p : T_p S \to T_{N(p)} \mathbb{S}^2$, pero $T_{N(p)} \mathbb{S}^2 = T_p S$, ya que el plano tangente a la esfera en el punto $N(p)$ es el complemento ortonormal. Así, el diferencial de la función de Gauss es un endomorfismo que tiene dos invariantes estos son su determinante y su traza.
+${ }$\\
+$$ K(p) = det(dN)_p $$
+$$ H(p) = - \frac{1}{2} traza(dN)_p $$
+${ }$\\
+donde $p \in S$. Estos son la curvatura de Gauss y la curvatura media. A diferencia de la curvatura media, la curvatura de Gauss no cambia su signo cuando cambiamos la orientación de la superficie.
+${ }$\\
+
+La \textbf{segunda forma fundamental} es definida a partir de $(dN)_p$, teniendo en cuenta que es un endomorfismo del plano $T_p S$ y en $T_p S$ disponemos del producto escalar euclideo, como sigue:
+${ }$\\
+$$ \sigma_p : T_pS \times T_pS \to \mathbb{R}, \;\;\;\; p \in S, $$
+$$ \sigma_p(v,w) = - \langle (dN)_p(v), w \rangle, \;\;\;\; v,w \in T_pS. $$
+${ }$\\
+
+
+%CAMBIAR ESTO MIRANDO LOS APUNTES DE DE CESAR QUE ME DIÓ RODRIGO, SEGUNDA PÁGINA TEMA 3
+Por ser $-(dN)_p$ es un endomorfismo de un espacio vectorial euclideo, es diagonalizable. Los valores propios de esta matriz se representarán mediante $k_1(p)$ y $k_2(p)$ y son las curvaturas principales de la superficie en un punto determinado.
+
+
+${ }$\\
+\subsection{Entornos tubulares}
+${ }$\\
+
+Sea $S$ una superficie y $\delta > 0$, denotaremos a $B_{\delta}(S)$ como el conjunto de puntos que distan menos de una cantidad $\delta$ de la superficie $S$, es decir,
+${ }$\\
+$$ B_{\delta}(S) = \{p \in \mathbb{R}^3 \; | \; dist(p,S) < \delta\} $$
+${ }$\\
+
+
+
+\begin{definicion}
+	Sea $N_{\delta}(S) = \cup_{p \in S} N_{\delta}(p)$ la unión de todos los segmentos normales de radio $\delta > 0$ centrados en puntos de una superficie orientable $S$, se llamará entorno tubular de radio $\delta > 0$ si es abierto en $\mathbb{R}^3$ y la función $F : S \times (-\delta, \delta) \to N_{\delta}(S)$ definida como
+	${ }$\\
+	$$ F(p,t) = p +tN(p), \;\;\;\; \forall (p,t) \in S \times \mathbb{R}, $$
+	${ }$\\
+	es un difeomorfismo.
+\end{definicion}
+${ }$\\
+
+Es obvio que $F(S \times (-\delta, \delta)) = N_{\epsilon}(S) = \cup_{p \in S} N_{\delta}(p)$
+${ }$\\
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{imagenes/tubular.png}
+	\end{center}
+	\caption{Entorno tubular}
+	\label{fig:etiq_13}
+\end{figure}
+
+\begin{teorema}[Existencia de entornos tubulares]
+	Sea $S$ una superficie orientable y $R \subset S$ un subconjunto compacto y abierto. Entonces, existe un $\epsilon > 0$ tal que el conjunto $N_{\epsilon}(R) =$ \{todos los segmentos normales centrados en $R$ y longitud $\delta$\}, es un entorno tubular de $R$.
+	${ }$\\
+	
+	En particular, cuando $S$ es compacto, existe un $\epsilon > 0$ tal que $B_{\epsilon}(S)$ es un entorno tubular de $S$.
+\end{teorema}
+
+
+
+
+${ }$\\
+\subsection{Integración en superficies}
+${ }$\\
+
+
+\begin{definicion}
+	Para una región $R$ de una superficie $S$ orientable, sea la función $f : R \to \mathbb{R}$. Consideramos que $f$ es integrable en $R$ si la función $(p,t) \in R \times (0,1) \to f(p)$ es integrable en $R \times (0,1)$. El valor
+	${ }$\\
+	$$ \int_{R \times (0,1)} f(p) \; dp \; dt, $$
+	${ }$\\
+	es la integral de $f$ en $R$ y se representará por
+	${ }$\\
+	$$ \int_{R} f(p) \; dp. $$
+	${ }$\\
+
+\begin{teorema}
+	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : R_1 \to R_2$ un difeomorfismo, siendo $R_1$, $R_2$ de dos superficies orientables, y sea $\Phi : R_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
+	\[
+	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
+	\]
+\end{teorema}
+${ }$\\
+
+
+Si $S$ es una superficie compacta y conexa y $\Omega$ es el dominio interno determinado por $S$, el teorema de divergencia permite relacionar las integrales de ciertas funciones definidas en $\Omega$ con integrales en la superficie $S$.
+${ }$\\
+
+\begin{teorema}\label{teo:divergencia}
+	$\textbf{(Teorema de la divergencia sobre superficies)}$ Sea una superficie compacta $S$ y un campo diferenciable de vectores $V : S \to \mathbb{R}^3$. Entonces:
+	\begin{enumerate}
+		\item $\int_S div V = -2 \int_S \langle V, N \rangle H$,
+		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
+	\end{enumerate}
+\end{teorema}
+${ }$\\
+
+
+
+
+
+
+
+${ }$\\
 \subsection{Ovaloides}
-%$\textbf{1.1.1. Ovaloides}$
 ${ }$\\
 
 \begin{definicion}
@@ -139,7 +241,7 @@ ${ }$\\
 		\end{figure}
 		
 	
-	Finalmente, para comprobar que la curvatura de Gauss es siempre positiva usaremos la expresión que se da en el artículo \cite{RonGoldman}
+	Finalmente, para comprobar que la curvatura de Gauss es siempre positiva usaremos la expresión que se da en el artículo \cite{RonGoldman}:
 	$$
 		K = - \frac{ \left| {\begin{array}{cc}
 				Hess F & \nabla F^t \\ 
@@ -148,13 +250,13 @@ ${ }$\\
 	$$
 	En nuestro caso, tenemos
 	\[
-		= - \frac{ \left| {\begin{array}{cccc}
+		K = - \frac{ \left| {\begin{array}{cccc}
 				2/a^2 & 0 & 0 & 2x/a^2 \\ 
 				0 & 2/b^2 & 0 & 2y/b^2 \\ 
 				0 & 0 & 2/c^2 & 2z/c^2 \\ 
 				2x/a^2 & 2y/b^2 & 2z/c^2 & 0 \\
 				\end{array} } \right| }{\| \nabla f \|^4}
-		= \frac{16}{a^4b^4c^4 \| \nabla f \|^4}(a^2 b^2 z^2+a^2c^2y^2+b^2c^2x^2)
+		= \frac{16}{a^4b^4c^4 \| \nabla f \|^4}(a^2 b^2 z^2+a^2c^2y^2+b^2c^2x^2),
 	\]
 	que es siempre positivo.
 \end{ejemplo}
@@ -162,17 +264,14 @@ ${ }$\\
 
 \begin{ejemplo}
 	Otro ejemplo de ovaloide es el dado por la ecuación $$ x^4 + y^4 + z^4 = 1 $$ la gráfica de esta ecuación está representada en la Figura \ref{fig:etiq_11}.
-		\begin{figure}[h]
+		\begin{figure}[ht]
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{imagenes/ovaloide2.png}
 			\end{center}
-			\caption{Ovaloide de ecuación $x^4 + y^4 + z^4 = 1$. Imagen creada en Mathematica}
+			\caption{Ovaloide de ecuación $x^4 + y^4 + z^4 = 1$ en Mathematica.}
 			\label{fig:etiq_11}
 		\end{figure}
 \end{ejemplo}
-${ }$\\
-
-Como vimos en Topología II podemos clasificar las superficies compactas y conexas en los siguientes grupos de homotopías: esfera, suma conexa de toros y suma conexa de botellas de Klein. Como el ovaloide también es compacto y conexo podemos preguntarnos en cuales de estos grupo podemos clasificar los ovaloides. Es fácil observar que las esferas son ovaloides, ¿pero, hay ovaloides que no sean homotópicos a la esfera?
 ${ }$\\
 
 Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según el siguiente corolario que aparece en la bibliografía \cite{ref1}. Recordemos también que homeomorfo implica homotópico.
@@ -211,7 +310,7 @@ ${ }$\\
 ${ }$\\
 
 \begin{definicion}
-	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie rígida}} cuando toda isometría $f : S \to S'$ sea la restricción de un movimiento rígido.
+	Diremos que $S \subset \mathbb{R}^3$ es una \underline{\textbf{superficie rígida}} cuando toda isometría $f : S \to S'$ sea la restricción de un movimiento rígido, esto es, existe un movimiento rígido $F : \mathbb{R}^3 \to \mathbb{R}^3$ tal que $f = F_{|S}$.
 \end{definicion}
 ${ }$\\
 
