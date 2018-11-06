@@ -16,9 +16,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.1.5}Ovaloides}{21}{subsection.1.1.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1.6}Superficie r\IeC {\'\i }gida}{24}{subsection.1.1.6}
+\contentsline {subsection}{\numberline {1.1.6}Superficie r\IeC {\'\i }gida}{23}{subsection.1.1.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.2}Visualizaci\IeC {\'o}n de superficies}{25}{section.1.2}
+\contentsline {section}{\numberline {1.2}Visualizaci\IeC {\'o}n de superficies}{24}{section.1.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {2}Objetivos del trabajo}{27}{chapter.2}
 \defcounter {refsection}{0}\relax 

@@ -70,15 +70,15 @@ ${ }$\\
 \end{proof}
 ${ }$\\
 
-\begin{teorema} \label{teo:rig2}
-	$\textbf{(Teorema fundamental de la teoría local de superficies)}$ Dadas dos superficies S y $S'$ orientables y compactas, sean N y $N'$ las aplicaciones de Gauss para sendas superficies cuyas segundas formas fundamentales asociadas son $\sigma$ y $\sigma'$ respectivamente.
+\begin{teorema}[Teorema fundamental de la teoría local de superficies] \label{teo:rig2}
+	Dadas dos superficies S y $S'$ orientables y compactas, sean N y $N'$ las aplicaciones de Gauss para sendas superficies cuyas segundas formas fundamentales asociadas son $\sigma$ y $\sigma'$ respectivamente.
 	Si $f : S \to S'$ es una isometría que conserva la segunda forma fundamental, entonces existe un movimiento rígido $\Phi : \mathbb{R}^3 \to \mathbb{R}^3$ tal que $\Phi_{\mid S} = f$.
 \end{teorema}
 
 \begin{proof}
 	${ }$\\
 	
-	Partimos de que $f$ es isometría y como S y $S'$ son compactas $\exists$ $\varepsilon > 0$ tal que $N_\varepsilon(S)$ y $N_\varepsilon(S')$ son entornos tubulares. Definimos la aplicación $\Phi$ de la siguiente forma:
+	Como S y $S'$ son compactos existen entornos tubulares $N_\varepsilon(S)$ y $N_\varepsilon(S')$ del mismo radio $\varepsilon$. Definimos la aplicación $\Phi$ de la siguiente forma:
 	${ }$\\
 	\[
 	\Phi : N_\varepsilon(S) \longrightarrow N_\varepsilon(S')
@@ -196,12 +196,12 @@ ${ }$\\
 	\]
 	${ }$\\
 	
-	Por tanto, $\Phi$ es isometría de $N_\varepsilon(S)$ sobre $N_\varepsilon(S')$ y para ver que esto se traduce en un movimiento rígido haremos uso del siguiente resultado.
+	Por tanto, $\Phi$ es isometría de $N_\varepsilon(S)$ sobre $N_\varepsilon(S')$ y para ver que esto se extiende en un movimiento rígido haremos uso del siguiente resultado.
 	${ }$\\
 	
-	\begin{teorema}
+	\begin{proposicion}
 		Sean O y $O'$ dos subconjuntos abiertos de $\mathbb{R}^3$ y $F : O \to O'$ una isometría. Entonces $F$ se puede extender a un movimiento rígido de $\mathbb{R}^3$.
-	\end{teorema}
+	\end{proposicion}
 	
 	\begin{proof}
 		Tenemos que
@@ -210,7 +210,7 @@ ${ }$\\
 		\langle dF_x(u), dF_x(v) \rangle = \langle u, v \rangle , x \in O, u,v \in \mathbb{R}^3
 		\]
 		${ }$\\
-		por ser $F$ isometría de un abierto de $\mathbb{R}^3$ en otro abierto de $\mathbb{R}^3$, y tomando que u,v son vectores de la base canónica de $\mathbb{R}^3$ se obtiene la siguiente igualdad
+		por ser $F$ isometría de un abierto de $\mathbb{R}^3$ en otro abierto de $\mathbb{R}^3$. Tomando u,v como los vectores de la base canónica de $\mathbb{R}^3$ se obtiene la siguiente igualdad
 		${ }$\\
 		\[
 		\langle \frac{\partial F}{\partial x_i}, \frac{\partial F}{\partial x_j} \rangle = \delta_{ij} \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace \thinspace i,j = 1,2,3
@@ -226,7 +226,7 @@ ${ }$\\
 		Defiendo $G_{ijk}$ como
 		${ }$\\
 		\[
-		G_{ijk} = \langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle
+		G_{ijk} = \langle \frac{\partial^2 F}{\partial x_i \partial x_j}, \frac{\partial F}{\partial x_k} \rangle,
 		\]
 		${ }$\\
 		este es simétrico en los i, j por el lema de Schwarz y antisimétrico tanto en los i, k como en los j, k por la igualdad que le precede. Ahora podemos operar como sigue
@@ -247,7 +247,7 @@ ${ }$\\
 		\frac{\partial^2 F}{\partial x_i \partial x_j} \equiv 0
 		\]
 		${ }$\\
-		en $O$, para cada  i, j = 1, 2, 3. Dicho esto y teniendo en cuenta  que $F$ es de la forma $F(x_1, x_2, x_3) = (F_1(x_1, x_2, x_3), F_2(x_1, x_2, x_3), F_3(x_1, x_2, x_3))$, sabemos que
+		en $O$, para cada  i, j = 1, 2, 3. Dicho esto y teniendo en cuenta  que $F$ es de la forma $F(x_1, x_2, x_3) = (F_1(x_1, x_2, x_3), F_2(x_1, x_2, x_3), F_3(x_1, x_2, x_3))$, tenemos que
 		${ }$\\
 		\[
 		F_1(x_1, x_2, x_3) = a_{00}x_1 + a_{01}x_2 + a_{02}x_3 + b_1
@@ -261,7 +261,7 @@ ${ }$\\
 		
 		${ }$\\	
 		
-		Luego $F = Ax + b$ para cada $x \in O$, donde $A = \{a_{ij}\}_{i,j=0,1,2}$ y $b \in \mathbb{R}^3$, por ser $O$ conexo. Como $dF_x=A$ en cada $x \in O$ la matriz $A$ ha de ser ortogonal, por tanto F es la restricción a $O$ de un movimiento rígido de $\mathbb{R}^3$.
+		Luego $F = Ax + b$ para cada $x \in O$, donde $A = \{a_{ij}\}_{i,j=0,1,2}$ y $b \in \mathbb{R}^3$, por ser $O$ conexo. Como $dF_x=A$ en cada $x \in O$, la matriz $A$ ha de ser ortogonal, por tanto F es la restricción a $O$ de un movimiento rígido de $\mathbb{R}^3$.
 		
 	\end{proof}
 	
@@ -295,7 +295,7 @@ ${ }$\\
 \begin{proof}
 ${ }$\\
 
-	Tomemos una parametrización $X : U \to S$, entonces $X_u, X_v$ nos dan una base del plano tangente y $N^X = \frac{X_u \wedge X_v}{|X_u \wedge X_v|} : U \to \mathbb{R}^3$.
+	Tomemos una parametrización $X : U \to S$, entonces $X_u, X_v$ nos dan una base del plano tangente y $N^X = \frac{X_u \wedge X_v}{|X_u \wedge X_v|} : U \to \mathbb{R}^3$, es el campo normal.
 	${ }$\\
 	
 	Antes de la demostración del teorema probaremos que la siguiente igualdad es cierta en las condiciones que se especifican:
@@ -524,13 +524,10 @@ ${ }$\\
 \begin{proof}
 	${ }$\\
 	
-	Por ser $f$ isometría local es también homomorfismo local y por tanto una aplicación abierta. Por tanto, su imagen $f(\mathbb{S}^2(r))$ es un abierto de $S$. Además, $f$ es cerrada por ser una aplicación continua de un compacto en un Hausdorff. Así que $S$ es cerrado y abierto y por la hipótesis es conexo.
+	Por ser $f$ isometría local es también homomorfismo local y por tanto una aplicación abierta. Por tanto, su imagen $f(\mathbb{S}^2(r))$ es un abierto de $S$. Además, $f$ es cerrada por ser una aplicación continua de un compacto en un Hausdorff. Por tanto $f(\mathbb{S}^2(r)) \subset S$ es abierto y cerrado, pero como $S$ es conexa se tiene que $f(\mathbb{S}^2(r)) = S$.
 		${ }$\\
 		
-	Ahora partimos de que $f(\mathbb{S}^2(r)) \subset S$ es abierto y cerrado y por ser cerrado su complementario es abierto. De esta manera hemos encontrado una partición por abiertos de $S$, pero como $S$ es conexa esto no es posible, por tanto $f(\mathbb{S}^2(r)) = S$.
-		${ }$\\
-		
-	Por otro lado, también tenemos que $\mathbb{S}^2(r)$ es una superficie compacta con curvatura constate igual a $1 / r^2$, aplicando el Teorema Egregium de Gauss \ref{teo:egre}, $S$ tiene también curvatura de Gauss constante igual a $1 / r^2$. Por tanto, aplicando el teorema de Hilbert-Liebmann \ref{teo:hil-lie} tenemos que $S$ es una esfera de radio $r$.
+	Por otro lado, también tenemos que $\mathbb{S}^2(r)$ es una superficie compacta con curvatura constate igual a $1 / r^2$, aplicando el Teorema Egregium de Gauss \ref{teo:egre}, $S$ tiene también curvatura de Gauss constante igual a $1 / r^2$. Por tanto, aplicando el teorema de Hilbert-Liebmann tenemos que $S$ es una esfera de radio $r$.
 		${ }$\\
 		
 	Hemos llegado a la conclusión de que $f$ es una aplicación entre dos esferas del mismo radio. Y además sabemos que el normal exterior a una esfera viene dado por:
@@ -552,7 +549,7 @@ ${ }$\\
 	\]
 	${ }$\\
 	
-	Finalmente, si tomamos $U \subset \mathbb{S}^2(r)$ es conexo y abierto, y $f: U \to  S$ es una isometría local,
+	Finalmente, si tomamos $U \subset \mathbb{S}^2(r)$ conexo y abierto, y $f: U \to  S$ es una isometría local,
 	${ }$\\
 	\[
 		\sigma_{f(p)}'((df)_p(u), (df)_p(v)) = \frac{1}{r} \langle (df)_p(u), (df)_p(v) \rangle = \frac{1}{r} \langle u, v \rangle = \sigma_p (u,v),
@@ -646,7 +643,7 @@ ${ }$\\
 \begin{proof}	
 	${ }$\\
 	
-	(1)  Sea $X : U \subset \mathbb{R}^2 \to S$ una parametrización de $S$ sabemos que $X' = f \circ X$ es una parametrización de $S'$ definida también en $U$. Además, debido a que $df_X(X_u) = X'_{u}$ y $df_X(X_v) = X'_{v}$ se tiene que $df_X$ y $(df_X)^{-1}$ son la identidad cuando están definidas en las bases $\{X_u, X_v \}$ y $\{X'_{u}, X'_{v} \}$. Es por eso, que la aplicación lineal $A(f)^X = A(f)_X = -(df)^{-1}_{X} \circ (dN')_{X'} \circ (df)_X$ en la base $\{X_u, X_v \}$ viene dada por la matriz $-(dN')_{X'}$ en la base $\{X'_{u}, X'_{v} \}$ por
+	(1)  Si $X : U \subset \mathbb{R}^2 \to S$ una parametrización de $S$, sabemos que $X' = f \circ X$ es una parametrización de $S'$ definida también en $U$. Además, debido a que $df_X(X_u) = X'_{u}$ y $df_X(X_v) = X'_{v}$ se tiene que $df_X$ y $(df_X)^{-1}$ son la identidad cuando están definidas en las bases $\{X_u, X_v \}$ y $\{X'_{u}, X'_{v} \}$. Es por eso, que la aplicación lineal $A(f)_X = -(df)^{-1}_{X} \circ (dN')_{X'} \circ (df)_X$ en la base $\{X_u, X_v \}$ viene dada por la matriz $-(dN')_{X'}$ en la base $\{X'_{u}, X'_{v} \}$, por lo que
 	${ }$\\
 	\[
 		A(f)_X = \left( {\begin{array}{cc}
@@ -744,7 +741,7 @@ Todo lo que acabamos de ver hace mas fácil de construir y comprender la Fómula
 ${ }$\\
 
 \begin{teorema}\label{teo:herglotz}
-	$\textbf{(Fórmula integral de Herglotz)}$ Sea $S$ y$S'$ dos superficies compactas, $f: S \to S'$ una isometría y $H'$ la curvatura media de $S'$, se cumple la siguiente fórmula integral
+	$\textbf{(Fórmula integral de Herglotz)}$ Sea $S$ y $S'$ dos superficies compactas, $f: S \to S'$ una isometría y $H'$ la curvatura media de $S'$. Entonces, se cumple la siguiente fórmula integral
 	${ }$\\
 	\[
 		2 \int_S H' \circ f = \int_S \langle p, N(p) \rangle [traza(dN)_p \;\; traza \; A(f)_p] \; dp.
@@ -772,7 +769,7 @@ ${ }$\\
 	V(p) = P^T = p - \langle p, N(p) \rangle N(p) \;\;\; p \in S,
 \]
 ${ }$\\
-siendo N la aplicación de Gauss de la superficie S. Derivando y haciendo el tangente obtenemos
+siendo N la aplicación de Gauss de la superficie S, derivando y haciendo el tangente obtenemos
 ${ }$\\
 \[
 	(dV)_p(v)^T = v - \langle p, N(p) \rangle (dN)_p(v) -N(\langle p, N(p) \rangle N(p),
@@ -803,7 +800,7 @@ En el teorema de la rigidez de ovaloides tenemos como hipótesis que la superfic
 ${ }$\\
 
 \begin{teorema} \label{teo:cohn}
-	$\textbf{(Rigidez de Cohn-Vossen)}$ Sean $S$ y $S'$ ovaloides. Entonces, cualquier isometría $f : S \to S'$ es restricción de un movimiento rígido.
+	$\textbf{(Rigidez de Cohn-Vossen)}$ Sean $S$ y $S'$ ovaloides. Entonces, cualquier isometría $f : S \to S'$ es restricción de un movimiento rígido de $\mathbb{R}^3$.
 \end{teorema}
 
 \begin{proof}
@@ -851,7 +848,7 @@ ${ }$\\
 ${ }$\\
 
 	\begin{lema}
-		Sean $\Phi$ y $\Psi$ dos endormorfismos autoadjuntos de un plano vectorial euclídeo. Entonces, $traza \; \Phi \; traza \; \Psi - traza \; \Phi \circ \Psi + det \; \Phi + det \; \Psi = det \; (\Phi + \Psi)$
+		Sean $\Phi$ y $\Psi$ dos endormorfismos autoadjuntos de un plano vectorial euclídeo. Entonces, $traza \; \Phi \; traza \; \Psi - traza \; (\Phi \circ \Psi) + det \; \Phi + det \; \Psi = det \; (\Phi + \Psi)$
 	\end{lema}
 	
 	\begin{proof}
@@ -892,10 +889,10 @@ ${ }$\\
 		\int_S (H' \circ f - H)(p) \; dp = \int_S \langle p, N(p) \rangle det[A(f)_p + (dN)_p] \; dp \geq 0,
 	\]
 	${ }$\\
-	ya que como se ve en la siguiente observación la función soporte es negativa y como veremos el lema que sigue a esta observación, el determinante de $A(f)_p + (dN)_p$ es menor o igual que cero. 
+	ya que como se ve en la siguiente observación la función soporte es negativa y como veremos el lema que sigue a esta observación, el determinante de $A(f)_p + (dN)_p$ es menor o igual que cero.
 ${ }$\\
 
-	Antes de aplicar el lema\ref{lem:lema2}, como la hipótesis nos pide que una de ellas (en este caso $(dN)_p$) sea definida negativa, queremos asegurarnos de que $(dN)_p$ es siempre definida negativa. Esta cuestión surge al pensar que $det \; -(dN)_p$, la curvatura de Gauss, es siempre positiva por ser un ovaloide. Por tanto, $(dN)_p$ puede ser definida positiva o negativa. Pero nos cabe pensar, ¿puede ser definida negativa (que es lo que queremos) en un punto dado y cambiar a definida positiva en algún otro punto?. Nunca pueden haber dos puntos $p_1$ y $p_2$ donde cualquiera de las curvaturas principales de $S$ tenga signos opuestos, ya que si esto ocurriera, como las curvaturas principales son continuas, habría algún punto en el que se anulasen y el determinante fuese cero. Pero esto no ocurre por que $S$ es un ovaloide y su curvatura de Gauss es siempre mayor que cero.
+	Antes de aplicar el lema \ref{lem:lema2}, como la hipótesis nos pide que una de ellas (en este caso $(dN)_p$) sea definida negativa, queremos asegurarnos de que $(dN)_p$ es siempre definida negativa. Esta cuestión surge al pensar que $det \; -(dN)_p$, la curvatura de Gauss, es siempre positiva por ser un ovaloide. Por tanto, $(dN)_p$ puede ser definida positiva o negativa. Pero nos cabe pensar, ¿puede ser definida negativa (que es lo que queremos) en un punto dado y cambiar a definida positiva en algún otro punto?. Nunca pueden haber dos puntos $p_1$ y $p_2$ donde cualquiera de las curvaturas principales de $S$ tenga signos opuestos, ya que si esto ocurriera, como las curvaturas principales son continuas, habría algún punto en el que se anulasen y el determinante fuese cero. Pero esto no ocurre por que $S$ es un ovaloide y su curvatura de Gauss es siempre mayor que cero.
 	${ }$\\
 	
 	\begin{observacion}

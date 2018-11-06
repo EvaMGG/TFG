@@ -25,16 +25,19 @@ ${ }$\\
 	\begin{enumerate}
 		\item $X(U) = V$,
 		\item la aplicación $X : U \to V$ es un homeomorfismo,
-		\item $\forall q \in U$, $(dX)_q : \mathbb{R}^2 \to \mathbb{R}^3$ es inyectiva.
+		\item $\forall x \in U$, $(dX)_x : \mathbb{R}^2 \to \mathbb{R}^3$ es inyectiva.
 	\end{enumerate}
 \end{definicion}
 ${ }$\\
 
-Los movimientos rígidos son funciones que cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$ por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
+Al plano vectorial $(dX)_x(\mathbb{R}^2)$ le llamaremos el plano tangente a $S$ en el punto $q = X(x)$. Lo representaremos por $T_q S$.
+${ }$\\
+
+Los movimientos rígidos cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$, siendo $<,>$ la métrica Euclídea de $\mathbb{R}^3$. Por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
 ${ }$\\
 
 \begin{definicion}
-	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a las aplicaciones de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
+	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a una aplicación $f : \mathbb{R}^3 \to \mathbb{R}^3$ de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
 \end{definicion}
 ${ }$\\
 
@@ -47,7 +50,7 @@ ${ }$\\
 Dicho esto, dos superficies son isométricas si existe una isometría que nos lleva una superficie en la otra.
 	${}$\\
 	
-También tenemos que las isometrías son aplicaciones que conservan la distancia entre puntos de la superficie, tomando la distancia entre dos puntos como la longitud de la geodésica que une cada punto con otro. Esto quiere decir que si tomamos dos puntos cualquiera de $S$ la distancia de los puntos imagen sigue siendo la misma. Vamos a ver que esto es cierto con la siguiente proposición:
+También tenemos que las isometrías son aplicaciones que conservan la distancia entre puntos de la superficie, tomando la distancia entre dos puntos como el ínfimo de las longitudes de las curvas que los unen. Esto quiere decir que si tomamos dos puntos cualquiera de $S$ la distancia de los puntos imagen sigue siendo la misma. Vamos a ver que esto es cierto con la siguiente proposición:
 ${ }$\\
 
 \begin{proposicion}
@@ -58,20 +61,30 @@ ${ }$\\
 	${}$\\
 	
 	Si tomamos $\alpha : [a,b] \to S$ una curva diferenciable en la superficie $S$, entonces la longitud de la curva imagen es la siguiente
+	${}$\\
 	\[
 	L^{b}_{a} (f \circ \alpha) = \int^{b}_{a} |(f \circ \alpha)'(t)| dt = \int^{b}_{a} |(df)_{\alpha(t)}(\alpha'(t)))| dt.
 	\]
-	como $f$ es isometría, tenemos
+	${}$\\
+	como $f$ es isometría, tenemos\\
+	${}$\\
 	\[
 	L^{b}_{a} (f \circ \alpha) = \int^{b}_{a} |\alpha'(t)| = L^{a}_{b} (\alpha).
 	\]
+	${}$\\
 	
-	Ahora veamos el recíproco, tomando $p \in S$ y $v \in T_p S$, existe una curva diferenciable $\alpha : (-\epsilon, \epsilon) \to S$ para cierto $\epsilon > 0$ tal que $\alpha(0) = p$ y $\alpha'(0) = v$. Como $f$ conserva las distancias, tenemos
+	Ahora veamos el recíproco, tomando $p \in S$ y $v \in T_p S$, existe una curva diferenciable $\alpha : (-\epsilon, \epsilon) \to S$ para cierto $\epsilon > 0$ tal que $\alpha(0) = p$ y $\alpha'(0) = v$. Como $f$ conserva las longitudes, tenemos
+	${}$\\
 	\[
-	\int^{t}_{0}|(df)_{\alpha(t)}(\alpha'(t)))| dt = L^{t}_{0} (f \circ \alpha) = L^{t}_{0}(\alpha) = \int^{t}_{0} |\alpha'(t)|dt.
+	\int^{t}_{0}|(df)_{\alpha(s)}(\alpha'(s)))| ds = L^{t}_{0} (f \circ \alpha) = L^{t}_{0}(\alpha) = \int^{t}_{0} |\alpha'(s)|ds.
 	\]
+	${}$\\
+	Derivando con respecto a $t$ se tiene que $|df_p(v)|=|v|$. Lo que implica que $f$ es una isometría.
 	
 \end{proof}
+${ }$\\
+
+Por último, enunciaremos un resultado clásico.
 ${ }$\\
 
 \begin{teorema} \label{teo:hil-lie}
@@ -80,14 +93,6 @@ ${ }$\\
 ${ }$\\
 
 
-\begin{teorema}
-	$\textbf{(Fórmulas de Minkowski)}$ Sea $S$ una superficie compacta, $N$ su normal interior y $K$, $H$ sus curvaturas de Gauss y media. Entonces, se cumplen las siguientes fórmulas:
-	\begin{enumerate}
-		\item $\int_S (1 + \langle p, N(p) \rangle H(p) \; dp = 0$,
-		\item $\int_S (H(p) + \langle p, N(p) \rangle K(p) \; dp = 0$
-	\end{enumerate}
-\end{teorema}
-${ }$\\
 
 ${ }$\\
 \subsection{Normal y segunda forma fundamental}
@@ -163,21 +168,13 @@ ${ }$\\
 \subsection{Integración en superficies}
 ${ }$\\
 
-
-\begin{definicion}
-	Para una región $R$ de una superficie $S$ orientable, sea la función $f : R \to \mathbb{R}$. Consideramos que $f$ es integrable en $R$ si la función $(p,t) \in R \times (0,1) \to f(p)$ es integrable en $R \times (0,1)$. El valor
-	${ }$\\
-	$$ \int_{R \times (0,1)} f(p) \; dp \; dt, $$
-	${ }$\\
-	es la integral de $f$ en $R$ y se representará por
-	${ }$\\
-	$$ \int_{R} f(p) \; dp. $$
-	${ }$\\
+Ahora recordaremos algunos resultados sobre integración en superficies que serán usados posteriormente.
+${}$\\
 
 \begin{teorema}
-	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : R_1 \to R_2$ un difeomorfismo, siendo $R_1$, $R_2$ de dos superficies orientables, y sea $\Phi : R_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
+	$\textbf{(Fórmula del cambio de variable)}$ Sea $F : S_1 \to S_2$ un difeomorfismo, siendo $S_1$, $S_2$ de dos superficies orientables, y sea $\Phi : S_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
 	\[
-	\int_{R_2} \Phi = \int_{R_1} (\Phi \circ F)|Jac \Phi|.
+	\int_{S_2} \Phi = \int_{S_1} (\Phi \circ F)|Jac \Phi|.
 	\]
 \end{teorema}
 ${ }$\\
@@ -193,6 +190,18 @@ ${ }$\\
 		\item $\int_S [k_2(p) \langle (dV)_p(e_1), e_1\rangle + k_1(p) \langle (dV)_p(e_2), e_2 \rangle ] \; dp = -2 \int_S \langle V, N \rangle K$, donde $\{ e_1, e_2 \}$
 	\end{enumerate}
 \end{teorema}
+${}$\\
+
+Siendo $div \; V$ la divergencia del campo $V$.
+${ }$\\
+
+\begin{teorema}
+	$\textbf{(Fórmulas de Minkowski)}$ Sea $S$ una superficie compacta, $N$ su normal interior y $K$, $H$ sus curvaturas de Gauss y media. Entonces, se cumplen las siguientes fórmulas:
+	\begin{enumerate}
+		\item $\int_S (1 + \langle p, N(p) \rangle H(p) \; dp = 0$,
+		\item $\int_S (H(p) + \langle p, N(p) \rangle K(p) \; dp = 0$
+	\end{enumerate}
+\end{teorema}
 ${ }$\\
 
 
@@ -205,8 +214,11 @@ ${ }$\\
 \subsection{Ovaloides}
 ${ }$\\
 
+En este epígrafe daremos la definición de ovaloide, así como algunas proposiciones generales de los mismos.
+${ }$\\
+
 \begin{definicion}
-	Llamaremos \underline{\textbf{ovaloide}} a una superficie $S \in \mathbb{R}^3$ compacta y conexa cuya curvatura de Gauss sea siempre positiva.
+	Llamaremos \underline{\textbf{ovaloide}} a una superficie $S \subset \mathbb{R}^3$ compacta y conexa cuya curvatura de Gauss sea siempre positiva.
 	
 	También, si $S$ es un ovaloide, $N =$ normal interior de $S$ y $\sigma =$ segunda forma fundamental respecto a $N$. Entonces, $\sigma > 0$.
 \end{definicion}
@@ -219,16 +231,16 @@ ${ }$\\
 
 	Consideremos la función $f : \mathbb{S}^2 \to E$ definida como
 	\[
-		F(x,y,z) = (ax,by,cz),
+		f(x,y,z) = (ax,by,cz),
 	\]
 	que nos lleva una esfera en un elipsoide y cuya inversa es $f^{-1} : E \to \mathbb{S}^2$ dada por
 	\[
-		F^{-1} (x,y,z) = \Big(\frac x a, \frac y b, \frac z c \Big).
+		f^{-1} (x,y,z) = \Big(\frac x a, \frac y b, \frac z c \Big).
 	\]
 	Esto es posible por que $a,b,c \in \mathbb{R}^3 \setminus \{0\}$ ya que en caso de que alguno de ellos fuese cero tendríamos un elipsoide degenerado.
 	${ }$\\
 	
-	Como podemos observar tanto $f$ como $f^{-1}$ son continuas y por tanto $f$ es un isomorfismo. Basta recordar que la compacidad y la conexidad son invariantes topológicos y que dichas propiedas se conservan al aplicar isomorfismos. Así, como la esfera es compacta y conexa el elipsoide también lo es.
+	Como podemos observar tanto $f$ como $f^{-1}$ son continuas y por tanto $f$ es un homeomorfismo. Basta recordar que la compacidad y la conexidad son invariantes topológicos y que dichas propiedas se conservan al aplicar homeomorfismos. Así, como la esfera es compacta y conexa el elipsoide también lo es.
 	
 	
 	
@@ -274,32 +286,22 @@ ${ }$\\
 \end{ejemplo}
 ${ }$\\
 
-Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según el siguiente corolario que aparece en la bibliografía \cite{ref1}. Recordemos también que homeomorfo implica homotópico.
+Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según aparece en la bibliografía \cite{ref1}. Recordemos también que homeomorfo implica homotópico.
 ${ }$\\
 
-\begin{corolario}
-	Si $S$ es una superficie diferenciable de $\mathbb{R}^3$ conexa y compacta con curvatura de Gauss $K \geq 0$ no idénticamente $0$, entonces $S$ es homeomorfa a una esfera.
-\end{corolario}
-${ }$\\
-
-Incluso va más a allá con el siguiente resultado.
-${ }$\\
-
-\begin{teorema}
-	$\textbf{(Hadamard)}$Sea $S$ un ovaloide, entonces la aplicación de Gauss $N : S \to \mathbb{S}^2$ es un difeomorfismo. En particular, $S$ es difeomorfa a una esfera.
-\end{teorema}
-${ }$\\
-
-Por tanto, los ovaloides no son ni suma conexa de toros, ni suma conexa de espacios proyectivos.
-${ }$\\
 
 \begin{teorema} \label{teo:hadamard}
 	$\textbf{(Hadamard-Stoker)}$ Sea un ovaloide $S \subset \mathbb{R}^3$ y $\Omega$ su dominio interior. Entonces:
 	
 	\begin{enumerate}
-		\item Para todo $x, y \in \overline{\Omega}$, entonces $]x, y[ \subset \Omega$. En particular, $\Omega$ es convexo.
+		\item Para todo $x, y \in \overline{\Omega}$. Entonces, el segmento que los une $]x, y[ \subset \Omega$. En particular, $\Omega$ es convexo.
 		\item Para cada $p \in S$, $\Pi_p \cap S = \{p\}$, donde $\Pi_p$ es el plano tangente afín a $S$ en p. Además, $\overline{\Omega} \subset \bigcap_{p \in S} \; \Pi^{+}_{p}$.
 	\end{enumerate}
+\end{teorema}
+${ }$\\
+
+\begin{teorema}
+	$\textbf{(Hadamard)}$Sea $S$ un ovaloide, entonces la aplicación de Gauss $N : S \to \mathbb{S}^2$ es un difeomorfismo. En particular, $S$ es difeomorfa a una esfera.
 \end{teorema}
 ${ }$\\
 
@@ -333,8 +335,6 @@ ${ }$\\
 	\label{fig:etiq_2}
 \end{figure}
 
-
-(HACER UN RESPASO DE TODO LO QUE HE HECHO PARA VER QUE METO EN ESTA SECCION)
 
 
 ${ }$\\
