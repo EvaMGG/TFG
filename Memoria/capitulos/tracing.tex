@@ -12,7 +12,7 @@ ${ }$\\
 ${ }$\\
 %%%Explicar Ray-Tracing con alguna imagen
 
-Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Para tratar con vectores necesitaremos una clase que en mi caso se llama \textbf{Tupla3f} y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escalar, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
+Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Necesitaremos usar vectores para ello hay definida una clase \textbf{Tupla3f} que venía dada con el código de las practicas de "Informática Gráfica" y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escalar, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
 	${ }$\\	
 	
 El color de cada pixel se representará mediante una tupla de tres valores \textbf{double} que se corresponderán los colores rojo, azul y verde (esta representación codificación del color se llama RGB). El valor \textbf{double} que irá de 0.0 a 1.0 indicará la cantidad de ese color.
@@ -21,10 +21,10 @@ El color de cada pixel se representará mediante una tupla de tres valores \text
 Los rayos y las superficies serán representadas mediante sus expresiones matemáticas. Determinaremos el color de cada pixel mediante el cálculo de la intersección de una recta con la superficie, cada rayo se corresponderá con uno de los pixeles siendo el valor del pixel el color de la superficie del punto donde interseca el rayo (en el caso de que tenga puntos de intersección con la superficie). Para ilustrar como se corresponden los pixeles con los rayos solo basta imaginar una matriz (como un trozo de plano dividido en el espacio), frente a la escena que se quiere visualizar y hacer que de cada elemento de la matriz salga un rayo perpendicular a dicho plano. Esta es una forma de lanzar los rayos aunque la que se usará en este trabajo es diferente.
 	${ }$\\	
 	
-	En esta primera parte calcularemos la intersección del rayo con unos objetos mas sencillos de forma directa pues sabemos como calcularla. Pero hay casos en los que por la complejidad de la ecuación esto es mas complicado y necesitamos la ayuda de algoritmos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi que veremos mas adelante.
-	${ }$\\
+En esta primera parte calcularemos la intersección del rayo con unos objetos mas sencillos de forma directa pues sabemos como calcularla. Pero hay casos en los que por la complejidad de la ecuación esto es mas complicado y necesitamos la ayuda de algoritmos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi que se verán más adelante para encontrar las soluciones de las ecuaciones en forma implícita que definen la superficie.
+${ }$\\
 	
-El color del punto se determina teniendo en cuenta el color de la superficie en dicho punto y, añadiendo la iluminación, también se considerará el ángulo que forma la fuente de iluminación con la normal del objeto en ese punto y el color de la fuente de luz como indica la Ley de Lambert que se verá más adelante.
+El color del punto se determina teniendo en cuenta el color de la superficie en dicho punto y, añadiendo la iluminación, también se considerará el ángulo que forma la fuente de iluminación con la normal del objeto en ese punto y el color de la fuente de luz como indica la Ley de Lambert.
 	${ }$\\	
 %%% Hablar de que están implementados los operadores con tuplas3f, producto escalar etc...
 
@@ -37,7 +37,7 @@ En este caso para visualizar la escena se va a utilizar un simulador de cámara 
 	\begin{center}
 		\includegraphics[width=0.6\textwidth]{imagenes/camara-estenopeica.jpg}
 	\end{center}
-	\caption{Cámara estenopeica}
+	\caption{Cámara estenopeica. Imagen sacada de Google.}
 	\label{fig:etiq_1}
 \end{figure}
 
@@ -186,7 +186,7 @@ Tupla3f direccion;
 \end{lstlisting}
 ${ }$\\
 
-Cuando hay varios objetos en la escena hay que tener en cuenta cual es el primero que se encuentra el rayo en su recorrido, pues los que encuentre con posterioridad no serán vistos por el observador. Esto es de lo que se encarga la siguiente función.
+Cuando hay varios objetos en la escena hay que tener en cuenta cual es el primero que se encuentra el rayo en su recorrido, pues los que encuentre con posterioridad no serán vistos por el observador. Esto es de lo que se encarga la siguiente función, esto es, para cada objeto calcula donde interseca con un rayo dado y devuelve el objeto con el que se encuentra primero y el lugar del rayo donde interseca.
 ${ }$\\
 
 \begin{lstlisting}[style=Consola]
@@ -277,7 +277,7 @@ ${ }$\\
 	(d\cdot d)t^2 + 2d\cdot (o-c)t + (o-c)\cdot(o-c) - R^2 = 0,
 \]
 ${ }$\\
-podemos observar que esta es una ecuación del la forma $At^2+Bt+C=0$ de la cual podemos conocer sus raíces, que como ya sabemos son
+podemos observar que esta es una ecuación de la forma $At^2+Bt+C=0$ de la cual podemos conocer sus raíces, que como ya sabemos son
 ${ }$\\
 \[
 	t = \frac{-B\pm \sqrt{B^2-4CA}}{2A},
@@ -293,7 +293,7 @@ donde como ya hemos visto $t$ indica el lugar del rayo donde alcanza la superfic
 ${ }$\\
 
 Para saber si el rayo interseca con la superficie se tendrá en cuenta el signo del discriminante $B^2-4CA$. En el caso de que el discriminante sea igual a cero solo habrá una solución. Si fuese positivo el rayo interseca con la superficie en dos puntos (uno de ellos es el punto a través del cual entra en la superficie y el otra por donde sale de la esfera). Por último, si dicho valor es negativo el valor de la raíz será imaginario y no habrá puntos de intersección de la esfera con el rayo.
-	${ }$\\	
+${ }$\\
 	
 A continuación se muestra el código de la clase Esfera la cual permite la creación de una esfera con centro y radio elegidos. Además contiene un método que nos devuelve la distancia del punto origen $\textbf{o}$, de un rayo pasado como parámetro, al punto de intersección mas cercano de la esfera.
 ${ }$\\
@@ -386,8 +386,8 @@ Para definir el intervalo de $t's$ para los que el rayo está en la franja de es
 
 
 
-El proceso seguido anteriormente para el intervalo en $x$, será el seguido para el intervalo en $y$ y $z$ obteniendo $[t_{y min}, t_{y max}]$ y $[t_{z min}, t_{z max}]$. Una vez calculados los tres intervalos se comprobará si el rayo corta la superficie y cual es el primer punto donde lo hace, esto se hará calculando la intersección de los tres intervalos y comprobando si es vacío o no y en caso de que no sea vacío se devolverá el mínimo del intervalo. Para esto último el algoritmo implementado tomará $t_{min} = max\{t_{x min}, t_{y min}, t_{z min}\}$ y $t_{max} = min\{t_{x max}, t_{y max}, t_{z max}\}$, siendo el intervalo $[t_{min}, t_{max}]$ el intervalo de los $t$ para los que el rayo se encuentra dentro del cubo. Si $t_{min} > t_{max}$ entonces el intervalo es vacío y el rayo no toca al cubo, en caso contrario el algoritmo calcula en qué lugar del rayo se corta por primera vez la superficie lo que quiere decir que nos devolverá $t_{min}$. Para ilustrar este método se muestra una simplificación del problema en el espacio 2-dimensional en la Figura\ref{fig:etiq_4}.
-	${ }$\\	
+El proceso seguido anteriormente para el intervalo en $x$, será el seguido para el intervalo en $y$ y $z$ obteniendo $[t_{y min}, t_{y max}]$ y $[t_{z min}, t_{z max}]$. Una vez calculados los tres intervalos se comprobará si el rayo corta la superficie y cual es el primer punto donde lo hace, esto se hará calculando la intersección de los tres intervalos y comprobando si es vacío o no y en caso de que no sea vacío se devolverá el mínimo del intervalo. Para esto último el algoritmo implementado tomará $t_{min} = max\{t_{x min}, t_{y min}, t_{z min}\}$ y $t_{max} = min\{t_{x max}, t_{y max}, t_{z max}\}$, siendo el intervalo $[t_{min}, t_{max}]$ el intervalo de los $t$ para los que el rayo se encuentra dentro del cubo. Si $t_{min} > t_{max}$ entonces el intervalo es vacío y el rayo no toca al cubo, en caso contrario el algoritmo calcula en qué lugar del rayo se corta por primera vez la superficie, lo que quiere decir que, nos devolverá $t_{min}$. Para ilustrar este método se muestra una simplificación del problema en el espacio 2-dimensional en la Figura\ref{fig:etiq_4}.
+${ }$\\	
 
 
 
@@ -483,7 +483,7 @@ ${ }$\\
 La iluminación hace las imágenes más realistas y nos permite apreciar la profundidad de los objetos. En esta sección veremos una implementación de la iluminación sencilla que solo dependerá de la normal de la superficie y la dirección de incidencia de la fuente de iluminación. 
 ${ }$\\
 
-Como se muestra en la Figura\ref{fig:etiq_5}, el rayo de visión está dirigido hacia el punto iluminado este rayo esta definido por el vector \textbf{d} y a partir de él definimos el vector unidad \textbf{e} el cual tiene la misma dirección de \textbf{d} pero sentido opuesto:
+Como se muestra en la Figura\ref{fig:etiq_5}, el rayo de visión interseca la superficie en un punto iluminado, este rayo esta definido por el vector \textbf{d} y a partir de él definimos el vector unidad \textbf{e} el cual tiene la misma dirección de \textbf{d} pero sentido opuesto:
 ${ }$\\
 
 %%% Hacer una imagen como la del libro pero que sea propia
@@ -522,7 +522,7 @@ esta ley nos da el valor del color del pixel habiendo añadido la iluminación. 
 Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un objeto se interpone entre la fuente de luz y otro objeto.
 	${ }$\\	
 	
-En este caso tomamos un rayo que sale de un punto \textbf{q}, del que se quiere calcular su color, en dirección \textbf{l} pero sentido opuesto. Si el rayo interseca con otra superficie el valor de $L$ se pone a cero en caso contrario se calcula el valor del color mediante la Ley de Lambert. Se puede ver este hecho en la Figura\ref{fig:etiq_6}. No se tendrán en cuenta objetos que intersequen en un valor de t negativo o cero.
+En este caso tomamos un rayo que sale de un punto \textbf{q}, del que se quiere calcular su color, en dirección \textbf{l} pero sentido opuesto. Si el rayo interseca con otra superficie el valor de $L$ se pone a cero en caso contrario se calcula el valor del color mediante la Ley de Lambert. Esto se ilustra en la Figura\ref{fig:etiq_6}. No se tendrán en cuenta objetos que intersequen en un valor de t negativo o cero.
 	${ }$\\	
 	
 También puede ocurrir que por razones de precisión finita haya puntos que se oscurezcan por que se haya calculado que el rayo de sombra interseca a la propia superficie (la que contiene a q), para evitar este problema lo que hacemos es considerar solo las intersecciones que tienen un $t > \epsilon$ para $\epsilon > 0 $.
@@ -536,7 +536,7 @@ También puede ocurrir que por razones de precisión finita haya puntos que se o
 	\label{fig:etiq_6}
 \end{figure}
 
-El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto para hacer que ese punto se vea sombreado.
+El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto para hacer que ese punto se vea sombreado. Devuelte true si hay una superficie que se interpone o falso en caso contrario.
 	${ }$\\
 
 
@@ -616,7 +616,7 @@ bool interposicionSuperficie(Rayo rayo, double min_inter, int indice_min){
 \end{lstlisting}
 	${ }$\\
 	
-Adicionalmente, la clase luz puntual, la cual almacena el punto donde está la fuente de luz y desde la que salen los rayos de luz.
+Adicionalmente, la clase luz puntual, la cual almacena el punto donde está la fuente de luz y desde la que salen los rayos de luz en todas direcciones.
 
 \begin{lstlisting}[style=Consola]
 class LuzPuntual : public Iluminacion {
@@ -646,7 +646,7 @@ Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
 ${ }$\\
 
 
-Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando lo objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.
+Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando los objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio en la función $Inicializar$. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.
 ${ }$\\
 
 \begin{figure}[h]

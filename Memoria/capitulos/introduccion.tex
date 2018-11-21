@@ -1,5 +1,10 @@
 \chapter{Introducción}
 
+Las pricipales fuentes usadas para este trabajo han sido \textbf{Curvas y superficies} \cite{MonRos}, \textbf{Realistic Ray-Tracing} \cite{Shirley} y \textbf{A Generalization of Algebraic Surface Drawing} \cite{Blinn}.
+${ }$\\
+
+Las áreas de las matemáticas que se usan han sido Geometría, Topología, Informática Gráfica y Métodos numéricos. Las herramientas usadas han sido OpenGL, C++.
+${ }$\\
 
 ${ }$\\
 \section{Rigidez, ovaloides y otros conceptos y resultados previos}
@@ -150,7 +155,7 @@ ${ }$\\
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{imagenes/tubular.png}
 	\end{center}
-	\caption{Entorno tubular}
+	\caption{Entorno tubular. Tomada de Goglee. }
 	\label{fig:etiq_13}
 \end{figure}
 
@@ -248,7 +253,7 @@ ${ }$\\
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{imagenes/ellipsoid.png}
 			\end{center}
-			\caption{La elipse es un ejemplo de ovaloide.}
+			\caption{La elipse es un ejemplo de ovaloide. Image tomada de https://en.wikipedia.org/wiki/Ellipsoid.}
 			\label{fig:etiq_3}
 		\end{figure}
 		
@@ -327,16 +332,17 @@ ${ }$\\
 En el ejemplo de superficie no rígida de la Figura\ref{fig:etiq_2}, podemos ver que hay un plano por el cual el trozo de superficie que se encuentra a uno de los lados puede ser cambiada por su simétrico con respecto a este plano creando una nueva superficie deformada de la anterior, pero que conserva la distancia de los puntos en el sentido que se dijo de la isometría. Está función que ha sido aplicada a la superficie es por tanto una isometría, pero no es un movimiento rígido ya que en los puntos que han sido modificados por esta simetría la superficie a cambiado su curvatura.
 ${ }$\\
 
-%Como acabamos de ver la rigidez es una propiedad de las esferas, aunque no es exclusiva para las esferas sino para mas superficies entre ellas los ovaloides (como veremos mas adelante). Sin embargo, hay superficies que no tienen esta propiedad de rigidez como se puede observar en el ejemplo que se muestra en la Figura \ref{fig:etiq_2}
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{imagenes/no_rigid}
 	\end{center}
-	\caption{Superficie no rígida.}
+	\caption{Superficie no rígida. Imagen tomada de \cite{MonRos}.}
 	\label{fig:etiq_2}
 \end{figure}
 
+En siguiente capítulo se demostrará que los ovaloides son rígidos con el conocido Teorema de Cohn-Vossen.
+${ }$\\
 
 
 ${ }$\\
@@ -345,12 +351,13 @@ ${ }$\\
 \section{Visualización de superficies}
 ${ }$\\
 
-Las ecuaciones paramétricas que definen una superficie podrían ser vistas como una función a la que, pasándole una tupla te devuelven uno de los puntos que está en la superficie. Veamos la siguiente representación:
+Las ecuaciones paramétricas que definen una superficie podrían ser vistas como una función a la que, pasándole una tupla te devuelven uno de los puntos que está en la superficie. Veamos la siguiente expresión:
 ${ }$\\
 $$ x = x(u,v) $$
 $$ y = y(u,v) $$
 $$ z = z(u,v). $$
 ${ }$\\
+
 Del mismo modo que con las ecuaciones paramétricas que definen superficies, podríamos ver las ecuaciones implícitas que definen una superficie, como una función que a partir de un punto del espacio indica si dicho punto esta fuera o dentro de la superficie.
 ${ }$\\
 
@@ -362,12 +369,14 @@ ${ }$\\
 donde $x = (x_1, x_2, x_3)$. La segunda definición en forma implícita de la esfera concuerda con la primera en todos los puntos que pertenecen a la esfera, pero difiere en los demás. La primera de ellas define la distancia algebraica mientras que la otra define la distancia geométrica o euclidea.
 ${ }$\\
 
-¿Cual de las representaciones anterior podría ser mejor que la otra? En el artículo \ref{JHart} se puede leer lo siguiente:
+¿Cual de las representaciones anterior podría ser mejor que la otra? En el artículo \cite{JHart} se puede leer lo siguiente:
 ${ }$\\
 
 ``A comparison of geometric versus algebraic representations of quadric surfaces preferred the geometric representation [Goldman, 1983]. The parameters of a geometric representation are coordinate-independent, and are more robust and intuitive than algebraic coefficients. Distance-based functions like (2) are one method for representing implicit surfaces geometrically.
+${ }$\\
 
 Several methods exist for rendering implicit surfaces. Indirect methods polygonize the implicit surface to a given tolerance, allowing the use of existing polygon rendering techniques and hardware for interactive inspection [Wyvill et al, 1986; Bloomenthal, 1988]. Although polygonization transforms implicit surfaces into a representation easily rendered and incorporated into graphics systems, polygonizations are typically not guaranteed and may not accurately detect disconnected or detailed sections of the implicit surface. Production ray tracing systems tend to polygonize surfaces, resulting in large time and memory overhead to accurately represent an otherwise simple implicit model.
+${ }$\\
 
 In an effort to combine speed and accuracy, [Sederberg \& Zundel, 1989] developed a direct scan-line method to more accurately render algebraic implicit surfaces at interactive speeds. Ray tracing, on the other hand, is a direct, accurate and elegant method for investigating a much larger variety of implicit surfaces.''
 ${ }$\\
@@ -376,14 +385,14 @@ A lo largo de este capítulo veremos como rayos, $ r : \mathbb{R} \to \mathbb{R}
 ${ }$\\
 $$ r(t) = o + dt $$
 ${ }$\\
-intersectan superficies definidas con ecuaciones implícitas. Si tenemos una superficie dada por $ F : \mathbb{R}^3 \to \mathbb{R} $
+intersectan superficies definidas con ecuaciones implícitas. Si tenemos una superficie dada por su ecuación implícita $ F : \mathbb{R}^3 \to \mathbb{R} $
 ${ }$\\
 $$ F(x,y,z) = 0, $$
 ${ }$\\
 obtenemos la intersección con el rayo usando la composición $F \circ r : \mathbb{R} \to \mathbb{R}$, $F \circ r (t) = 0$, cuyas raíces corresponden con las intersecciones del rayo con la superficie.
 ${ }$\\
 
-Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil de calcular directamente, pero hay casos de funciones en los que no se puede calcular directamente despejando variables, en estos caso recurrimos a métodos de aproximación de soluciones como son el método de Newton-Raphson y el método de Regula-Falsi.
+Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil de calcular directamente, pero hay casos de funciones en los que no se puede calcular directamente despejando variables, en estos caso recurrimos a métodos de aproximación de soluciones como son el método de Newton-Raphson y el método de Regula-Falsi para encontrar los ceros de la ecuación implícita, lo que es lo mismo a, el punto de la recta donde se inserseca a la superficie.
 ${ }$\\
 
-Estos métodos parten de una aproximación inicial de la solución y generan una sucesión de términos que converge a la solución.
+Estos métodos parten de una aproximación inicial de la solución y generan una sucesión de términos que, en algunos casos, converge a la solución.

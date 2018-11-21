@@ -35,53 +35,53 @@ I was expecting a `,' or a `}'---line 95 of file bibliografia.bib
  :  publisher =    "Washington State University",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 124 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 102 of file bibliografia.bib
  :  
- :  publisher =    "1st International Workshop on Haskell And Rewriting Techniques",
+ :  publisher =    "",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Biblatex version: 3.3
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 18 entries,
+You've used 20 entries,
             6047 wiz_defined-function locations,
-            1206 strings with 9938 characters,
-and the built_in function-call counts, 51400 in all, are:
-= -- 1636
-> -- 3012
-< -- 543
-+ -- 2199
-- -- 2140
-* -- 2194
-:= -- 4099
+            1218 strings with 10225 characters,
+and the built_in function-call counts, 56328 in all, are:
+= -- 1817
+> -- 3140
+< -- 599
++ -- 2247
+- -- 2192
+* -- 2479
+:= -- 4323
 add.period$ -- 0
-call.type$ -- 18
-change.case$ -- 201
+call.type$ -- 20
+change.case$ -- 229
 chr.to.int$ -- 226
-cite$ -- 34
-duplicate$ -- 5351
-empty$ -- 5320
-format.name$ -- 457
-if$ -- 10185
+cite$ -- 38
+duplicate$ -- 5942
+empty$ -- 5911
+format.name$ -- 527
+if$ -- 11345
 int.to.chr$ -- 0
-int.to.str$ -- 30
+int.to.str$ -- 34
 missing$ -- 0
-newline$ -- 267
-num.names$ -- 462
-pop$ -- 5501
+newline$ -- 300
+num.names$ -- 519
+pop$ -- 6147
 preamble$ -- 1
-purify$ -- 204
+purify$ -- 234
 quote$ -- 0
-skip$ -- 2531
+skip$ -- 2826
 stack$ -- 0
-substring$ -- 1431
-swap$ -- 1622
-text.length$ -- 431
-text.prefix$ -- 18
+substring$ -- 1526
+swap$ -- 1798
+text.length$ -- 474
+text.prefix$ -- 20
 top$ -- 1
-type$ -- 672
+type$ -- 748
 warning$ -- 0
-while$ -- 366
+while$ -- 386
 width$ -- 0
-write$ -- 248
+write$ -- 279
 (There were 5 error messages)

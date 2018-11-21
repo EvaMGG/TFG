@@ -16,18 +16,27 @@
   {}
 \endgroup
 
-\entry{haskell2}{article}{}
-  \name{author}{1}{}{%
+\entry{math1}{book}{}
+  \name{author}{2}{}{%
     {{}%
-     {alii.}{a.}%
-     {Bertram~Felgenhauer}{B.~F.}%
-     {et}{e.}%
+     {A.~D.~Aleksandrov}{A.~D.~A.}%
+     {A.~N.~Kolmogorov}{A.~N.~K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Lavrentev}{L.}%
+     {M.~A.}{M.~A.}%
+     {}{}%
      {}{}}%
   }
-  \strng{namehash}{aBFe1}
-  \strng{fullhash}{aBFe1}
+  \list{publisher}{1}{%
+    {The M.I.T. Press}%
+  }
+  \strng{namehash}{ADAANKLMA1}
+  \strng{fullhash}{ADAANKLMA1}
   \field{sortinit}{A}
-  \field{title}{A Haskell Library for Term Rewriting}
+  \field{title}{Mathematics: Its content, methods and meaning}
+  \field{year}{1999}
 \endentry
 
 \entry{MonRos}{book}{}
@@ -48,6 +57,18 @@
   \field{year}{2005}
 \endentry
 
+\entry{IQuilez}{online}{}
+  \field{sortinit}{A}
+  \field{title}{Artículos visualización computacional Inigo Quilez}
+  \verb{url}
+  \verb http://iquilezles.org/www/index.htm
+  \endverb
+  \field{year}{2017}
+  \field{urlday}{18}
+  \field{urlmonth}{10}
+  \field{urlyear}{2018}
+\endentry
+
 \entry{Atkinson}{book}{}
   \name{author}{1}{}{%
     {{}%
@@ -64,18 +85,6 @@
   \field{sortinit}{A}
   \field{title}{An Introduction to Numerical Analysis}
   \field{year}{1989}
-\endentry
-
-\entry{project}{online}{}
-  \field{sortinit}{A}
-  \field{title}{Automatic theorem proving tools for Welder.}
-  \verb{url}
-  \verb https://github.com/rjraya/WelderToolbox
-  \endverb
-  \field{year}{2017}
-  \field{urlday}{09}
-  \field{urlmonth}{01}
-  \field{urlyear}{2017}
 \endentry
 
 \entry{Blinn}{article}{}
@@ -171,6 +180,16 @@
   \field{urlyear}{2018}
 \endentry
 
+\entry{haskell1}{online}{}
+  \field{sortinit}{M}
+  \field{title}{Method of false position}
+  \verb{url}
+  \verb http://numericalanalysis.weebly.com/uploads/1/3/8/6/13867400/error_for_
+  \verb false_position.pdf
+  \endverb
+  \field{year}{2017}
+\endentry
+
 \entry{Press}{book}{}
   \name{author}{2}{}{%
     {{}%
@@ -205,6 +224,20 @@
   \field{urlday}{07}
   \field{urlmonth}{10}
   \field{urlyear}{2018}
+\endentry
+
+\entry{CarmenS}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Pérez}{P.}%
+     {M.~Carmen~Serrano}{M.~C.~S.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{PMCS1}
+  \strng{fullhash}{PMCS1}
+  \field{sortinit}{P}
+  \field{title}{Apuntes de Métodos Numéricos II}
 \endentry
 
 \entry{ref5}{online}{}
@@ -252,16 +285,16 @@
   \field{year}{1874}
 \endentry
 
-\entry{haskell1}{online}{}
-  \field{sortinit}{T}
-  \field{title}{The term-rewriting package}
+\entry{ref7}{online}{}
+  \field{sortinit}{W}
+  \field{title}{Why is the half-torus rigid?}
   \verb{url}
-  \verb https://hackage.haskell.org/package/term-rewriting
+  \verb https://mathoverflow.net/questions/77760/why-is-the-half-torus-rigid
   \endverb
-  \field{year}{2017}
-  \field{urlday}{09}
-  \field{urlmonth}{01}
-  \field{urlyear}{2017}
+  \field{year}{2011}
+  \field{urlday}{20}
+  \field{urlmonth}{11}
+  \field{urlyear}{2018}
 \endentry
 
 \lossort

@@ -339,13 +339,13 @@ void Inicializar(int x, int y) {
 	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));*/
 
 	//superficies.push_back(new Elipse(2, 1.6, 1.3, Tupla3f(0.5, 0.1, 0.1)));
-	superficies.push_back(new OvaloidePrueba(Tupla3f(0.1, 0.3, 0.2)));
+	//superficies.push_back(new OvaloidePrueba(Tupla3f(0.1, 0.3, 0.2)));
 
 	//cono
 	//superficies.push_back(new Cuadrica(0.5,0.0,0.0,0.0,-0.5,0.0,0.0,0.5,0.0,0.0, Tupla3f(0.5, 0.1, 0.1)));
 
 	//hiperboloide de una hoja
-	//superficies.push_back(new Cuadrica(0.5,0.0,0.0,0.0,-0.5,0.0,0.0,-0.5,0.0,-0.5, Tupla3f(0.5, 0.1, 0.1)));
+	superficies.push_back(new Cuadrica(0.6,0.0,0.0,0.0,-0.35,0.0,0.0,0.5,0.0,-0.35, Tupla3f(0.5, 0.1, 0.1)));
 
 	fuentesLuz.push_back(new LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1)));
 	fuentesLuz.push_back(new LuzPuntual(Tupla3f(-2,-2,2), Tupla3f(1, 1, 1)));
