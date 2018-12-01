@@ -4,8 +4,47 @@ ${ }$\\
 \section{Introducción}
 ${ }$\\
 
-Antes de explicar el algoritmo con el que se obtendrá la imagen de superficies definidas con ecuaciones implícitas empezaré implementando el sistema de rayos, cámara, etc, lo cual servirá de base para después generalizar a superficies mas complejas dadas en sus ecuaciones implícitas. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate. Finalmente para comprobar que esta implementación es correcta se creará una escena con un cubo y una esfera.
+Antes de explicar el algoritmo con el que se obtendrá la imagen de superficies mas complejas definidas con ecuaciones implícitas se comenzará implementando el sistema de rayos, cámara e intersecciones con objetos sencillos. Esto servirá de base para después generalizar a superficies mas complejas. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate.
 ${ }$\\
+
+Ray-tracing en computación gráfica consiste en la generación de una imagen mediante el trazado de rayos que simulan el comportamiento de los rayos de luz al incidir en los objetos. El método de Ray-Tracing es capaz de proporcionar un grado muy alto de realismo, mas alto que otros métodos pero implica un mayor coste computacional. Por este motivo, el trazado de rayos es más adecuado para aplicaciones donde se puede tolerar un tiempo mas largo de renderización de imágenes y efectos visuales de películas y televisión y más mal adaptado para aplicaciones en tiempo real donde la velocidad es fundamental, como videojuegos o realidad virtual. El trazado de rayos es capaz de simular una gran variedad de efectos ópticos, como los fenómenos de reflexión, reflacción y dispersión (como la aberración cromática).
+${ }$\\
+
+
+Al menos los siguientes objetos se necesitan en la descripción de una escena (ver Figura \ref{fig:etiq_51}):
+\begin{itemize}
+	\item Objetos que componen la escena, con parámetros como el color del objeto.
+	\item Las fuentes y posición de las fuentes de luz de la escena.
+	\item Posición desde la que se visualiza la escena suele estar representado por una cámara virtual o un observador.
+	\item Marco a través del cual se visualiza, es el recuadro en el que se proyectará la escena. Este marco es una rectángulo virtual que se encuentra a cierta distancia del observador. Los cuadrados de esta imagen corresponden con los píxeles de la imagen que se visualizará finalmente.
+\end{itemize}
+${ }$\\
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imagenes/tracing}
+	\end{center}
+	\caption{Elementos usados en Ray-tracing. Imagen procedente de \cite{ref8}}
+	\label{fig:etiq_51}
+\end{figure}
+
+Para Ray-tracing usamos una estructura de datos llamada Rayo, que indica el punto de inicio, o posición del observador, y la dirección de una semirecta en el espacio. Para cada píxel, se calcula la dirección que apunta, desde el punto del ojo, al píxel correspondiente del plano de la imagen (en el rectángulo virutal). Para cada rayo, y teniendo en cuenta que el rayo puede intersecar con mas de una superficie, se calcula la distancia del observador a los los puntos intersecados por el rayo. De esta, forma nos quedamos con el objeto que se encuentra mas cerca del observador, que es el objeto que el observador puede ver en correspondencia con ese rayo. Los otros objetos estarán ocultos para el observador por este primer objeto.
+${ }$\\
+
+Ray-tracing está basado en el algoritmo denominado Ray Casting. Que es el que se encarga del trazado de rayos. Ray-tracing extiende esta idea aplicando un proceso de sombreado que tiene en cuenta efectos globales de iluminación como pueden ser reflexiones refracciones o sombras arrojadas.
+${ }$\\
+
+${ }$\\
+\subsection{Ventajas e inconvenientes de Ray-tracing}
+${ }$\\
+
+
+
+
+${ }$\\
+\subsection{Comparación de Ray-tracing con Rasterización}
+${ }$\\
+
 
 ${ }$\\
 \section{Rayos, cámara e imagen}
@@ -28,8 +67,13 @@ El color del punto se determina teniendo en cuenta el color de la superficie en 
 	${ }$\\	
 %%% Hablar de que están implementados los operadores con tuplas3f, producto escalar etc...
 
-En este caso para visualizar la escena se va a utilizar un simulador de cámara estenopeica. Podemos ver una cámara esteopeica en la Figura \ref{fig:etiq_1}. Este mecanismo de captura de imágenes consiste en una caja cuyo interior es de color negro con un agujero en un lateral y material fotosensible que capturará la imagen en el lateral opuesto.
-	${ }$\\	
+
+En la Figura \ref{fig:etiq_1} podemos ver como funciona una cámara estenopeica. Este mecanismo de captura de imágenes consiste en una caja cuyo interior es de color negro con un agujero en un lateral y material fotosensible que capturará la imagen en el lateral opuesto.
+${ }$\\
+
+El proceso de construcción de imagen a partir del lanzado de los rayos desde el punto del ojo es parecido a la formación de una imagen mediante una cámara estenopeica, en la que se representa un objeto en una película, como se puede ver en la Figura \ref{fig:etiq_1}. Raytracing intercambia "película" por el marco donde se proyecta la imagen y "agujero" por el punto donde se encuentra el observador. Al igual que la cámara estenopeica, la distancia entre el plano de la imagen y el punto del ojo determina la "distancia focal" y, por lo tanto, el campo de visión.
+${ }$\\
+	
 
 %%% Imagen Pinhole camera
 
@@ -519,13 +563,13 @@ esta ley nos da el valor del color del pixel habiendo añadido la iluminación. 
 
 
 
-Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un objeto se interpone entre la fuente de luz y otro objeto.
+Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un objeto se interpone entre la fuente de luz y otro objeto. Las sombras creadas de este modo son llamadas sobras arrojadas.
 	${ }$\\	
 	
-En este caso tomamos un rayo que sale de un punto \textbf{q}, del que se quiere calcular su color, en dirección \textbf{l} pero sentido opuesto. Si el rayo interseca con otra superficie el valor de $L$ se pone a cero en caso contrario se calcula el valor del color mediante la Ley de Lambert. Esto se ilustra en la Figura\ref{fig:etiq_6}. No se tendrán en cuenta objetos que intersequen en un valor de t negativo o cero.
+Para simular las sombras arrojadas se lanzan rayos sombra, estos rayos van desde el punto de intersección hasta las fuentes de luz. En este caso tomamos un rayo que sale de un punto \textbf{q} en dirección \textbf{l} pero sentido opuesto. Si el rayo interseca con otra superficie el valor de $L$ se pone a cero en caso contrario se calcula el valor del color mediante la Ley de Lambert. Esto se ilustra en la Figura\ref{fig:etiq_6}. No se tendrán en cuenta objetos que intersequen en un valor de t negativo o cero.
 	${ }$\\	
 	
-También puede ocurrir que por razones de precisión finita haya puntos que se oscurezcan por que se haya calculado que el rayo de sombra interseca a la propia superficie (la que contiene a q), para evitar este problema lo que hacemos es considerar solo las intersecciones que tienen un $t > \epsilon$ para $\epsilon > 0 $.
+Puede ocurrir que por razones de precisión finita haya puntos que se oscurezcan por que se haya calculado que el rayo de sombra interseca a la propia superficie (la que contiene a q), para evitar este problema lo que hacemos es considerar solo las intersecciones que tienen un $t > \epsilon$ para $\epsilon > 0 $.
 	${ }$\\	
 
 \begin{figure}[h]

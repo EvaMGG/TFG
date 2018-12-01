@@ -1,11 +1,5 @@
 \chapter{Introducción}
 
-Las pricipales fuentes usadas para este trabajo han sido \textbf{Curvas y superficies} \cite{MonRos}, \textbf{Realistic Ray-Tracing} \cite{Shirley} y \textbf{A Generalization of Algebraic Surface Drawing} \cite{Blinn}.
-${ }$\\
-
-Las áreas de las matemáticas que se usan han sido Geometría, Topología, Informática Gráfica y Métodos numéricos. Las herramientas usadas han sido OpenGL, C++.
-${ }$\\
-
 ${ }$\\
 \section{Rigidez, ovaloides y otros conceptos y resultados previos}
 ${ }$\\
@@ -38,8 +32,6 @@ ${ }$\\
 Al plano vectorial $(dX)_x(\mathbb{R}^2)$ le llamaremos el plano tangente a $S$ en el punto $q = X(x)$. Lo representaremos por $T_q S$.
 ${ }$\\
 
-Los movimientos rígidos cumplen $\langle f(u), f(v) \rangle = \langle u, v \rangle$, siendo $<,>$ la métrica Euclídea de $\mathbb{R}^3$. Por lo que más intuitivamente podemos decir que, la distancia entre puntos (siendo la distancia la longitud de la linea recta que los une), se conserva al aplicar $f$.
-${ }$\\
 
 \begin{definicion}
 	Llamaremos \underline{\textbf{movimiento rígido}} de $\mathbb{R}^3$ a una aplicación $f : \mathbb{R}^3 \to \mathbb{R}^3$ de la forma $f(x) = Ax + b$ donde A es una matriz ortogonal de orden 3 y $b \in \mathbb{R}^3$, es decir $A \in O(3)$ con lo cual cumple que $AA^{t} = I_{n}$.
@@ -109,7 +101,7 @@ ${ }$\\
 Para ver como la superficie se dobla en el espacio se estudio como cambiaba el plano tangente a la superficie de un punto a otro cercano. Esta tarea es mas fácil si usamos el vector normal a la superficie.
 ${ }$\\
 
-El normal $N$ a una superficie $S$ cumple que $|N(p)|^2 = 1$ para todo $p \in S$. Por tanto, tenemos que $N(S) \subset \mathbb{S}^2$ y $N : S \to \mathbb{S}^2$ conocida como la función de Gauss. De esta modo la diferencial del normal sería $(dN)_p : T_p S \to T_{N(p)} \mathbb{S}^2$, pero $T_{N(p)} \mathbb{S}^2 = T_p S$, ya que el plano tangente a la esfera en el punto $N(p)$ es el complemento ortonormal. Así, el diferencial de la función de Gauss es un endomorfismo que tiene dos invariantes estos son su determinante y su traza.
+El normal $N$ a una superficie $S$ cumple que $|N(p)|^2 = 1$ para todo $p \in S$. Por tanto, tenemos que $N(S) \subset \mathbb{S}^2$ y $N : S \to \mathbb{S}^2$ conocida como la aplicación de Gauss. De esta modo la diferencial del normal sería $(dN)_p : T_p S \to T_{N(p)} \mathbb{S}^2$, pero $T_{N(p)} \mathbb{S}^2 = T_p S$, ya que el plano tangente a la esfera en el punto $N(p)$ es el complemento ortonormal de la recta generada por $N(p)$. Así, la diferencial de la aplicación de Gauss es un endomorfismo que tiene dos invariantes estos son su determinante y su traza.
 ${ }$\\
 $$ K(p) = det(dN)_p $$
 $$ H(p) = - \frac{1}{2} traza(dN)_p $$
@@ -125,7 +117,7 @@ ${ }$\\
 
 
 %CAMBIAR ESTO MIRANDO LOS APUNTES DE DE CESAR QUE ME DIÓ RODRIGO, SEGUNDA PÁGINA TEMA 3
-Por ser $-(dN)_p$ es un endomorfismo de un espacio vectorial euclideo, es diagonalizable. Los valores propios de esta matriz se representarán mediante $k_1(p)$ y $k_2(p)$ y son las curvaturas principales de la superficie en un punto determinado.
+Por ser $\sigma_p(v,w)$ simétrica, es diagonalizable. Los valores propios de esta matriz se representarán mediante $k_1(p)$ y $k_2(p)$ y son las curvaturas principales de la superficie en un punto determinado. Así, $K(p) = k_1(p) \cdot k_2(p)$ y $H(p) = \frac{k_1(p) + k_2(p)}{2}$.
 
 
 ${ }$\\
@@ -160,10 +152,9 @@ ${ }$\\
 \end{figure}
 
 \begin{teorema}[Existencia de entornos tubulares]
-	Sea $S$ una superficie orientable y $R \subset S$ un subconjunto compacto y abierto. Entonces, existe un $\epsilon > 0$ tal que el conjunto $N_{\epsilon}(R) =$ \{todos los segmentos normales centrados en $R$ y longitud $\delta$\}, es un entorno tubular de $R$.
+	Sea $S$ una superficie orientable y compacta. Entonces, existe un $\epsilon > 0$ tal que el conjunto $N_{\epsilon}(S) =$ \{todos los segmentos normales centrados en $S$ y longitud $\delta$\}, es un entorno tubular de $S$.
 	${ }$\\
 	
-	En particular, cuando $S$ es compacto, existe un $\epsilon > 0$ tal que $B_{\epsilon}(S)$ es un entorno tubular de $S$.
 \end{teorema}
 
 
@@ -177,10 +168,11 @@ Ahora recordaremos algunos resultados sobre integración en superficies que ser�
 ${}$\\
 
 \begin{teorema}[Fórmula del cambio de variable]
-	Sea $F : S_1 \to S_2$ un difeomorfismo, siendo $S_1$, $S_2$ de dos superficies orientables, y sea $\Phi : S_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
+	Sea $F : S_1 \to S_2$ un difeomorfismo, siendo $S_1$, $S_2$ dos superficies orientables, y sea $\Phi : S_2 \to \mathbb{R}$ una función integrable. Entonces, $(\Phi \circ F)(p)|Jac \Phi|(p)$ es integrable y
 	\[
-	\int_{S_2} \Phi = \int_{S_1} (\Phi \circ F)|Jac \Phi|.
+	\int_{S_2} \Phi = \int_{S_1} (\Phi \circ F)|Jac \Phi|,
 	\]
+	donde $|Jac \Phi|$ representa el valor absoluto del jacobiano de $\Phi$.
 \end{teorema}
 ${ }$\\
 
@@ -197,7 +189,7 @@ ${ }$\\
 \end{teorema}
 ${}$\\
 
-Siendo $div \; V$ la divergencia del campo $V$.
+Siendo $div \; V = \sum_{i=1}^{2} \langle dV(e_i), e_i \rangle $ la divergencia del campo $V$.
 ${ }$\\
 
 \begin{teorema}[Fórmulas de Minkowski]
@@ -253,7 +245,7 @@ ${ }$\\
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{imagenes/ellipsoid.png}
 			\end{center}
-			\caption{La elipse es un ejemplo de ovaloide. Image tomada de https://en.wikipedia.org/wiki/Ellipsoid.}
+			\caption{El elipsoide es un ejemplo de ovaloide. Image tomada de https://en.wikipedia.org/wiki/Ellipsoid.}
 			\label{fig:etiq_3}
 		\end{figure}
 		
@@ -291,7 +283,7 @@ ${ }$\\
 \end{ejemplo}
 ${ }$\\
 
-Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según aparece en la bibliografía \cite{ref1}. Recordemos también que homeomorfo implica homotópico.
+Para hacernos una idea mas concreta de que forma tendrá un ovaloide podemos observar que este es homeomorfo a la esfera según aparece en la bibliografía \cite{ref1}.
 ${ }$\\
 
 El siguiente resultado afirma que el dominio interno de una superficie conexa y cerrada con curvatura de Gauss positiva es convexo.
@@ -396,3 +388,13 @@ Hay superficies sencillas como la esfera y el cubo cuya intersección es fácil 
 ${ }$\\
 
 Estos métodos parten de una aproximación inicial de la solución y generan una sucesión de términos que, en algunos casos, converge a la solución.
+
+${ }$\\
+\section{Áreas de conocimiento y fuentes principales}
+${ }$\\
+
+Las pricipales fuentes usadas para este trabajo han sido \textbf{Curvas y superficies} \cite{MonRos}, \textbf{Realistic Ray-Tracing} \cite{Shirley} y \textbf{A Generalization of Algebraic Surface Drawing} \cite{Blinn}.
+${ }$\\
+
+Las áreas que se han usado han sido Geometría, Topología, Informática Gráfica y Métodos numéricos. Las herramientas usadas han sido OpenGL, C++.
+${ }$\\

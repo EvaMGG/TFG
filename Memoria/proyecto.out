@@ -7,25 +7,29 @@
 \BOOKMARK [2][-]{subsection.1.1.5}{Ovaloides}{section.1.1}% 7
 \BOOKMARK [2][-]{subsection.1.1.6}{Superficie r\355gida}{section.1.1}% 8
 \BOOKMARK [1][-]{section.1.2}{Visualizaci\363n de superficies}{chapter.1}% 9
-\BOOKMARK [0][-]{chapter.2}{Objetivos del trabajo}{}% 10
-\BOOKMARK [0][-]{chapter.3}{Rigidez de ovaloides}{}% 11
-\BOOKMARK [1][-]{section.3.1}{Movimientos r\355gidos e isometr\355as}{chapter.3}% 12
-\BOOKMARK [1][-]{section.3.2}{Teorema Egregium de Gauss y rigidez de la esfera}{chapter.3}% 13
-\BOOKMARK [1][-]{section.3.3}{Integral de Herglotz y rigidez de ovaloides}{chapter.3}% 14
-\BOOKMARK [0][-]{chapter.4}{Visualizaci\363n computacional. Primeros pasos.}{}% 15
-\BOOKMARK [1][-]{section.4.1}{Introducci\363n}{chapter.4}% 16
-\BOOKMARK [1][-]{section.4.2}{Rayos, c\341mara e imagen}{chapter.4}% 17
-\BOOKMARK [1][-]{section.4.3}{Intersecci\363n de rayos con objetos}{chapter.4}% 18
-\BOOKMARK [2][-]{subsection.4.3.1}{Intersecci\363n rayo-esfera}{section.4.3}% 19
-\BOOKMARK [2][-]{subsection.4.3.2}{Intersecci\363n rayo-caja}{section.4.3}% 20
-\BOOKMARK [1][-]{section.4.4}{Iluminaci\363n}{chapter.4}% 21
-\BOOKMARK [0][-]{chapter.5}{C\341lculo de intersecciones rayo-superficie mediante m\351todos iterativos}{}% 22
-\BOOKMARK [1][-]{section.5.1}{Newton-Raphson}{chapter.5}% 23
-\BOOKMARK [1][-]{section.5.2}{Regula-Falsi}{chapter.5}% 24
-\BOOKMARK [1][-]{section.5.3}{Comparaci\363n de m\351todos}{chapter.5}% 25
-\BOOKMARK [1][-]{section.5.4}{Combinaci\363n de los algoritmos de Newton-Raphson y Regula-Falsi}{chapter.5}% 26
-\BOOKMARK [1][-]{section.5.5}{Implementaci\363n y prueba}{chapter.5}% 27
-\BOOKMARK [2][-]{subsection.5.5.1}{Otros ejemplos de ovaloides}{section.5.5}% 28
-\BOOKMARK [2][-]{subsection.5.5.2}{Otras superficies.}{section.5.5}% 29
-\BOOKMARK [0][-]{chapter.6}{Ap\351ndice A. Diagrama de clases.}{}% 30
-\BOOKMARK [0][-]{chapter.7}{Ap\351ndice B. Instalaci\363n.}{}% 31
+\BOOKMARK [1][-]{section.1.3}{\301reas de conocimiento y fuentes principales}{chapter.1}% 10
+\BOOKMARK [0][-]{chapter.2}{Objetivos del trabajo}{}% 11
+\BOOKMARK [0][-]{chapter.3}{Rigidez de ovaloides}{}% 12
+\BOOKMARK [1][-]{section.3.1}{Movimientos r\355gidos e isometr\355as}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.2}{Teorema Egregium de Gauss y rigidez de la esfera}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.3}{F\363rmula integral de Herglotz y rigidez de ovaloides}{chapter.3}% 15
+\BOOKMARK [0][-]{chapter.4}{Visualizaci\363n computacional. Primeros pasos.}{}% 16
+\BOOKMARK [1][-]{section.4.1}{Introducci\363n}{chapter.4}% 17
+\BOOKMARK [2][-]{subsection.4.1.1}{Ventajas e inconvenientes de Ray-tracing}{section.4.1}% 18
+\BOOKMARK [2][-]{subsection.4.1.2}{Comparaci\363n de Ray-tracing con Rasterizaci\363n}{section.4.1}% 19
+\BOOKMARK [1][-]{section.4.2}{Rayos, c\341mara e imagen}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.3}{Intersecci\363n de rayos con objetos}{chapter.4}% 21
+\BOOKMARK [2][-]{subsection.4.3.1}{Intersecci\363n rayo-esfera}{section.4.3}% 22
+\BOOKMARK [2][-]{subsection.4.3.2}{Intersecci\363n rayo-caja}{section.4.3}% 23
+\BOOKMARK [1][-]{section.4.4}{Iluminaci\363n}{chapter.4}% 24
+\BOOKMARK [0][-]{chapter.5}{C\341lculo de intersecciones rayo-superficie mediante m\351todos iterativos}{}% 25
+\BOOKMARK [1][-]{section.5.1}{Newton-Raphson}{chapter.5}% 26
+\BOOKMARK [1][-]{section.5.2}{Regula-Falsi}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.3}{Comparaci\363n de m\351todos}{chapter.5}% 28
+\BOOKMARK [1][-]{section.5.4}{Combinaci\363n de los algoritmos de Newton-Raphson y Regula-Falsi}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.5}{Implementaci\363n y prueba}{chapter.5}% 30
+\BOOKMARK [2][-]{subsection.5.5.1}{Otros ejemplos de ovaloides}{section.5.5}% 31
+\BOOKMARK [2][-]{subsection.5.5.2}{Otras superficies.}{section.5.5}% 32
+\BOOKMARK [0][-]{chapter.6}{Conclusiones y v\355as futuras}{}% 33
+\BOOKMARK [0][-]{chapter.7}{Ap\351ndice A. Diagrama de clases.}{}% 34
+\BOOKMARK [0][-]{chapter.8}{Ap\351ndice B. Instalaci\363n.}{}% 35

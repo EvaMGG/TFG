@@ -17,25 +17,20 @@
 \endgroup
 
 \entry{math1}{book}{}
-  \name{author}{2}{}{%
+  \name{author}{1}{}{%
     {{}%
      {A.~D.~Aleksandrov}{A.~D.~A.}%
-     {A.~N.~Kolmogorov}{A.~N.~K.}%
+     {M.~A.~Lavrentev}{M.~A.~L.}%
      {}{}%
-     {}{}}%
-    {{}%
-     {Lavrentev}{L.}%
-     {M.~A.}{M.~A.}%
-     {}{}%
-     {}{}}%
+     {A.~N.~Kolmogorov}{A.~N.~K.}}%
   }
   \list{publisher}{1}{%
-    {The M.I.T. Press}%
+    {The M I T Pres}%
   }
-  \strng{namehash}{ADAANKLMA1}
-  \strng{fullhash}{ADAANKLMA1}
+  \strng{namehash}{ADAANKMAL1}
+  \strng{fullhash}{ADAANKMAL1}
   \field{sortinit}{A}
-  \field{title}{Mathematics: Its content, methods and meaning}
+  \field{title}{Mathematics Its content methods and meaning}
   \field{year}{1999}
 \endentry
 
@@ -226,7 +221,7 @@
   \field{urlyear}{2018}
 \endentry
 
-\entry{CarmenS}{article}{}
+\entry{CarmenS}{book}{}
   \name{author}{1}{}{%
     {{}%
      {Pérez}{P.}%
@@ -253,7 +248,19 @@
   \field{urlyear}{2018}
 \endentry
 
-\entry{cesarR}{article}{}
+\entry{ref8}{online}{}
+  \field{sortinit}{R}
+  \field{title}{Ray tracing (graphics)}
+  \verb{url}
+  \verb https://en.wikipedia.org/wiki/Ray_tracing_(graphics)
+  \endverb
+  \field{year}{2018}
+  \field{urlday}{22}
+  \field{urlmonth}{11}
+  \field{urlyear}{2018}
+\endentry
+
+\entry{cesarR}{book}{}
   \name{author}{1}{}{%
     {{}%
      {Rosales}{R.}%
@@ -264,7 +271,7 @@
   \strng{namehash}{RC1}
   \strng{fullhash}{RC1}
   \field{sortinit}{R}
-  \field{title}{Apuntes Cesar Rosales de Curvas y Superficies; Curso : 17-2018}
+  \field{title}{Apuntes Cesar Rosales de Curvas y Superficies. Curso 17-2018}
 \endentry
 
 \entry{Shirley}{book}{}

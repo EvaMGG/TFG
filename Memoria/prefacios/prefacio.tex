@@ -25,7 +25,7 @@ Eva María González García\\
 En este trabajo estudiaremos las superficies rígidas, esto es, aquellas superficies de $\mathbb{R}^3$ en las que cualquier isometría suya es la restricción de un movimiento rígido de $\mathbb{R}^3$. El principal resultado será el teorema de Cohn-Vossen, en el que se demuestra que los ovaloides de $\mathbb{R}^3$ son superficies rígidas.
 ${ }$\\
 
-También se verá un algoritmo de visualización como es el Ray-marching el cual mediante rayos lazados desde algún punto y algoritmos iterativos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi nos permitirá visualizar superficies representadas de forma computacional mediante su ecuación implícita y visualizaremos algunos ejemplos de ovaloides mediante este procedimiento.
+También se ha estudiado e implementado un algoritmo de visualización como es el Ray-marching el cual mediante rayos lazados desde algún punto y algoritmos iterativos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi nos permite visualizar superficies representadas de forma computacional mediante su ecuación implícita y se han visualizado algunos ejemplos de ovaloides mediante este procedimiento.
 
 
 \vspace{0.7cm}
@@ -37,7 +37,7 @@ También se verá un algoritmo de visualización como es el Ray-marching el cual
 
 
 \begin{center}
-{\large\bfseries Project Title: Project Subtitle}\\
+{\large\bfseries Rigidity of ovaloids and computational visualization}\\
 \end{center}
 \begin{center}
 Eva María González García\\
@@ -66,7 +66,7 @@ $$ \sigma_p(v,w) = - \langle (dN)_p(v), w \rangle, \;\;\;\; v,w \in T_pS. $$
 And we called this form as the second fundamental form of the surface $S$ at the point $p$, which will be very useful in the proofs of this project.
 ${ }$\\
 
-An ovaloid is a surface such that its Gauss curvature is always positive, so its second fundamental form is always positive.
+An ovaloid is a surface such that its Gauss curvature, this is de determinant of $dN$, is always positive. Therefore, its second fundamental form is always positive.
 ${ }$\\
 
 These ovaloids have the property that for each of its points the surface is entirely to one side of the tangent plane at that point. In addition the ovaloids are rigid surfaces this is the point that is wanted to prove in this first part of the project. We must know that a rigid surface is one that for any isometry, defined on that surface, is a restriction of a rigid motion. The rigidity of the ovaloids is proved in the Cohn-Vossen Theorem, which was demonstrated in 1927.
@@ -93,7 +93,7 @@ ${ }$\\
 It will be seen what is needed for the representation of surfaces, in this way we will see how to save the information of the image of the scene. This scene will be saved in a matrix with the same length in rows and columns that rows and columns of pixels the window in which it is going to visualize has. We will also see how the color will be represented by the RBG agreement and later a pinhole camera will be programmed with which we will visualize the scene. To visualize surfaces, rays will be used that will be represented computationally by their mathematical equations, just like the surfaces. These rays will be launched from the observer's area and it will be checked if it intersects the surface, if so, the corresponding color is calculated for the point in the intersection. To prove that everything we have programmed works correctly, we will try the program with simpler figures that do not need to be treated by their equations implicitly. And you will see how to calculate the intersection of these figures with the rays. Specifically, the figures that will be seen are the sphere and the cube aligned with the axes. These figures do not need the use of iterative methods of approaching solutions.
 ${ }$\\
 
-We will use the computational representation of rays (semirects) that start from the point where "the observer" is. These rays are associated to each of the pixels of the window where the scene will be displayed. If the ray associated with a certain pixel intersects the surface, the color of the surface at that point will be calculated taking into account the lighting and the color of the surface, and the calculated color will be projected on the pixel in question, that is, it will be the color that the pixel will take. Thus, pixel by pixel, the image of the scene we will visualize will be created.
+We will use the computational representation of rays (half lines) that start from the point where "the observer" is. These rays are associated to each of the pixels of the window where the scene will be displayed. If the ray associated with a certain pixel intersects the surface, the color of the surface at that point will be calculated taking into account the lighting and the color of the surface, and the calculated color will be projected on the pixel in question, that is, it will be the color that the pixel will take. Thus, pixel by pixel, the image of the scene we will visualize will be created.
 ${ }$\\
 
 Next, we will see what approach methods of iterative solutions are going to be used, these are the Newton-Raphson method and the Regula-Falsi method. Each one has its advantages and disadvantages, for example one is faster, but the other ensures convercia when the other does not. For this reason, a combined use of both methods will be used. We will compare these methods by testing their convergence orders are 2 and 1 respectively and we will visualize several examples of ovaloids given in implicit equations.
@@ -139,7 +139,7 @@ D. \textbf{Francisco Urbano Pérez-Aranda}, Profesor del Área de Geometría y T
 
 \vspace{0.5cm}
 
-D. \textbf{Carlos Ureña Almagro}, Profesor del Área de XXXX del Departamento YYYY de la Universidad de Granada.
+D. \textbf{Carlos Ureña Almagro}, Profesor del Área de Lenguajes y Sistemas Informático del Departamento de Lenguajes y Sistemas Informáticos de la Universidad de Granada.
 
 
 \vspace{0.5cm}
