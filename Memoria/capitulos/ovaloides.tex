@@ -23,7 +23,7 @@ ${ }$\\
 En los siguientes dos resultados veremos que dado un movimiento rígido, su restricción a una superficie es una isometría entre superficies que conserva la segunda forma fundamental y después veremos su reciproco, que dada una isometría entre superficies que conserva la segunda forma fundamental esta isometría se puede extender a un movimiento rígido del espacio $\mathbb{R}^3$.
 ${ }$\\
 
-\begin{proposicion}\label{prop:rig1} % label para cuando haga una referencia.
+\begin{proposicion}\label{prop:rig1}
 	Sean S una superficie y  $\Phi : \mathbb{R}^3 \to \mathbb{R}^3$  un movimiento rígido. Consideraremos que $S' = \Phi(S)$ y $f = \Phi_{\mid_{S}} : S \to S'$. Entonces:
 	\begin{enumerate}
 		\item $S'$ es una superficie y $f : S \to S'$ es un difeomorfismo.
@@ -288,8 +288,8 @@ ${ }$\\
 El siguiente resultado, conocido como Teorema Egregium de Gauss, nos muestra que la curvatura de Gauss queda invariante mediante isometrías. Y de él podemos deducir que la curvatura de Gauss no depende de la forma en que la superficie se dobla en $\mathbb{R}^3$. Es también una pieza clave en la demostración de la rigidez de la esfera.
 ${ }$\\
 
-\begin{teorema} \label{teo:egre}
-	$\textbf{(Teorema Egregium)}$ Sean $f : S \to S'$ una isometría local entre dos superficies y $K$ y $K'$ sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
+\begin{teorema}[Teorema Egregium] \label{teo:egre}
+	Sean $f : S \to S'$ una isometría local entre dos superficies y $K$ y $K'$ sus respectivas curvaturas de Gauss. Entonces, $K = K'\circ f$.
 \end{teorema}
 
 \begin{proof}
@@ -517,8 +517,8 @@ ${ }$\\
 Vamos a ver en el siguiente resultado que la esfera en una superficie rígida.
 ${ }$\\
 
-\begin{teorema}
-	$\textbf{(Rigidez de la esfera)}$ Consideremos una esfera de radio $r>0$, $\mathbb{S}^2(r)$, y $S$ una superficie conexa cualquiera. En esta situación toda isometría $f : \mathbb{S}^2(r) \to S$ es la restricción de un movimiento rígido de $\mathbb{R}^3$. En particular, $S$ es una esfera de igual radio que la de partida.
+\begin{teorema}[Rigidez de la esfera]
+	Consideremos una esfera de radio $r>0$, $\mathbb{S}^2(r)$, y $S$ una superficie conexa cualquiera. En esta situación toda isometría $f : \mathbb{S}^2(r) \to S$ es la restricción de un movimiento rígido de $\mathbb{R}^3$. En particular, $S$ es una esfera de igual radio que la de partida.
 \end{teorema}
 
 \begin{proof}
@@ -741,8 +741,8 @@ ${ }$\\
 Todo lo que acabamos de ver hace mas fácil de construir y comprender la Fómula integral de Herglotz \ref{teo:herglotz} la cual se usará mas adelante para demostrar el Teorema de rigidez de ovaloides de Cohn-Vossen \ref{teo:cohn}.
 ${ }$\\
 
-\begin{teorema}\label{teo:herglotz}
-	$\textbf{(Fórmula integral de Herglotz)}$ Sea $S$ y $S'$ dos superficies compactas, $f: S \to S'$ una isometría y $H'$ la curvatura media de $S'$. Entonces, se cumple la siguiente fórmula integral
+\begin{teorema}[Fórmula integral de Herglotz]\label{teo:herglotz}
+	Sea $S$ y $S'$ dos superficies compactas, $f: S \to S'$ una isometría y $H'$ la curvatura media de $S'$. Entonces, se cumple la siguiente fórmula integral
 	${ }$\\
 	\[
 		2 \int_S H' \circ f = \int_S \langle p, N(p) \rangle [traza(dN)_p \;\; traza \; A(f)_p] \; dp.
@@ -800,8 +800,8 @@ ${ }$\\
 En el teorema de la rigidez de ovaloides tenemos como hipótesis que la superficie resultante de aplicar la isometría, $S'$, es también un ovaloide. Esto es debido al teorema Egregium de Gauss. Como estamos aplicando una isometría a un ovaloide, cuya propiedad es la de que su curvatura de Gauss es siempre mayor que cero, y la curvatura se mantiene invariante por isometrías, entonces la superficie resutante tiene curvatura positiva en todos sus puntos y por tanto es un ovaloide.
 ${ }$\\
 
-\begin{teorema} \label{teo:cohn}
-	$\textbf{(Rigidez de Cohn-Vossen)}$ Sean $S$ y $S'$ ovaloides. Entonces, cualquier isometría $f : S \to S'$ es restricción de un movimiento rígido de $\mathbb{R}^3$.
+\begin{teorema}[Rigidez de Cohn-Vossen] \label{teo:cohn}
+	Sean $S$ y $S'$ ovaloides. Entonces, cualquier isometría $f : S \to S'$ es restricción de un movimiento rígido de $\mathbb{R}^3$.
 \end{teorema}
 
 \begin{proof}
@@ -816,7 +816,7 @@ ${ }$\\
 	este endormorfismo tiene traza $2(H' \circ f)$ y determinante $K' \circ f$. Ahora podemos usar el Teorema Egregium de Gauss, ya que f es isometría local, obteniendo
 	${ }$\\
 	\[
-		det A(f) = K' \circ f = K.
+		det \; A(f)_p = K' \circ f = K.
 	\]
 	${ }$\\
 	Además por la fórmula de Minkowski tenemos

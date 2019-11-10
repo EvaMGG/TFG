@@ -22,10 +22,10 @@ Eva María González García\\
 \vspace{0.7cm}
 \noindent{\textbf{Resumen}}\\
 
-En este trabajo estudiaremos las superficies rígidas, esto es, aquellas superficies de $\mathbb{R}^3$ en las que cualquier isometría suya es la restricción de un movimiento rígido de $\mathbb{R}^3$. El principal resultado será el teorema de Cohn-Vossen, en el que se demuestra que los ovaloides de $\mathbb{R}^3$ son superficies rígidas.
+En este trabajo se estudian las superficies rígidas, esto es, aquellas superficies de $\mathbb{R}^3$ en las que cualquier isometría suya es la restricción de un movimiento rígido de $\mathbb{R}^3$. El principal resultado es el teorema de Cohn-Vossen, en el que se demuestra que los ovaloides de $\mathbb{R}^3$ son superficies rígidas.
 ${ }$\\
 
-También se ha estudiado e implementado un algoritmo de visualización como es el Ray-marching el cual mediante rayos lazados desde algún punto y algoritmos iterativos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi nos permite visualizar superficies representadas de forma computacional mediante su ecuación implícita y se han visualizado algunos ejemplos de ovaloides mediante este procedimiento.
+También se ha estudiado e implementado un algoritmo de visualización como es Ray-marching el cual mediante rayos lazados desde algún punto y algoritmos iterativos de aproximación de soluciones como son Newton-Raphson y Regula-Falsi nos permite visualizar superficies representadas de forma computacional mediante su ecuación implícita y se han visualizado algunos ejemplos de ovaloides mediante este procedimiento.
 
 
 \vspace{0.7cm}
@@ -84,7 +84,13 @@ ${ }$\\
 It will be seen, the proof of the rigidity of the sphere. As it is easy to observe, the sphere is an example of ovaloid. This proof will be done using the Gaussian Egregium Theorem. And to complete this first part of the project, the Herglotz integral Forum will be built, this integral is an important tool that will be used to prove the theorem of the rigidity of the ovaloids of Cohn-Vossen.
 ${ }$\\
 
-In the second part of this project, the visualization of surfaces will be discussed, the purpose of this part is to see how to visualize nontrivial surfaces given in their implicit equations.
+In the second part of this project, the visualization of surfaces will be discussed, the purpose of this part is to see how to visualize nontrivial surfaces given in their implicit equations. 
+${ }$\\
+
+The surfaces we intend to visualize are ovaloid. In spite of the algorithm serves for any surface that is expressed in its implicit equation.
+${ }$\\
+
+There are other possible ways to visualize surfaces, for example the rasterization method is a very fast one that allows to make changes in the scene in real time. On the contrary, Ray-tracing, which is seen in chapter 4, needs a lot of time to get the images and does not allow it to be used for video games which need a response in real time. On the other hand, Ray-tracing gives much more realistic results since it allows to calculate light effects such as reflection and reflaction and the images become indistinguishable from photographs and videos taken from real life. In this project, Ray-tracing is used because the rasterization method would involve rendering the ovaloids using triangle meshes, while with Ray-tracing we can use their implicit equations. Apart from the rasterization method, being the representation by triangles occupies more space while Ray-tracing only needs the implicit equation.
 ${ }$\\
 
 In a first chapter some things necessary for visualization will be prepared and in the next chapter we will see the approach methods of solutions applied to the visualization of scenes.

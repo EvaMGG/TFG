@@ -4,8 +4,17 @@ ${ }$\\
 \section{Introducción}
 ${ }$\\
 
+La síntesis de imágenes por ordenador puede aplicarse a video juegos, cine, visualización científica y técnica, diseño 3d, simulación. En este proyecto nos centraremos en la visualización de ovaloides representadas por sus ecuaciones implícitas.
+${ }$\\
+
 Antes de explicar el algoritmo con el que se obtendrá la imagen de superficies mas complejas definidas con ecuaciones implícitas se comenzará implementando el sistema de rayos, cámara e intersecciones con objetos sencillos. Esto servirá de base para después generalizar a superficies mas complejas. Esta primera implementación incluirá la visualización de superficies en 3D con iluminación sencilla y sin texturas, solo con colores mate.
 ${ }$\\
+
+La esfera, el cubo y el plano son ejemplos de estos objetos mas sencillos, sus soluciones pueden encontrarse mediante métodos directos, ya que puede encontrarse un fórmula analítica sencilla para hallar la intersección como se verá mas adelante en la sección \ref{cap:intRO}. Sin embargo y por lo general, encontramos superficies dadas en sus ecuaciones implícitas para las que no es posible encontrar el valor exacto de sus soluciones. En estos casos se usan métodos iterativos, que aunque son menos eficientes se pueden aplicar a casos mas generales.  En el capítulo \ref{cap:march} se verá como funcionan los métodos iterativos de Newton-Raphson y Regula-Falsi y se usará un método resultado de la combinación de ambos para la visualización de superficies.
+${ }$\\
+
+
+
 
 Ray-tracing en computación gráfica consiste en la generación de una imagen mediante el trazado de rayos que simulan el comportamiento de los rayos de luz al incidir en los objetos. El método de Ray-Tracing es capaz de proporcionar un grado muy alto de realismo, mas alto que otros métodos pero implica un mayor coste computacional. Por este motivo, el trazado de rayos es más adecuado para aplicaciones donde se puede tolerar un tiempo mas largo de renderización de imágenes y efectos visuales de películas y televisión y más mal adaptado para aplicaciones en tiempo real donde la velocidad es fundamental, como videojuegos o realidad virtual. El trazado de rayos es capaz de simular una gran variedad de efectos ópticos, como los fenómenos de reflexión, reflacción y dispersión (como la aberración cromática).
 ${ }$\\
@@ -31,19 +40,26 @@ ${ }$\\
 Para Ray-tracing usamos una estructura de datos llamada Rayo, que indica el punto de inicio, o posición del observador, y la dirección de una semirecta en el espacio. Para cada píxel, se calcula la dirección que apunta, desde el punto del ojo, al píxel correspondiente del plano de la imagen (en el rectángulo virutal). Para cada rayo, y teniendo en cuenta que el rayo puede intersecar con mas de una superficie, se calcula la distancia del observador a los los puntos intersecados por el rayo. De esta, forma nos quedamos con el objeto que se encuentra mas cerca del observador, que es el objeto que el observador puede ver en correspondencia con ese rayo. Los otros objetos estarán ocultos para el observador por este primer objeto.
 ${ }$\\
 
-Ray-tracing está basado en el algoritmo denominado Ray Casting. Que es el que se encarga del trazado de rayos. Ray-tracing extiende esta idea aplicando un proceso de sombreado que tiene en cuenta efectos globales de iluminación como pueden ser reflexiones refracciones o sombras arrojadas.
+Ray-tracing está basado en el algoritmo denominado Ray Casting. Que es el que se encarga del trazado de rayos. Ray-tracing extiende esta idea aplicando un sombreado que tiene en cuenta efectos globales de iluminación como pueden ser reflexiones, refracciones o sombras arrojadas.
 ${ }$\\
 
+Los creadores de imágenes y películas pueden tardar todo el tiempo que necesiten en renderizar un fotograma. Los videojuegos al ser interactivos necesitan obtener el siguiente fotograma en una fracción de segundo. Como resultado, la mayoría de los gráficos en tiempo real se basan en la técnica llamada rasterización. 
 ${ }$\\
-\subsection{Ventajas e inconvenientes de Ray-tracing}
+
+Comparada con Ray-tracing, la rasterización es extremadamente rápida, aunque los resultados a pesar de ser muy buenos no son tan buenos como los de Ray-tracing, los cuales son imágenes que integran sombras, reflejos y refracciones de tal forma que las imágenes generadas no se pueden distinguir de fotografías o videos tomados del mundo real.
+${ }$\\
+
+Por otro lado, en el método de rasterización las imágenes se crean a partir de una malla de triángulos virtuales, que juntos forman modelos 3D de objetos. Estos modelos son proyectados en planos bidimensionales que se corresponden con la ventana de visualización, el paso final es rellenar los triángulos bidimensionales. La representación de triángulos nos lleva una mayor cantidad de información almacenada, con respecto a Ray-tracing que unicamente usa la ecuación en forma implícita para la representación de la superficie.
+${ }$\\
+
+Hemos tomado Ray-tracing por que no requiere convertir los ovaloides a mayas de triángulos, lo cual requeríría encontrar sus ecuaciones paramétricas o usar otros algoritmos muy complejos para enumerar los triángulos que forman la superficie. Por otro lado con Ray-tracing solo necesitamos su expresión en ecuaciones implícitas. Las principales fuentes han sido el libro \textit{Realistic Ray-Tracing} \cite{Shirley} y el artículo \textit{A Generalization of Algebraic Surface Drawing} \cite{Blinn}, otras fuentes han sido también el libro \textit{An Introduction to Numerical Analysis} \cite{Atkinson} y los apuntes de la asignatura \textit{Métodos Numéricos II} \cite{CarmenS}.
 ${ }$\\
 
 
 
 
-${ }$\\
-\subsection{Comparación de Ray-tracing con Rasterización}
-${ }$\\
+ 
+
 
 
 ${ }$\\
@@ -51,7 +67,7 @@ ${ }$\\
 ${ }$\\
 %%%Explicar Ray-Tracing con alguna imagen
 
-Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Necesitaremos usar vectores para ello hay definida una clase \textbf{Tupla3f} que venía dada con el código de las practicas de "Informática Gráfica" y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escalar, producto vectorial, nomalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
+Antes de empezar hay algunas cosas que necesitamos tener antes de empezar a programar la visualización de las superficies. Necesitaremos usar vectores para ello hay definida una clase \textbf{Tupla3f} que venía dada con el código de las practicas de \textit{Informática Gráfica} y que se encarga de almacenar vectores de 3 componentes y realizar las operaciones propias de estos objetos como son el producto escalar, producto vectorial, normalizado, etc. La forma de almacenar la información de la imagen a visualizar se llevará a cabo mediante una matriz de tantas filas y columnas como filas y columnas de pixeles tenga la ventana donde se va a visualizar la escena. Cada elemento de esta matriz almacenará el color del correspondiente pixel.
 	${ }$\\	
 	
 El color de cada pixel se representará mediante una tupla de tres valores \textbf{double} que se corresponderán los colores rojo, azul y verde (esta representación codificación del color se llama RGB). El valor \textbf{double} que irá de 0.0 a 1.0 indicará la cantidad de ese color.
@@ -123,10 +139,55 @@ ${ }$\\
 ${ }$\\
 
 En las coordenadas del espacio (estas son las coordenadas en las que está expresada la ecuación de la superficie), esto se traduce en 
-
+${ }$\\
 \[
 	p_{i,j}(t) = e + t( u_i \; u, v_j \; v, -s \; w).
 \]
+${ }$\\
+
+En este caso, he implementado una clase $Rayo$ que se encarga de llevar las operaciones necesarias, aquí se implementa $puntoRayo$ que devuelve el punto de un rayo para un valor $t$. El código es el que se muestra a continuación:
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+class Rayo{
+
+private :
+
+	Tupla3f origen, direccion;
+
+public :
+
+	Rayo(Tupla3f o, Tupla3f d);
+	Tupla3f puntoRayo(double t);
+	Tupla3f getOrigen();
+	Tupla3f getDireccion();
+};
+\end{lstlisting}
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+Rayo::Rayo(Tupla3f o, Tupla3f d){
+
+	origen = o;
+	direccion = d;
+}
+
+Tupla3f Rayo::puntoRayo(double t){
+
+	return origen + t*direccion;
+}
+
+Tupla3f Rayo::getOrigen(){
+
+	return origen;
+}
+
+Tupla3f Rayo::getDireccion(){
+
+	return direccion;
+}
+\end{lstlisting}
+${ }$\\
 
 Para poder establecer el punto \textbf{o} de visión y la orientación se calcula el sistema de referencia de visión del siguiente modo:
 \begin{itemize}
@@ -178,9 +239,11 @@ LuzDireccional luz = LuzDireccional(Tupla3f(1.5,1.5,1.65), Tupla3f(1, 1, 1));
 
 void Inicializar(int x, int y) {
 
-	superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.3, 0.3, 0.3)));
-	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.5, 0.5, 0.5)));
-	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.55, 0.55, 0.55)));
+	superficies.push_back(new Esfera(Tupla3f(0,0,0), 2.0, Tupla3f(0.1, 0.5, 0.1), Tupla3f(0.25,0.4,0.2), 1.5));
+	
+	superficies.push_back(new Cubo(Tupla3f(1.5,1.5,1.5), Tupla3f(2,2,2), Tupla3f(0.1, 0.1, 0.5), Tupla3f(0.2,0.1,0.3), 0.8));
+	
+	superficies.push_back(new Esfera(Tupla3f(-1.5,-1.5,1.5), 0.5, Tupla3f(0.5, 0.1, 0.1), Tupla3f(0.3,0.1,0.1), 2.0));
 	
 	image = new Tupla3f [x*y];
 
@@ -201,28 +264,37 @@ ${ }$\\
 \begin{lstlisting}[style=Consola]
 Tupla3f* Image(int x, int y){
 
-Tupla3f direccion;
+	Tupla3f direccion;
+	double int_ant;
 
 	for(int i = 0; i < x; i++) {
+	
 		for (int j = 0; j < y; j++){
+		
 			direccion = (a1 + (b1 - a1)*(i/(x-1.0)))*u + (a2 + (b2 - a2)*(j/(y-1.0)))*v -s*w;
+			
+			Tupla3f e = direccion / len(direccion);
+			Rayo rayo = Rayo(o, direccion);
 
 			if (!superficies.empty()){
 
 				int indice_min;
-				double int_ant;
 
-				primeraInterseccion(direccion, int_ant, indice_min);
+				primeraInterseccion(rayo, int_ant, indice_min);
+				Superficie *priSup = (superficies[indice_min]);
 
 				if (int_ant >= 0) {
-					image[i*y +j] = luz.LeyLambert( (superficies[indice_min])->getColor(), (superficies[indice_min])->normal(e, direccion, int_ant));
 
-					if (interposicionSuperficie(direccion, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
+					image[i*y +j] = fuentesLuz[0]->colorPixel( priSup->normal(rayo.puntoRayo(int_ant)), e, priSup->getEspecular(), priSup->getBrillo(), priSup->getColor(), rayo.puntoRayo(int_ant));
+
+					if (interposicionSuperficie(rayo, int_ant, indice_min) == true) image[i*y +j] = Tupla3f(0, 0, 0);
 				}
+				
 				else image[i*y +j] = Tupla3f(1, 1, 1);
 			}
 		}
 	}
+	
 	return image;
 }
 
@@ -235,15 +307,17 @@ ${ }$\\
 
 \begin{lstlisting}[style=Consola]
 
-void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
+void primeraInterseccion(Rayo rayo, double &min_inter, int &indice_min){
 
 	indice_min = 0;
-	min_inter = (superficies[0])->interseccion(*(superficies[0]), e,direccion);
+	min_inter = (superficies[0])->interseccion(rayo);
 
 	for (int k = 1; k < (int)superficies.size(); k++) {
-		double intersec = (superficies[k])->interseccion(*(superficies[k]), e,direccion);
+	
+		double intersec = (superficies[k])->interseccion(rayo);
 
 		if ( (intersec < min_inter && intersec >= 0) || (min_inter == -1 && intersec >= 0) ) {
+		
 			indice_min = k;
 			min_inter = intersec;
 		}
@@ -253,40 +327,53 @@ void primeraInterseccion(Tupla3f direccion, double &min_inter, int &indice_min){
 ${ }$\\
 
 ${ }$\\
-\section{Intersección de rayos con objetos}
-%$\textbf{4.3. INTERSECCIÓN DE RAYOS CON OBJETOS SENCILLOS}$
+\section{Intersección de rayos con objetos}\label{cap:intRO}
 ${ }$\\
 
-En lo que sigue se van a definir dos clases (Esfera y Cubo) que van a ser subclase de la clase Superficie definida como sigue:
+Vamos a describir algunos algoritmos sencillos directos de cálculo de intersecciones rayo-objeto, para objetos que tienen asociada una fórmula analítica sencilla que nos permite el calculo directo de esas intersecciones. De entre la superficies que podemos encontrar con esta característica se veran solo el caso de la esfera y el del cubo.
+${ }$\\
+
+Las clases $Esfera$ y $Cubo$ que se van definir son subclase de la clase $Superficie$ definida como sigue:
+${ }$\\
 
 \begin{lstlisting}[style=Consola]
 class Superficie {
 
 private :
+
 	Tupla3f color;
+	Tupla3f compEspecular;
+	double expBrillo;
 
 public :
-	Superficie(Tupla3f col);
-	Superficie(const Superficie &sup);
-	virtual double interseccion(Superficie &sup, Tupla3f origen, Tupla3f direccion) = 0;
+
+	Superficie(Tupla3f col, Tupla3f comEs, double expB);
+	virtual double interseccion(Rayo rayo)=0;
+	virtual Tupla3f normal(Tupla3f xyz)=0;
 	virtual Tupla3f getColor();
-	virtual Tupla3f normal(Tupla3f e, Tupla3f d, double t) = 0;
-	virtual double funcion(Tupla3f o, Tupla3f d, double t) = 0;
-	virtual double derivada(Tupla3f o, Tupla3f d, double t) = 0;
-
+	virtual Tupla3f getEspecular();
+	virtual double getBrillo();
 };
+\end{lstlisting}
+${ }$\\
 
-Superficie::Superficie(Tupla3f col){
-	color = col;
+\begin{lstlisting}[style=Consola]
+Superficie::Superficie(Tupla3f col, Tupla3f comEs, double expB){
+color = col;
+compEspecular = comEs;
+expBrillo = expB;
 }
-
-Superficie::Superficie(const Superficie &sup){
-	color = sup.color;
-}
-
 
 Tupla3f Superficie::getColor(){
-	return color;
+return color;
+}
+
+Tupla3f Superficie::getEspecular(){
+return compEspecular;
+}
+
+double Superficie::getBrillo(){
+return expBrillo;
 }
 
 \end{lstlisting}
@@ -346,47 +433,49 @@ ${ }$\\
 class Esfera : public Superficie {
 
 private :
+
 	Tupla3f centro;
 	double radio;
 
 public :
-	Esfera(Tupla3f c, double r, Tupla3f col);
-	Esfera(const Esfera &sph);
-	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
 
+	Esfera(Tupla3f c, double r, Tupla3f col, Tupla3f comEs, double expB);
+	double interseccion(Rayo rayo);
+	Tupla3f normal(Tupla3f xyz);
 };
+\end{lstlisting}
+${ }$\\
 
+\begin{lstlisting}[style=Consola]
+Esfera::Esfera(Tupla3f c, double r, Tupla3f col, Tupla3f comEs, double expB):Superficie(col, comEs, expB) {
 
-Esfera::Esfera(Tupla3f c, double r, Tupla3f col):Superficie(col) {
 	centro = c;
 	radio = r;
 }
 
+double Esfera::interseccion(Rayo rayo){
 
-Esfera::Esfera(const Esfera &sph): Superficie(sph) {
-	centro = sph.centro;
-	radio = sph.radio;
-}
-
-double Esfera::interseccion(Tupla3f o, Tupla3f d){
 	double interseccion = -1;
 
-	double discriminante = (d|(o-centro))*(d|(o-centro)) - (d|d)*(((o-centro)|(o-centro)) - radio*radio);
+	double discriminante = (rayo.getDireccion()|(rayo.getOrigen()-centro))*(rayo.getDireccion()|(rayo.getOrigen()-centro)) - (rayo.getDireccion()|rayo.getDireccion())*(((rayo.getOrigen()-centro)|(rayo.getOrigen()-centro)) - radio*radio);
 
 	if (discriminante > 0) {
-		double t0 = ( ( -(d|(o-centro)) + sqrt( discriminante ) ) / ( d|d ) );
-		double t1 = ( ( -(d|(o-centro)) - sqrt( discriminante ) ) / ( d|d ) );
+	
+		double t0 = ( ( -(rayo.getDireccion()|(rayo.getOrigen()-centro)) + sqrt( discriminante ) ) / ( rayo.getDireccion()|rayo.getDireccion() ) );
+		
+		double t1 = ( ( -(rayo.getDireccion()|(rayo.getOrigen()-centro)) - sqrt( discriminante ) ) / ( rayo.getDireccion()|rayo.getDireccion() ) );
 
 		if (t0 > 0) interseccion = t0;
 		if (t0 > t1 && t1>0) interseccion = t1;
 	}
+	
 	return interseccion;
 }
 
 
-Tupla3f Esfera::normal(Tupla3f e, Tupla3f d, double t) {
-	return Tupla3f( ((e + t*d)-centro)/radio );
+Tupla3f Esfera::normal(Tupla3f xyz) {
+
+	return Tupla3f( (xyz-centro)/radio );
 }
 \end{lstlisting}
 ${ }$\\
@@ -447,51 +536,64 @@ private :
 
 public :
 
-	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3);
-	Cubo(const Cubo &squ);
-	double interseccion(Tupla3f origen, Tupla3f direccion);
-	Tupla3f normal(Tupla3f e, Tupla3f d, double t);
-
+	Cubo(Tupla3f e1, Tupla3f e2, Tupla3f col, Tupla3f comEs, double expB);
+	double interseccion(Rayo rayo);
+	Tupla3f normal(Tupla3f xyz);
 };
+\end{lstlisting}
+${ }$\\
 
-Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f e3):Superficie(e3) {
+\begin{lstlisting}[style=Consola]
+Cubo::Cubo(Tupla3f e1, Tupla3f e2, Tupla3f col, Tupla3f comEs, double expB):Superficie(col, comEs, expB) {
+
 	esquina1 = e1;
 	esquina2 = e2;
 }
 
-Cubo::Cubo(const Cubo &squ):Superficie(squ) {
-	esquina1 = squ.esquina1;
-	esquina2 = squ.esquina2;
-}
+double Cubo::interseccion(Rayo rayo){
 
-double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
 	double tx_min, tx_max, ty_min, ty_max, tz_min, tz_max, t0, t1;
 
-	if (direccion.coo[0] > 0) {
-		tx_min = (esquina1.coo[0] - origen.coo[0])/direccion.coo[0];
-		tx_max = (esquina2.coo[0] - origen.coo[0])/direccion.coo[0];
+	if (rayo.getDireccion().coo[0] > 0) {
+	
+		tx_min = (esquina1.coo[0] - rayo.getOrigen().coo[0])/rayo.getDireccion().coo[0];
+		
+		tx_max = (esquina2.coo[0] - rayo.getOrigen().coo[0])/rayo.getDireccion().coo[0];
 	}
+	
 	else {
-		tx_min = (esquina2.coo[0] - origen.coo[0])/direccion.coo[0];
-		tx_max = (esquina1.coo[0] - origen.coo[0])/direccion.coo[0];
+	
+		tx_min = (esquina2.coo[0] - rayo.getOrigen().coo[0])/rayo.getDireccion().coo[0];
+		
+		tx_max = (esquina1.coo[0] - rayo.getOrigen().coo[0])/rayo.getDireccion().coo[0];
 	}
 
-	if (direccion.coo[1] > 0) {
-		ty_min = (esquina1.coo[1] - origen.coo[1])/direccion.coo[1];
-		ty_max = (esquina2.coo[1] - origen.coo[1])/direccion.coo[1];
+	if (rayo.getDireccion().coo[1] > 0) {
+	
+		ty_min = (esquina1.coo[1] - rayo.getOrigen().coo[1])/rayo.getDireccion().coo[1];
+		
+		ty_max = (esquina2.coo[1] - rayo.getOrigen().coo[1])/rayo.getDireccion().coo[1];
 	}
+	
 	else {
-		ty_min = (esquina2.coo[1] - origen.coo[1])/direccion.coo[1];
-		ty_max = (esquina1.coo[1] - origen.coo[1])/direccion.coo[1];
+	
+		ty_min = (esquina2.coo[1] - rayo.getOrigen().coo[1])/rayo.getDireccion().coo[1];
+		
+		ty_max = (esquina1.coo[1] - rayo.getOrigen().coo[1])/rayo.getDireccion().coo[1];
 	}
 
-	if (direccion.coo[2] > 0) {
-		tz_min = (esquina1.coo[2] - origen.coo[2])/direccion.coo[2];
-		tz_max = (esquina2.coo[2] - origen.coo[2])/direccion.coo[2];
+	if (rayo.getDireccion().coo[2] > 0) {
+	
+		tz_min = (esquina1.coo[2] - rayo.getOrigen().coo[2])/rayo.getDireccion().coo[2];
+		
+		tz_max = (esquina2.coo[2] - rayo.getOrigen().coo[2])/rayo.getDireccion().coo[2];
 	}
+	
 	else {
-		tz_min = (esquina2.coo[2] - origen.coo[2])/direccion.coo[2];
-		tz_max = (esquina1.coo[2] - origen.coo[2])/direccion.coo[2];
+	
+		tz_min = (esquina2.coo[2] - rayo.getOrigen().coo[2])/rayo.getDireccion().coo[2];
+		
+		tz_max = (esquina1.coo[2] - rayo.getOrigen().coo[2])/rayo.getDireccion().coo[2];
 	}
 
 	if (tx_min > ty_min) t0 = tx_min;
@@ -508,13 +610,19 @@ double Cubo::interseccion(Tupla3f origen, Tupla3f direccion){
 }
 
 
-Tupla3f Cubo::normal(Tupla3f e, Tupla3f d, double t) {
-	if ( abs((e+t*d).coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
-	else if ( abs((e+t*d).coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
-	else if ( abs((e+t*d).coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
-	else if ( abs((e+t*d).coo[0] - esquina1.coo[0]) <= 0.01 ) return Tupla3f(-1,0,0);
-	else if ( abs((e+t*d).coo[1] - esquina1.coo[1]) <= 0.01 ) return Tupla3f(0,-1,0);
-	else if ( abs((e+t*d).coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
+Tupla3f Cubo::normal(Tupla3f xyz) {
+
+	if ( abs(xyz.coo[0] - esquina2.coo[0]) <= 0.01 ) return Tupla3f(1,0,0);
+	
+	else if ( abs(xyz.coo[1] - esquina2.coo[1]) <= 0.01 ) return Tupla3f(0,1,0);
+	
+	else if ( abs(xyz.coo[2] - esquina2.coo[2]) <= 0.01 ) return Tupla3f(0,0,1);
+	
+	else if ( abs(xyz.coo[0] - esquina1.coo[0]) <= 0.01 ) return Tupla3f(-1,0,0);
+	
+	else if ( abs(xyz.coo[1] - esquina1.coo[1]) <= 0.01 ) return Tupla3f(0,-1,0);
+	
+	else if ( abs(xyz.coo[2] - esquina1.coo[2]) <= 0.01 ) return Tupla3f(0,0,-1);
 }
 \end{lstlisting}
 ${ }$\\
@@ -559,8 +667,17 @@ esta ley nos da el valor del color del pixel habiendo añadido la iluminación. 
 	\label{fig:etiq_5}
 \end{figure}
 
+La componente especular se encarga de dotar a las superficies de brillo. Para programarla hemos tomado la componente especular del modelo de Phong que viene en los apuntes \cite{carlosU}. Dicha componente se calcula como:
+${ }$\\
 
+$$ sumandoEspecular(p, e, l) \; = \; compEspecular \; * \; d \; * \; [max(0, r \cdot e)]^{expBrillo}.$$
+${ }$\\
 
+Donde, $d$ es $1$ si $l	\cdot n > 0$ y en caso contrario $0$, y $r$ es el vector reflejado de $l$ a con respecto a $n$ y se calcula del siguiente modo:
+${ }$\\
+
+$$r = 2 \; * \; (l \cdot n) \; * \; n - l. $$
+${ }$\\
 
 
 Hasta ahora solo se ha visto como implementar sombras con un solo objeto pero cuando hay más objetos en la escena hay sombras que se producen cuando un objeto se interpone entre la fuente de luz y otro objeto. Las sombras creadas de este modo son llamadas sobras arrojadas.
@@ -574,13 +691,13 @@ Puede ocurrir que por razones de precisión finita haya puntos que se oscurezcan
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=0.8\textwidth]{imagenes/Imagen4.jpg}
+		\includegraphics[width=1.0\textwidth]{imagenes/Imagen4.jpg}
 	\end{center}
 	\caption{Implementación de sombras para mas de un objeto. El punto en rojo se coresponde con un punto al que no le da la luz por que la intercepta otro objeto. En cambio el punto en azul es alcanzado por la luz ya que no hay objetos que se la tapen.}
 	\label{fig:etiq_6}
 \end{figure}
 
-El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto para hacer que ese punto se vea sombreado. Devuelte true si hay una superficie que se interpone o falso en caso contrario.
+El siguiente código implementa la fuente de luz que solo tiene como atributos la dirección con la que la luz incide en los objetos y el color de la misma. Tambien se ha creado una clase $Iluminacion$ de la $LuzDireccional$ hereda. El código que implementa la iluminación se ha mostrado con anterioridad en la función $Image$. A continuación se muestra el código de la función $interposicionObjeto$ el cual es llamado desde la función $Image$ que ya se ha visto anteriormente. Está función se encarga, para cada rayo, de comprobar si (para cada punto visible para el observador) hay una superficie que se interpone entre la luz y dicho punto del objeto para hacer que ese punto se vea sombreado. Devuelte true si hay una superficie que se interpone o falso en caso contrario.
 	${ }$\\
 
 
@@ -597,8 +714,12 @@ public:
 	Iluminacion(Tupla3f col);
 	virtual Tupla3f LeyLambert(Tupla3f objColor, Tupla3f normal, Tupla3f punto);
 	virtual Tupla3f getDireccion(Tupla3f punto)=0;
+	virtual Tupla3f colorPixel(Tupla3f normal, Tupla3f e, Tupla3f compE, double brillo, Tupla3f compA, Tupla3f compD)=0;
 };
+\end{lstlisting}
+${ }$\\
 
+\begin{lstlisting}[style=Consola]
 Iluminacion::Iluminacion(Tupla3f col){
 
 	color = col;
@@ -607,7 +728,7 @@ Iluminacion::Iluminacion(Tupla3f col){
 Tupla3f Iluminacion::LeyLambert(Tupla3f objColor, Tupla3f normal, Tupla3f punto) {
 
 	Tupla3f L = Tupla3f(color.coo[0]*objColor.coo[0], color.coo[1]*objColor.coo[1], color.coo[2]*objColor.coo[2]) * (normal | getDireccion(punto));
-
+	
 	return L;
 }
 \end{lstlisting}
@@ -624,11 +745,15 @@ private:
 
 public:
 
-	LuzDireccional(Tupla3f d, Tupla3f c);
+	LuzDireccional(Tupla3f d, Tupla3f col);
 	Tupla3f getDireccion(Tupla3f punto);
+	Tupla3f colorPixel(Tupla3f normal, Tupla3f e, Tupla3f compE, double brillo, Tupla3f color, Tupla3f punto);
 };
+\end{lstlisting}
+${ }$\\
 
-LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c):Iluminacion(c) {
+\begin{lstlisting}[style=Consola]
+LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f col):Iluminacion(col) {
 
 	direccion = d;
 }
@@ -636,6 +761,18 @@ LuzDireccional::LuzDireccional(Tupla3f d, Tupla3f c):Iluminacion(c) {
 Tupla3f LuzDireccional::getDireccion(Tupla3f punto) {
 
 	return direccion;
+}
+
+Tupla3f LuzDireccional::colorPixel(Tupla3f normal, Tupla3f e, Tupla3f compE, double brillo, Tupla3f col, Tupla3f punto){
+
+	bool d =((normal|direccion)>0);
+	Tupla3f reflejado = 2*(direccion|normal)*normal-direccion;
+
+	Tupla3f sumandoEspecular = compE*d*pow(max((float) 0, (e|(-1)*reflejado)),brillo);
+	
+	Tupla3f color = LeyLambert(col, normal, punto) + sumandoEspecular;
+
+	return color;
 }
 
 
@@ -648,10 +785,11 @@ bool interposicionSuperficie(Rayo rayo, double min_inter, int indice_min){
 
 	bool inter = false;
 	int k=0;
-
+	
 	while ( (k < (int)superficies.size()) && !inter) {
 
-		if ( ((superficies[k])->interseccion(*(superficies[k]),  Rayo(rayo.puntoRayo(min_inter), fuentesLuz[0]->getDireccion(rayo.puntoRayo(min_inter))) ) >= 0.0) && (k!= indice_min) )  inter = true;
+		if ( ((superficies[k])->interseccion(Rayo(rayo.puntoRayo(min_inter), fuentesLuz[0]->getDireccion(rayo.puntoRayo(min_inter))) ) >= 0.0) && (k!= indice_min) )  inter = true;
+	
 		k++;
 	}
 	
@@ -660,36 +798,6 @@ bool interposicionSuperficie(Rayo rayo, double min_inter, int indice_min){
 \end{lstlisting}
 	${ }$\\
 	
-Adicionalmente, la clase luz puntual, la cual almacena el punto donde está la fuente de luz y desde la que salen los rayos de luz en todas direcciones.
-
-\begin{lstlisting}[style=Consola]
-class LuzPuntual : public Iluminacion {
-
-private:
-
-	Tupla3f posicion;
-	Tupla3f color;
-
-public:
-
-	LuzPuntual(Tupla3f p, Tupla3f c);
-	Tupla3f getDireccion(Tupla3f punto);
-};
-
-LuzPuntual::LuzPuntual(Tupla3f p, Tupla3f c):Iluminacion(c) {
-
-	posicion = p;
-	color = c;
-}
-
-Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
-
-	return normalized(posicion - punto);
-}
-\end{lstlisting}
-${ }$\\
-
-
 Finalmente para comprobar que lo que hemos programado hasta ahora funciona correctamente he realizado una prueba usando los objetos que creé y almacené en el vector $superficies$ que se ve en el código presentado al principio en la función $Inicializar$. Después de ejecutarlo el resultado fue el que se muestra en la Figura \ref{fig:etiq_9}.
 ${ }$\\
 
@@ -697,7 +805,63 @@ ${ }$\\
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{imagenes/prueba.png}
 	\end{center}
-	\caption{Ejemplo de comprobación}
+	\caption{Ejemplo de comprobación con luz direccional.}
 	\label{fig:etiq_9}
+\end{figure}
+	
+Adicionalmente, la clase luz puntual, la cual almacena el punto donde está la fuente de luz y desde la que salen los rayos de luz en todas direcciones.
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+class LuzPuntual : public Iluminacion {
+
+private:
+
+	Tupla3f posicion;
+
+public:
+
+	LuzPuntual(Tupla3f p, Tupla3f col);
+	Tupla3f getDireccion(Tupla3f punto);
+	Tupla3f colorPixel(Tupla3f normal, Tupla3f e, Tupla3f compE, double brillo, Tupla3f col, Tupla3f compD);
+};
+\end{lstlisting}
+${ }$\\
+
+\begin{lstlisting}[style=Consola]
+LuzPuntual::LuzPuntual(Tupla3f p, Tupla3f col):Iluminacion(col) {
+
+	posicion = p;
+}
+
+Tupla3f LuzPuntual::getDireccion(Tupla3f punto) {
+
+	return normalized(punto - posicion);
+}
+
+Tupla3f LuzPuntual::colorPixel(Tupla3f normal, Tupla3f e, Tupla3f compE, double brillo, Tupla3f col, Tupla3f punto){
+
+	bool d =((normal|(-1)*getDireccion(punto))>0);
+	
+	Tupla3f reflejado = 2*((-1)*getDireccion(punto)|normal)*normal-(-1)*getDireccion(punto);
+
+	Tupla3f sumandoEspecular = compE*d*pow(max((float) 0, (e|reflejado)),brillo);
+
+	Tupla3f color = LeyLambert(col, normal, punto) + sumandoEspecular;
+
+	return color;
+}
+\end{lstlisting}
+${ }$\\
+
+El resultado de usar la luz puntual se muestra en la Figura \ref{fig:etiq_11}.
+${ }$\\
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{imagenes/puntual.png}
+	\end{center}
+	\caption{Ejemplo de luz puntual.}
+	\label{fig:etiq_11}
 \end{figure}
 

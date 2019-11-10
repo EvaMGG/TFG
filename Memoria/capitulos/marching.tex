@@ -1,6 +1,13 @@
-\chapter{Cálculo de intersecciones rayo-superficie mediante métodos iterativos}
-
+\chapter{Cálculo de intersecciones rayo-superficie mediante métodos iterativos}\label{cap:march}
 ${ }$\\
+
+Para la mayoría de las ecuaciones implícitas es imposible hallar el valor exacto de sus soluciones: sólo en algunos casos se han encontrado fórmulas explícitas para resolverlas y, en los casos en se ha encontrado, suele suceder que estas fórmulas o son difíciles de utilizar o no permiten en la práctica calcular de forma exacta las soluciones de la ecuación. Por ejemplo, esto es lo que ocurre con las ecuaciones polinómicas de grado $r > 1$, ya que es conocido que sólo existen fórmulas que permiten obtener sus soluciones cuando $r \leq 4$, pero estas fórmulas precisan de la extracción de raíces, lo cual en la mayoría de los casos impide en la práctica calcular sus soluciones de forma exacta en un número finito de operaciones aritméticas (es decir, mediante un método directo).
+${ }$\\
+
+Es por esto que para resolver ecuaciones no lineales se utilizan métodos que parten de un valor inicial y se van aproximando a la solución, por lo que estos métodos nos permiten hallar valores aproximados de sus soluciones. Estos métodos generan una sucesión $\{x (k)\}^{\infty}_{k=1}$ de números reales que converge a la solución: esta sucesión permite la obtención de una aproximación a la solución tan precisa como sea necesario. Los métodos de resolución aproximada de ecuaciones que se conocen usan repetitivamente un cierto proceso, es por eso que son llamados métodos iterativos.
+${ }$\\
+
+
 
 En Ray-Marching para calcular las intersecciones de los rayos con una superficie dada en su ecuación implícita
 ${ }$\\
@@ -11,53 +18,7 @@ ${ }$\\
 vamos a usar el método de Newton-Raphson y Regula-Falsi de forma combinada ya que cada uno tiene unas ventajas e inconvenientes que justifican el uso de ambos. Mientras Newton-Raphson no garantiza que se llegue a una aproximación de la solución y la sucesión que genera puede divergir como se verá mas adelante, el método de Regula-Falsi asegura la convergencia de la solución. Sin embargo, el método de Newton-Raphson converge mas rápido que Regula-Falsi.
 ${ }$\\
 
-Para programar esta segunda parte tuve que hacer algunos cambios y mejoras en el código que ya tenía, entre las modificaciones se puede encontrar una nueva clase llamada $Rayo$ con la se representarán los rayos para hacer la lectura del código un poco mas intuitiva. Las modificaciones son las que se muestran a continuación:
-${ }$\\
-
-\begin{lstlisting}[style=Consola]
-class Rayo{
-	
-private :
-	
-	Tupla3f origen, direccion;
-	
-public :
-	
-	Rayo(Tupla3f o, Tupla3f d);
-	Tupla3f puntoRayo(double t);
-	Tupla3f getOrigen();
-	Tupla3f getDireccion();
-};
-	
-Rayo::Rayo(Tupla3f o, Tupla3f d){
-
-	origen = o;
-	direccion = d;
-}
-	
-Tupla3f Rayo::puntoRayo(double t){
-
-	return origen + t*direccion;
-}
-	
-Tupla3f Rayo::getOrigen(){
-
-	return origen;
-}
-	
-Tupla3f Rayo::getDireccion(){
-
-	return direccion;
-}
-\end{lstlisting}
-${ }$\\
-
-
-
-Aquí, se puede observar que la función $derivada$ necesaria para el cálculo del siguiente valor de la sucesión de Newton-Raphson se calcula haciendo una aproximación mediante la fórmula:
-${ }$\\
-
-$$ f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} $$
+Para programar esta segunda parte tuve que hacer algunos cambios y mejoras en el código que ya tenía. Las modificaciones son las que se muestran a continuación.
 ${ }$\\
 
 
@@ -67,6 +28,8 @@ class Superficie {
 private :
 
 	Tupla3f color;
+	Tupla3f compEspecular;
+	double expBrillo;
 
 	void intervaloInicial(Superficie &sup, Rayo rayo, double &t1, double &t2);
 	double RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo);
@@ -75,90 +38,51 @@ private :
 
 public :
 
-	Superficie(Tupla3f col);
-	Superficie(const Superficie &sup);
+	Superficie(Tupla3f col, Tupla3f comEs, double expB);
 	virtual double interseccion(Superficie &sup, Rayo rayo);
 	virtual Tupla3f normal(Tupla3f xyz);
 	virtual Tupla3f getColor();
+	virtual Tupla3f getEspecular();
+	virtual double getBrillo();
 	virtual double funcion(Tupla3f xyz) = 0;
 };
-
-Superficie::Superficie(Tupla3f col){
-
-	color = col;
-}
-
-Superficie::Superficie(const Superficie &sup){
-
-	color = sup.color;
-}
+\end{lstlisting}
+${ }$\\
 
 
-Tupla3f Superficie::getColor(){
+La función $intervaloInicial$ se encarga de buscar un intervalo inicial el método de aproximación de soluciones. En el siquiente código, también se puede observar que la función $derivada$, necesaria para el cálculo del siguiente valor de la sucesión de Newton-Raphson, se calcula haciendo una aproximación mediante la fórmula:
+${ }$\\
 
-	return color;
-}
+$$ f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}. $$
+${ }$\\
 
-double Superficie::interseccion(Superficie &sup, Rayo rayo){
+Para calcular las normal también se hace una aproximación.
+${ }$\\
 
-	double an, bn, tn;
-	int num_iteraciones = 0;
+\begin{lstlisting}[style=Consola]
 
-	intervaloInicial(sup, rayo, an, bn);
-
-	tn = an;
-
-	if (sup.funcion(rayo.puntoRayo(an)) == 0) return an;
-	else if (sup.funcion(rayo.puntoRayo(bn)) == 0) return bn;
-	else if (an == bn) return -1;
-
-	while (abs(sup.funcion(rayo.puntoRayo(tn))) > 0.1 && num_iteraciones < 100){
-	
-		tn = NewtonRaphson(sup, tn, rayo);
-
-		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
-
-		if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
-		else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
-		else bn = tn;
-		
-		num_iteraciones++;
-	}
-
-	return tn;
-}
 
 void Superficie::intervaloInicial(Superficie &sup, Rayo rayo, double &t1, double &t2){
 
 	t1 = 0;
 	double incremento = 0.1;
-	
+
 	while ( (sup.funcion(rayo.puntoRayo(t1)) * sup.funcion(rayo.puntoRayo(t1+ incremento)) > 0) && t1 < 2) t1 = t1 + incremento;
-	
+
 	for (int i = 0; i < 3; i++){
-	
+
 		t2 = 0;
-		
+
 		while ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 && t2 < 2){
+
 			t2 = t2 + incremento;
 		}
-		
+
 		if ( sup.funcion(rayo.puntoRayo(t2)) * sup.funcion(rayo.puntoRayo(t1)) > 0 ) break;
 		else incremento = incremento / 3;
 	}
 }
 
-double Superficie::RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo){
-
-	if (sup.funcion(rayo.puntoRayo(an)) == sup.funcion(rayo.puntoRayo(bn))) cout << "notANumber" << endl;
-	
-	return ( ( (an*sup.funcion(rayo.puntoRayo(bn))) - (bn*sup.funcion(rayo.puntoRayo(an))) ) / ( sup.funcion(rayo.puntoRayo(bn)) - sup.funcion(rayo.puntoRayo(an)) ) );
-}
-
-double Superficie::NewtonRaphson(Superficie &sup, double tn, Rayo rayo){
-
-	return tn - (sup.funcion(rayo.puntoRayo(tn))/sup.derivada(rayo, tn));
-}
 
 Tupla3f Superficie::normal(Tupla3f xyz){
 
@@ -169,6 +93,7 @@ double Superficie::derivada(Rayo rayo, double t){
 
 	return (funcion(rayo.puntoRayo(t + EPSILON)) + funcion(rayo.puntoRayo(t))) / EPSILON;
 }
+
 \end{lstlisting}
 ${ }$\\
 
@@ -258,11 +183,17 @@ El algoritmo de Regula-Falsi es el siguiente:
 \end{itemize}
 ${ }$\\
 
+
+En la implementación de este método se ha tenido el cuenta el caso en el que la función de el mismo valor para ambos extremos del intervalo, lo cual daría como resultado una división por cero. Por eso, en caso de que sea cero se calcula la bisección del intervalo.
+${ }$\\
+
 \begin{lstlisting}[style=Consola]
 
-double Superficie::RegulaFalsi(Superficie &sup, double an, double bn, Tupla3f o, Tupla3f d){
+double Superficie::RegulaFalsi(Superficie &sup, double an, double bn, Rayo rayo){
 
-	return ( ( (an*sup.funcion(o,d,bn)) - (bn*sup.funcion(o,d,an)) ) / ( sup.funcion(o,d,bn) - sup.funcion(o,d,an) ) );
+	if (sup.funcion(rayo.puntoRayo(an)) == sup.funcion(rayo.puntoRayo(bn))) return (an+bn)/2;
+	
+	return ( ( (an*sup.funcion(rayo.puntoRayo(bn))) - (bn*sup.funcion(rayo.puntoRayo(an))) ) / ( sup.funcion(rayo.puntoRayo(bn)) - sup.funcion(rayo.puntoRayo(an)) ) );
 }
 
 \end{lstlisting}
@@ -531,16 +462,16 @@ double Superficie::interseccion(Superficie &sup, Rayo rayo){
 
 	while (abs(sup.funcion(rayo.puntoRayo(tn))) > 0.1 && num_iteraciones < 100){
 
-		tn = NewtonRaphson(sup, tn, rayo);
+	tn = NewtonRaphson(sup, tn, rayo);
 
-		if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
+	if (tn < an || bn < tn) tn = RegulaFalsi(sup, an, bn, rayo);
 
-		if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
-		else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
-		else bn = tn;
+	if (sup.funcion(rayo.puntoRayo(tn)) == 0) return tn;
+	else if (sup.funcion(rayo.puntoRayo(an))*sup.funcion(rayo.puntoRayo(tn)) > 0) an = tn;
+	else bn = tn;
 
-		num_iteraciones++;
-	}
+	num_iteraciones++;
+}
 
 	return tn;
 }
@@ -581,25 +512,18 @@ private:
 
 public :
 
-	Elipse(double rad0, double rad1, double rad2, Tupla3f color);
-	Elipse(const Elipse &eli);
+	Elipse(double rad0, double rad1, double rad2, Tupla3f color, Tupla3f comEs, double expB);
 	double funcion(Tupla3f xyz);
 };
+\end{lstlisting}
+${ }$\\
 
-
-
-Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col):Superficie(col){
+\begin{lstlisting}[style=Consola]
+Elipse::Elipse(double rad0, double rad1, double rad2, Tupla3f col, Tupla3f comEs, double expB):Superficie(col, comEs,expB){
 
 	radio0 = rad0;
 	radio1 = rad1;
 	radio2 = rad2;
-}
-
-Elipse::Elipse(const Elipse &eli):Superficie(eli){
-
-	radio0 = eli.radio0;
-	radio1 = eli.radio1;
-	radio2 = eli.radio2;
 }
 
 double Elipse::funcion(Tupla3f xyz){
@@ -636,17 +560,20 @@ private:
 
 public :
 
-	OvaloidePrueba(Tupla3f c);
+	OvaloidePrueba(Tupla3f c, Tupla3f comEs, double expB);
 	double funcion(Tupla3f xyz);
 };
+\end{lstlisting}
+${ }$\\
 
-OvaloidePrueba::OvaloidePrueba(Tupla3f c):Superficie(c){
+\begin{lstlisting}[style=Consola]
+OvaloidePrueba::OvaloidePrueba(Tupla3f c, Tupla3f comEs, double expB):Superficie(c, comEs, expB){
 
 }
 
 double OvaloidePrueba::funcion(Tupla3f xyz){
 
-	return (pow(xyz.coo[0],4) + pow(xyz.coo[1],4) + pow(xyz.coo[2],4) -1);
+	return (pow(xyz.coo[0],4) + pow(xyz.coo[1],4) + pow(xyz.coo[2],4) -3);
 }
 \end{lstlisting}
 ${ }$\\
@@ -696,13 +623,14 @@ private:
 
 public :
 
-	Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f c);
+	Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f c, Tupla3f comEs, double expB);
 	double funcion(Tupla3f xyz);
 };
+\end{lstlisting}
 
+\begin{lstlisting}[style=Consola]
+Cuadrica::Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f col, Tupla3f comEs, double expB):Superficie(col, comEs, expB){
 
-
-Cuadrica::Cuadrica(double ac, double bc, double cc, double dc, double ec, double fc, double gc, double hc, double ic, double jc, Tupla3f col):Superficie(col){
 	a = ac;
 	b = bc;
 	c = cc;

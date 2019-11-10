@@ -235,6 +235,18 @@
   \field{title}{Apuntes de Métodos Numéricos II}
 \endentry
 
+\entry{ref9}{online}{}
+  \field{sortinit}{R}
+  \field{title}{Rasterisation}
+  \verb{url}
+  \verb https://en.wikipedia.org/wiki/Rasterisation
+  \endverb
+  \field{year}{2018}
+  \field{urlday}{02}
+  \field{urlmonth}{12}
+  \field{urlyear}{2018}
+\endentry
+
 \entry{ref5}{online}{}
   \field{sortinit}{R}
   \field{title}{Ray Marching and Signed Distance Functions}
@@ -271,7 +283,7 @@
   \strng{namehash}{RC1}
   \strng{fullhash}{RC1}
   \field{sortinit}{R}
-  \field{title}{Apuntes Cesar Rosales de Curvas y Superficies. Curso 17-2018}
+  \field{title}{Apuntes de Curvas y Superficies. Curso 17-2018}
 \endentry
 
 \entry{Shirley}{book}{}
@@ -290,6 +302,34 @@
   \field{sortinit}{S}
   \field{title}{Realistic Ray Tracing}
   \field{year}{1874}
+\endentry
+
+\entry{franciscoU}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Urbano}{U.}%
+     {Francisco}{F.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{UF1}
+  \strng{fullhash}{UF1}
+  \field{sortinit}{U}
+  \field{title}{Apuntes de Geometría Global de Curvas y Superficies}
+\endentry
+
+\entry{carlosU}{book}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Ureña}{U.}%
+     {Carlos}{C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{UC1}
+  \strng{fullhash}{UC1}
+  \field{sortinit}{U}
+  \field{title}{Apuntes de Informática Gráfica}
 \endentry
 
 \entry{ref7}{online}{}

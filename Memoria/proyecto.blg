@@ -20,17 +20,17 @@ I was expecting a `,' or a `}'---line 32 of file bibliografia.bib
  :  publisher =    "Jet Propulsion Laboratory",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 51 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 61 of file bibliografia.bib
  :  
  :  publisher =    "Computer Aided Geometric Design",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 100 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 110 of file bibliografia.bib
  :  
  :  publisher =    "Washington State University",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 107 of file bibliografia.bib
+I was expecting a `,' or a `}'---line 117 of file bibliografia.bib
  :  
  :  year =         "2013",
 (Error may have been on previous line)
@@ -38,45 +38,45 @@ I'm skipping whatever remains of this entry
 Biblatex version: 3.3
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 21 entries,
+You've used 24 entries,
             6047 wiz_defined-function locations,
-            1222 strings with 10304 characters,
-and the built_in function-call counts, 59071 in all, are:
-= -- 1877
-> -- 3379
-< -- 624
-+ -- 2477
-- -- 2409
-* -- 2506
-:= -- 4597
+            1234 strings with 10507 characters,
+and the built_in function-call counts, 67003 in all, are:
+= -- 2104
+> -- 3802
+< -- 701
++ -- 2748
+- -- 2691
+* -- 2879
+:= -- 5173
 add.period$ -- 0
-call.type$ -- 21
-change.case$ -- 235
-chr.to.int$ -- 250
-cite$ -- 40
-duplicate$ -- 6212
-empty$ -- 6207
-format.name$ -- 506
-if$ -- 11764
+call.type$ -- 24
+change.case$ -- 256
+chr.to.int$ -- 274
+cite$ -- 46
+duplicate$ -- 7094
+empty$ -- 7080
+format.name$ -- 602
+if$ -- 13385
 int.to.chr$ -- 0
-int.to.str$ -- 35
+int.to.str$ -- 40
 missing$ -- 0
-newline$ -- 307
-num.names$ -- 520
-pop$ -- 6458
+newline$ -- 347
+num.names$ -- 602
+pop$ -- 7425
 preamble$ -- 1
-purify$ -- 237
+purify$ -- 259
 quote$ -- 0
-skip$ -- 2905
+skip$ -- 3316
 stack$ -- 0
-substring$ -- 1627
-swap$ -- 1886
-text.length$ -- 491
-text.prefix$ -- 21
+substring$ -- 1748
+swap$ -- 2137
+text.length$ -- 562
+text.prefix$ -- 24
 top$ -- 1
-type$ -- 786
+type$ -- 900
 warning$ -- 0
-while$ -- 407
+while$ -- 460
 width$ -- 0
-write$ -- 285
+write$ -- 322
 (There were 4 error messages)
